@@ -142,3 +142,22 @@
 
 @end
 
+#pragma mark - AssociatedObject
+
+@implementation NSObject (CHXAssociatedObject)
+
+- (void)chx_associateObject:(id)object forKey:(void *)key {
+    [self willChangeValueForKey:(__bridge NSString *)key];
+    objc_setAssociatedObject(self, key, object, OBJC_ASSOCIATION_RETAIN);
+    [self didChangeValueForKey:(__bridge NSString *)key];
+}
+
+- (void)chx_associateWeaklyObject:(id)object forKey:(void *)key {
+    objc_setAssociatedObject(self, key, object, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (id)chx_associatedObjectForKey:(void *)key {
+    return objc_getAssociatedObject(self, key);
+}
+
+@end

@@ -161,7 +161,7 @@
 }
 
 // Date roles
-- (BOOL)chx_rsTypicallyWorkday {
+- (BOOL)chx_isTypicallyWorkday {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:self];
     if (components.weekday == 1 || components.weekday == 7) {
         return YES;
@@ -295,6 +295,14 @@
 - (NSUInteger)chx_year {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:self];
     return components.year;
+}
+
+// Format
+- (NSString *)stringWithFormat:(NSString *)format {
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:format];
+    NSString *date = [formatter stringFromDate:self];
+    return date;
 }
 @end
 

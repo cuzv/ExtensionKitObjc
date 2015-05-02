@@ -45,7 +45,7 @@
 - (BOOL)chx_isLaterThanDate:(NSDate *)date;
 
 // Date roles
-- (BOOL)chx_rsTypicallyWorkday;
+- (BOOL)chx_isTypicallyWorkday;
 - (BOOL)chx_isTypicallyWeekend;
 
 // Adjusting dates
@@ -76,5 +76,8 @@
 - (NSUInteger)chx_weekday;
 - (NSUInteger)chx_nthWeekday;
 - (NSUInteger)chx_year;
+
+// Format
+- (NSString *)stringWithFormat:(NSString *)format;
 
 @end

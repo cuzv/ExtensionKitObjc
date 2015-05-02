@@ -88,6 +88,36 @@
 
 @end
 
+#pragma mark - AssociatedObject
+
+@interface NSObject (CHXAssociatedObject)
+
+/**
+ *  关联对象
+ *
+ *  @param object 被关联的对象
+ *  @param key    关联键
+ */
+- (void)chx_associateObject:(id)object forKey:(void *)key;
+
+/**
+ *  关联对象
+ *
+ *  @param object 被关联的若引用对象
+ *  @param key    关联键
+ */
+- (void)chx_associateWeaklyObject:(id)object forKey:(void *)key;
+
+/**
+ *  获取关联对象
+ *
+ *  @param key 关联键
+ *
+ *  @return 被关联的对象
+ */
+- (id)chx_associatedObjectForKey:(void *)key;
+
+@end
 
 
 
