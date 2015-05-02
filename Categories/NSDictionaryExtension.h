@@ -48,3 +48,11 @@
 - (NSString *)chx_URLParameterString;
 
 @end
+
+#pragma mark - JSONString
+
+@interface NSDictionary (JSONString)
+
+- (NSString *)JSONString;
+
+@end
