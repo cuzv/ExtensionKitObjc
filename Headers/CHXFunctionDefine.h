@@ -9,7 +9,7 @@
 #ifndef WildAppExtensionRunner_CHXFunctionDefine_h
 #define WildAppExtensionRunner_CHXFunctionDefine_h
 
-#ifdef BETTER_NSRLOG
+#ifdef BETTER_NSLOG
 
 //  Better NSLog
 #if DEBUG
