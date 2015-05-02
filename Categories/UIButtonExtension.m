@@ -359,5 +359,34 @@ static char *RegionalKey;
     return CGRectContainsPoint(rect, point) ? YES : NO;
 }
 
+@end
+
+#pragma mark - CHXControlState
+
+@implementation UIButton (CHXControlState)
+
+- (void)chx_setTitle:(NSString *)title {
+    [self setTitle:title forState:UIControlStateNormal | UIControlStateHighlighted];
+}
+
+- (void)chx_setTitleColor:(UIColor *)color {
+    [self setTitleColor:color forState:UIControlStateNormal | UIControlStateHighlighted];
+}
+
+- (void)chx_setTitleShadowColor:(UIColor *)color {
+    [self setTitleShadowColor:color forState:UIControlStateNormal | UIControlStateHighlighted];
+}
+
+- (void)chx_setImage:(UIImage *)image {
+    [self setImage:image forState:UIControlStateNormal | UIControlStateHighlighted];
+}
+
+- (void)chx_setBackgroundImage:(UIImage *)image {
+    [self setBackgroundImage:image forState:UIControlStateNormal | UIControlStateHighlighted];
+}
+
+- (void)chx_setAttributedTitle:(NSAttributedString *)title {
+    [self setAttributedTitle:title forState:UIControlStateNormal | UIControlStateHighlighted];
+}
 
 @end

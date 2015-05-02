@@ -167,5 +167,19 @@
  *  @param inset 区域
  */
 - (void)chx_setExpandRegion:(UIEdgeInsets)inset;
+
+@end
+
+#pragma mark - CHXControlState
+
+@interface UIButton (CHXControlState)
+
+- (void)chx_setTitle:(NSString *)title;
+- (void)chx_setTitleColor:(UIColor *)color;
+- (void)chx_setTitleShadowColor:(UIColor *)color;
+- (void)chx_setImage:(UIImage *)image;
+- (void)chx_setBackgroundImage:(UIImage *)image;
+- (void)chx_setAttributedTitle:(NSAttributedString *)title;
+
 @end
 

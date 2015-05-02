@@ -19,6 +19,7 @@
 #import "CAAnimationExtension.h"
 #import "NSDataExtension.h"
 #import "NSDateExtension.h"
+#import "NSArrayExtension.h"
 #import "NSDictionaryExtension.h"
 #import "NSObjectExtension.h"
 #import "NSStringExtension.h"
