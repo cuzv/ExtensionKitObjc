@@ -51,3 +51,67 @@ static NSString *format = @"";
 #endif
 
 @end
+
+
+#pragma mark - CHXFunctionalProgramming
+
+@implementation NSArray (CHXFunctionalProgramming)
+
+- (NSArray *)chx_map:(id (^)(id object))block {
+    NSAssert1([self count] > 0, @"Error: Array is empty: %@", self);
+    
+    NSMutableArray *resultArray = [NSMutableArray array];
+    for (id obj in self) {
+        [resultArray addObject:block(obj)];
+    }
+    
+    return resultArray;
+}
+
+- (id)chx_reduce:(id (^)(id lhv, id rhv))block {
+    NSAssert1([self count] > 0, @"Error: Array is empty: %@", self);
+    
+    id result = [self objectAtIndex:0];
+    for(NSUInteger index = 1; index < [self count]; index++) {
+        result = block(result, [self objectAtIndex:index]);
+    }
+    
+    return result;
+}
+
+- (void)chx_each:(void (^)(id object))block {
+    NSAssert1([self count] > 0, @"Error: Array is empty: %@", self);
+    
+    for (id obj in self) {
+        block(obj);
+    }
+}
+
+- (NSArray *)chx_filter:(BOOL (^)(id object))block {
+    NSAssert1([self count] > 0, @"Error: Array is empty: %@", self);
+    
+    NSMutableArray *resultArray = [NSMutableArray array];
+    for (id obj in self) {
+        if (block(obj)) {
+            [resultArray addObject:obj];
+        }
+    }
+
+    return resultArray;
+}
+
+- (NSArray *)chx_reverse {
+    NSAssert1([self count] > 0, @"Error: Array is empty: %@", self);
+
+    return [self reverseObjectEnumerator].allObjects;
+}
+
+// http://nshipster.cn/kvc-collection-operators/
+- (NSArray *)chx_uniq {
+    NSAssert1([self count] > 0, @"Error: Array is empty: %@", self);
+    
+    return [self valueForKeyPath:@"@distinctUnionOfObjects.self"];
+}
+
+
+@end

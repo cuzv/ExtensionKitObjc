@@ -35,3 +35,16 @@
 
 @interface NSArray (CHXDescription)
 @end
+
+#pragma mark -  Functional Programming
+
+@interface NSArray (CHXFunctionalProgramming)
+
+- (NSArray *)chx_map:(id (^)(id))block;
+- (id)chx_reduce:(id (^)(id lhv, id rhv))block;
+- (void)chx_each:(void (^)(id object))block;
+- (NSArray *)chx_filter:(BOOL (^)(id object))block;
+- (NSArray *)chx_reverse;
+- (NSArray *)chx_uniq;
+
+@end
