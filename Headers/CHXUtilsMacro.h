@@ -9,8 +9,8 @@
 #ifndef Haioo_CHXUtilsMacro_h
 #define Haioo_CHXUtilsMacro_h
 
-#define iOS6 (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_5_1)
-#define iOS7 (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1)
-#define iOS8 (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
+#define iOS6Supportable (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_5_1)
+#define iOS7Supportable (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1)
+#define iOS8Supportable (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
 
 #endif
