@@ -366,27 +366,33 @@ static char *RegionalKey;
 @implementation UIButton (CHXControlState)
 
 - (void)chx_setTitle:(NSString *)title {
-    [self setTitle:title forState:UIControlStateNormal | UIControlStateHighlighted];
+    [self setTitle:title forState:UIControlStateNormal];
+    [self setTitle:title forState:UIControlStateHighlighted];
 }
 
 - (void)chx_setTitleColor:(UIColor *)color {
-    [self setTitleColor:color forState:UIControlStateNormal | UIControlStateHighlighted];
+    [self setTitleColor:color forState:UIControlStateNormal];
+    [self setTitleColor:color forState:UIControlStateHighlighted];
 }
 
 - (void)chx_setTitleShadowColor:(UIColor *)color {
-    [self setTitleShadowColor:color forState:UIControlStateNormal | UIControlStateHighlighted];
+    [self setTitleShadowColor:color forState:UIControlStateNormal];
+    [self setTitleShadowColor:color forState:UIControlStateHighlighted];
 }
 
 - (void)chx_setImage:(UIImage *)image {
-    [self setImage:image forState:UIControlStateNormal | UIControlStateHighlighted];
+    [self setImage:image forState:UIControlStateNormal];
+    [self setImage:image forState:UIControlStateHighlighted];
 }
 
 - (void)chx_setBackgroundImage:(UIImage *)image {
-    [self setBackgroundImage:image forState:UIControlStateNormal | UIControlStateHighlighted];
+    [self setBackgroundImage:image forState:UIControlStateNormal];
+    [self setBackgroundImage:image forState:UIControlStateHighlighted];
 }
 
 - (void)chx_setAttributedTitle:(NSAttributedString *)title {
-    [self setAttributedTitle:title forState:UIControlStateNormal | UIControlStateHighlighted];
+    [self setAttributedTitle:title forState:UIControlStateNormal];
+    [self setAttributedTitle:title forState:UIControlStateHighlighted];
 }
 
 @end
