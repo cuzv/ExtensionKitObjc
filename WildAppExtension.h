@@ -14,6 +14,7 @@
 #import "CHXFunctionDefine.h"
 #import "CHXFontDefine.h"
 #import "CHXColorDefine.h"
+#import "CHXUtilsMacro.h"
 
 // Categories
 #import "CAAnimationExtension.h"
