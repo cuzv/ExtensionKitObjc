@@ -9,8 +9,10 @@
 #ifndef WildAppExtensionRunner_WildAppExtension_h
 #define WildAppExtensionRunner_WildAppExtension_h
 
-// Headers
 // If you wanna use better NSLog, define `BETTER_NSLOG` before import this header file
+// If you wanna use better description on your terminal, define `BETTER_DESCRIPTION` before import this header file
+
+// Headers
 #import "CHXFunctionDefine.h"
 #import "CHXFontDefine.h"
 #import "CHXColorDefine.h"
@@ -37,6 +39,7 @@
 #import "UIViewControllerExtension.h"
 #import "UIViewExtension.h"
 
+// Helper
 #import "CHXGlobalServices.h"
 
 #endif

@@ -63,11 +63,12 @@
     
     return [desc chx_UTF8StringCharacterEscape];
 }
-
+#ifdef BETTER_DESCRIPTION
 #ifdef DEBUG
 + (void)load {
     chx_swizzleInstanceMethod([self class], @selector(descriptionWithLocale:indent:), @selector(chx_descriptionWithLocale:indent:));
 }
+#endif
 #endif
 
 @end

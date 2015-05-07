@@ -42,6 +42,16 @@
     return self;
 }
 
+- (void)addContentFromArray:(NSArray *)content {
+    NSMutableArray *currentContent = [self.content mutableCopy];
+    [currentContent addObjectsFromArray:content];
+    self.content = [[NSArray alloc] initWithArray:currentContent];
+}
+
+- (NSArray *)currentContent {
+    return self.content;
+}
+
 @end
 
 #pragma mark -
@@ -103,6 +113,8 @@
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, copy) CellConfigureBlock configureCellBlock;
 @property (nonatomic, copy) CellReuseIdentifierForRowAtIndexPath cellReuseIdentifierForIndexPath;
+// KVO didn't support mutable array add/remove notificaion
+@property (nonatomic, copy) DataArrayBlock dataArrayBlock;
 @end
 
 NSString *const kNoneCollectionSectionHeaderIdentifier = @"NoneUICollectionElementKindSectionHeader";
@@ -125,6 +137,26 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
     }
     
     return self;
+}
+
+- (instancetype)initWithDataArrayBlock:(DataArrayBlock)dataArrayBlock
+  cellReuseIdentifierForIndexPath:(CellReuseIdentifierForRowAtIndexPath)cellReuseIdentifierForIndexPath
+               cellConfigureBlock:(CellConfigureBlock)configureBlock {
+    if (self = [super init]) {
+        self.dataArrayBlock = dataArrayBlock;
+        self.cellReuseIdentifierForIndexPath = cellReuseIdentifierForIndexPath;
+        self.configureCellBlock = configureBlock;
+    }
+    
+    return self;
+}
+
+- (NSMutableArray *)items {
+    if (!_items) {
+        return [self.dataArrayBlock() mutableCopy];
+    }
+    
+    return _items;
 }
 
 #pragma mark - UITableViewDataSource

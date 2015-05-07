@@ -40,6 +40,20 @@
  */
 - (instancetype)initWithContent:(NSArray *)content;
 
+/**
+ *  添加新的数据
+ *
+ *  @param content 添加的数据数组
+ */
+- (void)addContentFromArray:(NSArray *)content;
+
+/**
+ *  获取当前的数据内容
+ *
+ *  @return 当前的数据内容
+ */
+- (NSArray *)currentContent;
+
 @end
 
 #pragma mark -
@@ -94,6 +108,8 @@
 typedef void (^CellConfigureBlock)(id cell, id item);
 // 获取 Cell 重用标识
 typedef NSString *(^CellReuseIdentifierForRowAtIndexPath)(NSIndexPath *indexPath);
+// 数据源回调
+typedef NSArray *(^DataArrayBlock)(void);
 
 // 是否允许编辑(删除或者添加)某一行 Cell
 typedef BOOL (^CanEditRowAtIndexPath)(NSIndexPath *indexPath);
@@ -122,6 +138,20 @@ typedef NSString *(^CollectionSupplementaryElementReuseIdentifierForIndexPath)(N
  *  @return CHXArrayDataSource 实例对象
  */
 - (instancetype)initWithDataArray:(NSMutableArray *)dataArray
+       cellReuseIdentifierForIndexPath:(CellReuseIdentifierForRowAtIndexPath)cellReuseIdentifierForIndexPath
+                    cellConfigureBlock:(CellConfigureBlock)configureBlock;
+
+/**
+ *  新建 CHXArrayDataSource 实例对象
+ *
+ *  @param dataArrayBlock                  数据数组，元素必须为 CHXArrayDataSourceSectionItem 或者其子类对象
+ *                                         回调的形式，配合 RAC 使用，因为 KVO 不能检测到 mutable array add/remove notificaion
+ *  @param cellReuseIdentifierForIndexPath Cell 重用标识
+ *  @param configureBlock                  Cell 界面配置
+ *
+ *  @return CHXArrayDataSource 实例对象
+ */
+- (instancetype)initWithDataArrayBlock:(DataArrayBlock)dataArrayBlock
        cellReuseIdentifierForIndexPath:(CellReuseIdentifierForRowAtIndexPath)cellReuseIdentifierForIndexPath
                     cellConfigureBlock:(CellConfigureBlock)configureBlock;
 
