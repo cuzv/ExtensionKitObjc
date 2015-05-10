@@ -65,4 +65,11 @@
                            alpha:[rgba[3] floatValue] / 1];
 }
 
++ (UIColor *)chx_colorFromHEX:(NSInteger)hex {
+    return [UIColor colorWithRed:((float)((hex & 0xFF0000) >> 16)) / 255.0f
+                           green:((float)((hex & 0xFF00) >> 8)) / 255.0f
+                            blue:((float)(hex & 0xFF)) / 255.0f
+                           alpha:1.0];
+}
+
 @end

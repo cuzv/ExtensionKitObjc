@@ -30,12 +30,6 @@
 
 @end
 
-
-#pragma mark - Override NSArray Description
-
-@interface NSArray (CHXDescription)
-@end
-
 #pragma mark -  Functional Programming
 
 @interface NSArray (CHXFunctionalProgramming)

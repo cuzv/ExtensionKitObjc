@@ -69,3 +69,9 @@
                         textColor:(UIColor *)textColor;
 
 @end
+
+#pragma mark - MultiLineUILabelAutoLayout
+
+@interface UILabel (CXHMultiLineUILabelAutoLayout)
+
+@end

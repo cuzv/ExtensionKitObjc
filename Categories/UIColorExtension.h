@@ -57,5 +57,14 @@
  */
 + (UIColor *)chx_colorWithRGBA:(NSArray *)rgba;
 
+/**
+ *  根据十六进制生成颜色
+ *
+ *  @param hex 十六进制值
+ *
+ *  @return 颜色
+ */
++ (UIColor *)chx_colorFromHEX:(NSInteger)hex;
+
 @end
 

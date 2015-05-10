@@ -9,6 +9,12 @@
 #ifndef WildAppExtensionRunner_WildAppExtension_h
 #define WildAppExtensionRunner_WildAppExtension_h
 
+// ATTENTION:
+// THIS LIBRARY HAS OVERRIDE SOME METHOD:
+// UILabel(setBounds:)
+// NSDictionary(descriptionWithLocale:indent:) only when `BETTER_DESCRIPTION` defined
+// NSLog only when `BETTER_NSLOG` defined
+
 // If you wanna use better NSLog, define `BETTER_NSLOG` before import this header file
 // If you wanna use better description on your terminal, define `BETTER_DESCRIPTION` before import this header file
 
@@ -38,6 +44,7 @@
 #import "UITextViewExtension.h"
 #import "UIViewControllerExtension.h"
 #import "UIViewExtension.h"
+#import "UITableViewCellExtension.h"
 
 // Helper
 #import "CHXGlobalServices.h"
