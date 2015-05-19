@@ -19,3 +19,11 @@
 - (CGFloat)chx_fittingCompressedHeight;
 
 @end
+
+#pragma mark - CHXConfigureData
+
+@interface UITableViewCell (CHXConfigureData)
+
+- (void)configureData:(id)data;
+
+@end

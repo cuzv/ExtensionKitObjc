@@ -23,3 +23,14 @@
 }
 
 @end
+
+
+#pragma mark - CHXConfigureData
+
+@implementation UITableViewCell (CHXConfigureData)
+
+- (void)configureData:(id)data {
+
+}
+
+@end

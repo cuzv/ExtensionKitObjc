@@ -277,4 +277,4 @@ struct CGAffineTransform CGAffineTransformMakeShear(CGFloat x, CGFloat y);
 #pragma mark - 键盘是否出现
 
 BOOL chx_isKeyboardOnScreen();
-BOOL isKeyBoardInDisplay();
+BOOL chx_isKeyBoardInDisplay();

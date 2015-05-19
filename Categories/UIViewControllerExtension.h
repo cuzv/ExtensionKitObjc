@@ -73,5 +73,6 @@
 @interface UIViewController (CHXShow)
 
 - (void)chx_showViewController:(UIViewController *)viewController animatied:(BOOL)animated;
+- (void)chx_addChildViewController:(UIViewController *)viewController;
 
 @end

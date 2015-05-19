@@ -220,4 +220,12 @@ static const void *RightBarInAnimationKey = &RightBarInAnimationKey;
     }
 }
 
+- (void)chx_addChildViewController:(UIViewController *)viewController {
+    [viewController willMoveToParentViewController:self];
+    [self addChildViewController:viewController];
+    viewController.view.frame = self.view.frame;
+    [self.view addSubview:viewController.view];
+    [viewController didMoveToParentViewController:self];
+}
+
 @end

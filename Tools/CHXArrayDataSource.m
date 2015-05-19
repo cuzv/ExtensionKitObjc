@@ -178,6 +178,9 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
     
     self.configureCellBlock(cell, item);
     
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    
     return cell;
 }
 

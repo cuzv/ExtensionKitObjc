@@ -374,7 +374,7 @@ BOOL chx_isKeyboardOnScreen() {
     return isKeyboardShown;
 }
 
-BOOL isKeyBoardInDisplay() {
+BOOL chx_isKeyBoardInDisplay() {
     BOOL isExists = NO;
     for (UIWindow *keyboardWindow in [[UIApplication sharedApplication] windows])   {
         if ([[keyboardWindow description] hasPrefix:@"<UITextEffectsWindow"] == YES) {
@@ -383,4 +383,14 @@ BOOL isKeyBoardInDisplay() {
     }
     
     return isExists;
+}
+
+UIView *chx_findFirstResponder() {
+    for (UIWindow *keyboardWindow in [[UIApplication sharedApplication] windows])   {
+        if ([[keyboardWindow description] hasPrefix:@"<UITextEffectsWindow"] == YES) {
+            return keyboardWindow;
+        }
+    }
+    
+    return nil;
 }
