@@ -77,6 +77,10 @@
 }
 
 - (CGFloat)chx_heightForReusableCellWithIdentifier:(NSString *)identifier preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth dataConfiguration:(void (^)(id cell))dataConfiguration {
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
+        return UITableViewAutomaticDimension;
+    }
+
     UITableViewCell *cell = [self dequeueReusableCellWithIdentifier:identifier];
     NSAssert(nil != cell, @"Cell must be registered to table view for identifier - %@", identifier);
     [cell prepareForReuse];
