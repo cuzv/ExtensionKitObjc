@@ -25,6 +25,7 @@
 //
 
 #import "UITableViewExtension.h"
+#import "UITableViewCellExtension.h"
 
 @implementation UITableViewExtension
 
@@ -63,6 +64,26 @@
                               size.width,
                               size.height);
     return [self chx_tableViewWithFrame:frame style:style dataSouce:dataSource delegate:delegate];
+}
+
+@end
+
+#pragma mark - CHXCompressSize
+
+@implementation UITableView (CHXCompressSize)
+
+- (CGFloat)chx_heightForReusableCellWithIdentifier:(NSString *)identifier dataConfiguration:(void (^)(id cell))dataConfiguration {
+    return [self chx_heightForReusableCellWithIdentifier:identifier preferredMaxLayoutWidth:CGRectGetWidth(self.bounds) dataConfiguration:dataConfiguration];
+}
+
+- (CGFloat)chx_heightForReusableCellWithIdentifier:(NSString *)identifier preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth dataConfiguration:(void (^)(id cell))dataConfiguration {
+    UITableViewCell *cell = [self dequeueReusableCellWithIdentifier:identifier];
+    NSAssert(nil != cell, @"Cell must be registered to table view for identifier - %@", identifier);
+    [cell prepareForReuse];
+    dataConfiguration(cell);
+    // Important
+    cell.bounds = CGRectMake(0.0f, 0.0f, preferredMaxLayoutWidth, CGRectGetHeight(cell.bounds));
+    return [cell chx_fittingCompressedHeight];
 }
 
 @end

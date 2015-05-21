@@ -68,3 +68,12 @@
                             dataSouce:(id<UITableViewDataSource>)dataSource
                              delegate:(id<UITableViewDelegate>) delegate;
 @end
+
+#pragma mark - CHXCompressSize
+
+@interface UITableView (CHXCompressSize)
+
+- (CGFloat)chx_heightForReusableCellWithIdentifier:(NSString *)identifier dataConfiguration:(void (^)(id cell))dataConfiguration;
+- (CGFloat)chx_heightForReusableCellWithIdentifier:(NSString *)identifier preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth dataConfiguration:(void (^)(id cell))dataConfiguration;
+
+@end
