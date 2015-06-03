@@ -159,3 +159,11 @@
 - (NSString *)chx_UTF8StringCharacterEscape;
 
 @end
+
+#pragma mark - TimeStamp
+
+@interface NSString (CHXTimeStamp)
+
+- (NSString *)chx_timeStampToRecognizableString;
+
+@end

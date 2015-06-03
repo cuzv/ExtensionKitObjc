@@ -78,6 +78,6 @@
 - (NSUInteger)chx_year;
 
 // Format
-- (NSString *)stringWithFormat:(NSString *)format;
+- (NSString *)chx_stringWithFormat:(NSString *)format;
 
 @end

@@ -175,3 +175,18 @@
 }
 
 @end
+
+#pragma mark - TimeStamp
+
+@implementation NSString (CHXTimeStamp)
+
+- (NSString *)chx_timeStampToRecognizableString {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self doubleValue]];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [formatter stringFromDate:date];
+    
+    return dateString;
+}
+
+@end

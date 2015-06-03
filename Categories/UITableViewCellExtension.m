@@ -48,7 +48,7 @@
 @implementation UITableViewCell (CHXConfigureData)
 
 - (void)configureData:(id)data {
-
+    
 }
 
 @end

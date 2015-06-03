@@ -298,7 +298,7 @@
 }
 
 // Format
-- (NSString *)stringWithFormat:(NSString *)format {
+- (NSString *)chx_stringWithFormat:(NSString *)format {
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:format];
     NSString *date = [formatter stringFromDate:self];
