@@ -267,9 +267,6 @@ CGFloat chx_minimumInteritemSpacingForCollection(CGFloat collectionViewWidth, CG
  *  @param distance 垂直距离
  */
 void chx_leftAlignAndVerticallySpaceOutViews(NSArray *views, CGFloat distance);
-
-@end
-
 #pragma mark - 斜切变换
 
 struct CGAffineTransform CGAffineTransformMakeShear(CGFloat x, CGFloat y);
@@ -278,3 +275,11 @@ struct CGAffineTransform CGAffineTransformMakeShear(CGFloat x, CGFloat y);
 
 BOOL chx_isKeyboardOnScreen();
 BOOL chx_isKeyBoardInDisplay();
+
+#pragma mark - 倒计时
+
+void chx_timeInterval(NSUInteger timeInterval, void(^reduceBlock)(NSUInteger days, NSUInteger hours, NSUInteger minutes, NSUInteger seconds));
+
+@end
+
+

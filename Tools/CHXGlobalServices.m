@@ -341,9 +341,6 @@ void chx_leftAlignAndVerticallySpaceOutViews(NSArray *views, CGFloat distance) {
     }
 }
 
-
-@end
-
 #pragma mark - 斜切变换
 
 CGAffineTransform CGAffineTransformMakeShear(CGFloat x, CGFloat y) {
@@ -394,3 +391,32 @@ UIView *chx_findFirstResponder() {
     
     return nil;
 }
+
+#pragma mark - 倒计时
+
+void chx_timeInterval(NSUInteger timeInterval, void(^reduceBlock)(NSUInteger days, NSUInteger hours, NSUInteger minutes, NSUInteger seconds)) {
+    if (!reduceBlock) {
+        return;
+    }
+
+    // days
+    NSInteger d = timeInterval / (60*60*24);
+    NSInteger remain = timeInterval % (60*60*24);
+    
+    // hours
+    NSInteger h = remain / (60*60);
+    remain %= (60*60);
+    
+    // minutes
+    NSInteger m = remain / 60;
+    remain %= 60;
+    
+    // seconds
+    NSUInteger s = remain;
+    
+    reduceBlock(d, h, m, s);
+}
+
+
+@end
+
