@@ -169,7 +169,11 @@
     description = [[@"\"" stringByAppendingString:description] stringByAppendingString:@"\""];
     NSData *descriptionData = [description dataUsingEncoding:NSUTF8StringEncoding];
     
-    description = [NSPropertyListSerialization propertyListWithData:descriptionData options:NSPropertyListImmutable format:NULL error:nil];
+    NSError *error = nil;
+    description = [NSPropertyListSerialization propertyListWithData:descriptionData options:NSPropertyListMutableContainersAndLeaves format:NULL error:&error];
+    if (error) {
+        return self;
+    }
     
     return description;
 }
