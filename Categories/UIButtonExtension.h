@@ -156,6 +156,13 @@
  */
 - (void)chx_updateImageAlignmentToUp;
 
+/**
+ *  Button 图片上侧对齐
+ *
+ *  @param space 图片与文字的间距
+ */
+- (void)chx_updateImageAlignmentToUpWithSpace:(CGFloat)space;
+
 @end
 
 #pragma mark - 扩大点击范围
