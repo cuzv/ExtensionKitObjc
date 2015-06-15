@@ -114,7 +114,7 @@ typedef NSArray *(^DataArrayBlock)(void);
 // 是否允许编辑(删除或者添加)某一行 Cell
 typedef BOOL (^CanEditRowAtIndexPath)(NSIndexPath *indexPath);
 // 提交编辑的某一行 Cell，在这里面进行远程数据操作
-typedef void (^CommitEditingForRowAtIndexPath)(UITableViewCellEditingStyle editingStyle, CHXArrayDataSourceSectionItem *item);
+typedef void (^CommitEditingForRowAtIndexPath)(UITableViewCellEditingStyle editingStyle, id item);
 // 当前添加的 Cell 的位置
 typedef void (^CurrentInsertRowAtIndexPath)(NSIndexPath *indexPath);
 

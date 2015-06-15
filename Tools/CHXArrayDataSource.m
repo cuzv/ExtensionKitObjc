@@ -227,7 +227,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.commitEditingForRowAtIndexPath) {
         // UI Editing
-        CHXArrayDataSourceSectionItem *editingItem = [self pr_itemAtIndexPath:indexPath];
+        id editingItem = [self pr_itemAtIndexPath:indexPath];
         id item = self.items[indexPath.section];
         NSMutableArray *content = [[item content] mutableCopy];
         
