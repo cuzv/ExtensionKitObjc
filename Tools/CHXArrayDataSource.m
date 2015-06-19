@@ -372,6 +372,9 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
     return [self pr_itemAtIndexPath:indexPath];
 }
 
+- (NSInteger)numberOfRowsInSection:(NSInteger)section {
+    return [self pr_numberOfRowsInSection:section];
+}
 
 @end
 

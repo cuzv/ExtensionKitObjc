@@ -158,6 +158,9 @@ typedef NSString *(^CollectionSupplementaryElementReuseIdentifierForIndexPath)(N
 // 根据界面坐标获取数据
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
 
+// 根据界面坐标获取 section 数据个数
+- (NSInteger)numberOfRowsInSection:(NSInteger)section;
+
 #pragma mark - 以下 Block 为可选配置
 
 @property (nonatomic, copy) CanEditRowAtIndexPath canEditRowAtIndexPath;
