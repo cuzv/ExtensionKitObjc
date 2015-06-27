@@ -103,7 +103,7 @@
 /**
  *  关联对象
  *
- *  @param object 被关联的若引用对象
+ *  @param object 被关联的弱引用对象
  *  @param key    关联键
  */
 - (void)chx_associateWeaklyObject:(id)object forKey:(void *)key;

@@ -34,16 +34,23 @@
 
 @implementation UIImage (CHXFetch)
 
++ (UIImage *)chx_imageWithFileName:(NSString *)fileName {
+    NSString *path = [[NSBundle mainBundle] pathForResource:fileName ofType:nil];
+    return [UIImage imageWithContentsOfFile:path];
+}
+
 + (UIImage *)chx_imageWithName:(NSString *)imageName {
-    return [self chx_imageWithName:imageName suffix:@"png"];
+    return [self chx_imageWithName:imageName extension:@"png"];
 }
 
-+ (UIImage *)chx_imageWithName:(NSString *)imageName suffix:(NSString *)aSuffix {
-    return [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:imageName ofType:aSuffix]];
++ (UIImage *)chx_imageWithName:(NSString *)imageName extension:(NSString *)extension {
+    return [self pr_imageWithName:imageName extension:extension] ?:
+            ([self pr_imageWithName:[imageName stringByAppendingString:@"@2x"] extension:extension] ?:
+            ([self pr_imageWithName:[imageName stringByAppendingString:@"@3x"] extension:extension]));
 }
 
-+ (UIImage *)chx_imageWithNameHasSuffix:(NSString *)aNameHasSuffix {
-    return [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForAuxiliaryExecutable:aNameHasSuffix]];
++ (UIImage *)pr_imageWithName:(NSString *)imageName extension:(NSString *)extension {
+    return [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:imageName ofType:extension]];
 }
 
 @end

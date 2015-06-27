@@ -35,32 +35,32 @@
 @interface UIImage (CHXFetch)
 
 /**
- *  通过名字获取图片，不带后缀，png 格式图片
+ *  获取图片
  *
- *  @param imageName 图片名字
+ *  @param fileName 文件名，含扩展名
+ *
+ *  @return 图片
+ */
++ (UIImage *)chx_imageWithFileName:(NSString *)fileName;
+
+/**
+ *  获取图片
+ *
+ *  @param imageName 图片名，png
  *
  *  @return 图片
  */
 + (UIImage *)chx_imageWithName:(NSString *)imageName;
 
 /**
- *  通过名字和后缀获取图片
+ *  获取图片
  *
- *  @param imageName   图片名字
- *  @param aSuffix 后缀命，不带 '.'
- *
- *  @return 图片
- */
-+ (UIImage *)chx_imageWithName:(NSString *)imageName suffix:(NSString *)aSuffix;
-
-/**
- *  通过带后缀名字获取图片
- *
- *  @param aNameHasSuffix 图片全名，带后缀
+ *  @param imageName 图片名
+ *  @param extension 扩展名
  *
  *  @return 图片
  */
-+ (UIImage *)chx_imageWithNameHasSuffix:(NSString *)aNameHasSuffix;
++ (UIImage *)chx_imageWithName:(NSString *)imageName extension:(NSString *)extension;
 
 @end
 

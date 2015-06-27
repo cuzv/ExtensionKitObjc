@@ -414,7 +414,9 @@ void chx_timeInterval(NSUInteger timeInterval, void(^reduceBlock)(NSUInteger day
     // seconds
     NSUInteger s = remain;
     
-    reduceBlock(d, h, m, s);
+    if (reduceBlock) {
+        reduceBlock(d, h, m, s);
+    }
 }
 
 

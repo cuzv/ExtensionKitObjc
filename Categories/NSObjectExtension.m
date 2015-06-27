@@ -148,7 +148,7 @@
 
 - (void)chx_associateObject:(id)object forKey:(void *)key {
     [self willChangeValueForKey:(__bridge NSString *)key];
-    objc_setAssociatedObject(self, key, object, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, key, object, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self didChangeValueForKey:(__bridge NSString *)key];
 }
 
