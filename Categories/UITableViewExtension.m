@@ -25,7 +25,6 @@
 //
 
 #import "UITableViewExtension.h"
-#import "UITableViewCellExtension.h"
 
 @implementation UITableViewExtension
 
@@ -83,11 +82,37 @@
 
     UITableViewCell *cell = [self dequeueReusableCellWithIdentifier:identifier];
     NSAssert(nil != cell, @"Cell must be registered to table view for identifier - %@", identifier);
+    
     [cell prepareForReuse];
     dataConfiguration(cell);
+
     // Important
     cell.bounds = CGRectMake(0.0f, 0.0f, preferredMaxLayoutWidth, CGRectGetHeight(cell.bounds));
-    return [cell chx_fittingCompressedHeight];
+
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
+    
+    return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+}
+
+- (CGFloat)chx_heightForHeaderFooterWithIdentifier:(NSString *)identifier dataConfiguration:(void (^)(id headerFooterView))dataConfiguration {
+    return [self chx_heightForHeaderFooterWithIdentifier:identifier preferredMaxLayoutWidth:CGRectGetWidth(self.bounds) dataConfiguration:dataConfiguration];
+}
+
+- (CGFloat)chx_heightForHeaderFooterWithIdentifier:(NSString *)identifier preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth dataConfiguration:(void (^)(id headerFooterView))dataConfiguration {
+    UITableViewHeaderFooterView *headerFooterView = [self dequeueReusableHeaderFooterViewWithIdentifier:identifier];
+    NSAssert(nil != headerFooterView, @"UITableViewHeaderFooterView must be registered to table view for identifier - %@", identifier);
+    
+    [headerFooterView prepareForReuse];
+    dataConfiguration(headerFooterView);
+    
+    // Important
+    headerFooterView.bounds = CGRectMake(0.0f, 0.0f, preferredMaxLayoutWidth, CGRectGetHeight(self.bounds));
+
+    [headerFooterView setNeedsLayout];
+    [headerFooterView layoutIfNeeded];
+    
+    return [headerFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
 }
 
 @end

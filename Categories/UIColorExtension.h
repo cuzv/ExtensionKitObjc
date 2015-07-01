@@ -64,7 +64,26 @@
  *
  *  @return 颜色
  */
-+ (UIColor *)chx_colorFromHEX:(NSInteger)hex;
++ (UIColor *)chx_colorWithHex:(NSInteger)hex;
+
+/**
+ *  根据十六进制生成颜色
+ *
+ *  @param hexString 十六进制值
+ *
+ *  @return 颜色
+ */
++ (UIColor *)chx_colorWithHexString:(NSString *)hexString;
+
+/**
+ *  根据十六进制生成颜色
+ *
+ *  @param hexString 十六进制值
+ *  @param alpha  alpha
+ *
+ *  @return 颜色
+ */
++ (UIColor *)chx_colorWithHexString:(NSString *)hexString alpha:(CGFloat)alpha;
 
 @end
 

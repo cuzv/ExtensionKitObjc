@@ -45,6 +45,7 @@
 #import "UIViewControllerExtension.h"
 #import "UIViewExtension.h"
 #import "UITableViewCellExtension.h"
+#import "UICollectionViewExtension.h"
 
 // Helper
 #import "CHXGlobalServices.h"

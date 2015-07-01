@@ -93,7 +93,7 @@
 
 // Check phone number
 - (BOOL)chx_isValidPhoneNumber {
-    NSString *phoneNumerRegex = @"^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$";
+    NSString *phoneNumerRegex = @"^(1[345789])\\d{9}";//@"^(13[\\d]|14[\\d]|15[\\d]|17[\\d]|18[\\d])\\d{8}$";
     return [self chx_isMatchRegex:phoneNumerRegex];
 }
 
