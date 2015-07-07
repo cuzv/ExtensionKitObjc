@@ -378,21 +378,27 @@ static char *RegionalKey;
 - (void)chx_setTitleColor:(UIColor *)color {
     [self setTitleColor:color forState:UIControlStateNormal];
     [self setTitleColor:color forState:UIControlStateHighlighted];
+    [self setTitleColor:[color colorWithAlphaComponent:0.2] forState:UIControlStateDisabled];
+    [self setTitleColor:[color colorWithAlphaComponent:0.2] forState:UIControlStateSelected];
 }
 
 - (void)chx_setTitleShadowColor:(UIColor *)color {
     [self setTitleShadowColor:color forState:UIControlStateNormal];
     [self setTitleShadowColor:color forState:UIControlStateHighlighted];
+    [self setTitleShadowColor:[color colorWithAlphaComponent:0.2] forState:UIControlStateDisabled];
+    [self setTitleShadowColor:[color colorWithAlphaComponent:0.2] forState:UIControlStateSelected];
 }
 
 - (void)chx_setImage:(UIImage *)image {
-    [self setImage:image forState:UIControlStateNormal];
-    [self setImage:image forState:UIControlStateHighlighted];
+    UIImage *originalImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self setImage:originalImage forState:UIControlStateNormal];
+    [self setImage:originalImage forState:UIControlStateHighlighted];
 }
 
 - (void)chx_setBackgroundImage:(UIImage *)image {
-    [self setBackgroundImage:image forState:UIControlStateNormal];
-    [self setBackgroundImage:image forState:UIControlStateHighlighted];
+    UIImage *originalImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self setBackgroundImage:originalImage forState:UIControlStateNormal];
+    [self setBackgroundImage:originalImage forState:UIControlStateHighlighted];
 }
 
 - (void)chx_setAttributedTitle:(NSAttributedString *)title {
