@@ -28,19 +28,51 @@
 
 #pragma mark - 具有 padding 效果的标签
 
+@interface CHXPaddingLabel ()
+@property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
+@end
+
 @implementation CHXPaddingLabel
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+        self.contentEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 8);
     }
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (!self) {
+        return nil;
+    }
+    
+    self.contentEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 8);
+    
+    return self;
+}
+
+- (instancetype)initWithContentEdgeInsets:(UIEdgeInsets)inset {
+    self = [super initWithFrame:CGRectZero];
+    if (!self) {
+        return nil;
+    }
+    
+    self.contentEdgeInsets = inset;
+    
+    return self;
+}
+
+- (CGSize)intrinsicContentSize {
+    CGSize size = [self sizeThatFits:CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];
+    CGFloat width = size.width + self.contentEdgeInsets.left + self.contentEdgeInsets.right;
+    CGFloat height = size.height + self.contentEdgeInsets.top + self.contentEdgeInsets.bottom;
+    return CGSizeMake(width, height);
+}
+
 - (void)drawTextInRect:(CGRect)rect {
-    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.edgeInsets)];
+    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.contentEdgeInsets)];
 }
 
 @end
-

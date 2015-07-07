@@ -30,5 +30,5 @@
 #pragma mark - 具有缩进效果的输入文本域
 
 @interface CHXPaddingField : UITextField
-
+- (instancetype)initWithContentEdgeInsets:(UIEdgeInsets)inset;
 @end

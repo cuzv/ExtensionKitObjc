@@ -30,8 +30,6 @@
 #pragma mark - 具有 padding 效果的标签
 
 @interface CHXPaddingLabel : UILabel
-
-@property (nonatomic, assign) UIEdgeInsets edgeInsets;
-
+- (instancetype)initWithContentEdgeInsets:(UIEdgeInsets)inset;
 @end
 
