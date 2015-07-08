@@ -401,6 +401,12 @@ static char *RegionalKey;
     [self setBackgroundImage:originalImage forState:UIControlStateHighlighted];
 }
 
+- (void)chx_setBackgroundColor:(UIColor *)color {
+    UIImage *image = [UIImage chx_imageWithColor:color];
+    self.backgroundColor = [color colorWithAlphaComponent:0.2];
+    [self chx_setBackgroundImage:image];
+}
+
 - (void)chx_setAttributedTitle:(NSAttributedString *)title {
     [self setAttributedTitle:title forState:UIControlStateNormal];
     [self setAttributedTitle:title forState:UIControlStateHighlighted];

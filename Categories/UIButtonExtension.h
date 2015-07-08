@@ -186,6 +186,7 @@
 - (void)chx_setTitleShadowColor:(UIColor *)color;
 - (void)chx_setImage:(UIImage *)image;
 - (void)chx_setBackgroundImage:(UIImage *)image;
+- (void)chx_setBackgroundColor:(UIColor *)color;
 - (void)chx_setAttributedTitle:(NSAttributedString *)title;
 
 @end
