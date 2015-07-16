@@ -69,6 +69,8 @@ static CGFloat kBadgeViewHeight = 18.0f;
 - (void)drawRect:(CGRect)rect {
     _badgeLabel.text = _badgeValue;
     self.layer.cornerRadius = kBadgeViewHeight / 2;
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;    
     [_badgeLabel drawTextInRect:self.bounds];
 }
 

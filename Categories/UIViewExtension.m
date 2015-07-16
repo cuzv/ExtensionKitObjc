@@ -234,6 +234,8 @@ static const void *ArcLayerKey = &ArcLayerKey;
         circle.backgroundColor = color;
         circle.layer.cornerRadius = 10;
         circle.layer.masksToBounds = YES;
+        circle.layer.shouldRasterize = YES;
+        circle.layer.rasterizationScale = [UIScreen mainScreen].scale;
         circle.tag = kCircleTag + i;
         [circles addObject:circle];
     }
@@ -548,6 +550,8 @@ static const void *ActivityIndicatorViewKey = &ActivityIndicatorViewKey;
     CAShapeLayer *cornRadiusLayer = [CAShapeLayer new];
     cornRadiusLayer.path = [path CGPath];
     self.layer.mask = cornRadiusLayer;
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
 @end
@@ -580,6 +584,8 @@ static const void *ActivityIndicatorViewKey = &ActivityIndicatorViewKey;
 - (void)chx_setCornerRadius:(CGFloat)radius {
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = radius;
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
 - (void)chx_setBorderWidth:(CGFloat)width color:(UIColor *)borderColor {

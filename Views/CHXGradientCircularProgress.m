@@ -120,7 +120,10 @@
     self.backgroundColor = [UIColor clearColor];
     self.layer.cornerRadius = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)) / 2;
     self.layer.masksToBounds = YES;
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
+
     // 创建 track 路径
     UIBezierPath *trackPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
                                                              radius:(CGRectGetWidth(self.bounds) - circluarWidth) / 2

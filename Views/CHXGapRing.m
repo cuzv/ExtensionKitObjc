@@ -76,6 +76,8 @@
         self.layer.cornerRadius = lengthOfSide / 2;
         self.backgroundColor = [UIColor clearColor];
         self.layer.masksToBounds = YES;
+        self.layer.shouldRasterize = YES;
+        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
         
         self.resetAnimation = YES;
         self.initializeTime = YES;
@@ -90,6 +92,8 @@
     CGRect newBounds = CGRectMake(0, 0, lengthOfSide, lengthOfSide);
     self.layer.cornerRadius = lengthOfSide / 2;
     self.layer.masksToBounds = YES;
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     [super setBounds:newBounds];
 }
