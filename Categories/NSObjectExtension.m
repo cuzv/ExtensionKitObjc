@@ -118,7 +118,12 @@
     NSMutableArray *propertyArray = [[self chx_properties] mutableCopy];
     
     [propertyArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [dict setObject:[self valueForKey:obj] forKey:obj];
+        @try {
+            [dict setObject:[self valueForKey:obj] ?: [NSNull null] forKey:obj];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception.reason);
+        }
     }];
     
     return dict;
@@ -132,7 +137,12 @@
     NSMutableDictionary *propertyDictionary = [NSMutableDictionary new];
     NSMutableArray *propertyArray = [[self chx_properties] mutableCopy];
     [propertyArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [propertyDictionary setObject:[self valueForKey:obj] forKey:obj];
+        @try {
+            [propertyDictionary setObject:[self valueForKey:obj] ?: [NSNull null] forKey:obj];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception.reason);
+        }
     }];
     
     NSString *description = [NSString stringWithFormat:@"<%@: %p, %@>", [self class], self, propertyDictionary];
