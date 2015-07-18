@@ -7,6 +7,7 @@
 //
 
 #import "NSDateExtension.h"
+#import "NSDateFormatterExtension.h"
 
 @implementation NSDateExtension
 
@@ -299,7 +300,7 @@
 
 // Format
 - (NSString *)chx_stringWithFormat:(NSString *)format {
-    NSDateFormatter *formatter = [NSDateFormatter new];
+    NSDateFormatter *formatter = [NSDateFormatter chx_sharedInstance];
     [formatter setDateFormat:format];
     NSString *date = [formatter stringFromDate:self];
     return date;

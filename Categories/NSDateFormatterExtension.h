@@ -1,8 +1,8 @@
 //
-//  UICollectionViewExtension.h
+//  NSDateFormatterExtension.h
 //  Haioo
 //
-//  Created by Moch Xiao on 5/10/15.
+//  Created by Moch Xiao on 7/18/15.
 //  Copyright (c) 2014 Moch Xiao (https://github.com/atcuan).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,14 +26,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UICollectionViewExtension : NSObject
+@interface NSDateFormatterExtension : NSDateFormatter
 
 @end
 
-#pragma mark - CHXCompressSize
 
-@interface UICollectionView (CHXCompressSize)
-- (CGSize)chx_sizeForReusableCellWithClass:(Class)clazz dataConfiguration:(void (^)(id cell))dataConfiguration;
+@interface NSDateFormatter (CHXAddition)
+
+// NSDateFormatter too slow in Time profiler, so make it shared
++ (NSDateFormatter *)chx_sharedInstance;
+
 @end
-
-

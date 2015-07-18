@@ -340,21 +340,21 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 
 - (NSInteger)pr_numberOfRowsInSection:(NSInteger)section {
     CHXArrayDataSourceSectionItem *item = self.items[section];
-    NSParameterAssert([item isKindOfClass:NSClassFromString(@"CHXArrayDataSourceSectionItem")]);
+//    NSParameterAssert([item isKindOfClass:NSClassFromString(@"CHXArrayDataSourceSectionItem")]);
 
     return [[item content] count];
 }
 
 - (id)pr_itemAtIndexPath:(NSIndexPath *)indexPath {
     CHXArrayDataSourceSectionItem *item = self.items[indexPath.section];
-    NSParameterAssert([item isKindOfClass:NSClassFromString(@"CHXArrayDataSourceSectionItem")]);
+//    NSParameterAssert([item isKindOfClass:NSClassFromString(@"CHXArrayDataSourceSectionItem")]);
     
     return [item content][indexPath.row];
 }
 
 - (id)pr_supplementaryElementItemAtIndexPath:(NSIndexPath *)indexPath ofKind:(NSString *)kind {
     id item = self.items[indexPath.section];
-    NSParameterAssert([item class] == NSClassFromString(@"CHXArrayDataSourceCollecionViewSectionItem"));
+//    NSParameterAssert([item class] == NSClassFromString(@"CHXArrayDataSourceCollecionViewSectionItem"));
     
     id returnValue = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {

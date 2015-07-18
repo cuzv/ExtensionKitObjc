@@ -1,8 +1,9 @@
 //
-//  UICollectionViewExtension.h
+//  NSDateFormatterExtension.m
 //  Haioo
 //
-//  Created by Moch Xiao on 5/10/15.
+//  Created by Moch Xiao on 7/18/15.
+//  Created by Moch Xiao on 7/18/15.
 //  Copyright (c) 2014 Moch Xiao (https://github.com/atcuan).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,16 +25,25 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 
-@interface UICollectionViewExtension : NSObject
+#import "NSDateFormatterExtension.h"
+
+@implementation NSDateFormatterExtension
 
 @end
 
-#pragma mark - CHXCompressSize
+@implementation NSDateFormatter (CHXAddition)
 
-@interface UICollectionView (CHXCompressSize)
-- (CGSize)chx_sizeForReusableCellWithClass:(Class)clazz dataConfiguration:(void (^)(id cell))dataConfiguration;
++ (NSDateFormatter *)chx_sharedInstance {
+    static dispatch_once_t pred;
+    static NSDateFormatter *singleton = nil;
+    
+    dispatch_once(&pred, ^{
+        singleton = [NSDateFormatter new];
+    });
+    
+    return singleton;
+}
+
+
 @end
-
-
