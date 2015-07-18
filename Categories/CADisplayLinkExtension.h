@@ -1,5 +1,5 @@
 //
-//  NSDateFormatterExtension.m
+//  CADisplayLinkExtension.h
 //  Haioo
 //
 //  Created by Moch Xiao on 7/18/15.
@@ -24,25 +24,18 @@
 //  THE SOFTWARE.
 //
 
+#import <Foundation/Foundation.h>
 
-#import "NSDateFormatterExtension.h"
-
-@implementation NSDateFormatterExtension
+@interface CADisplayLinkExtension : NSObject
 
 @end
 
-@implementation NSDateFormatter (CHXAddition)
+#pragma mark - CHXAddition
 
-+ (NSDateFormatter *)chx_sharedInstance {
-    static dispatch_once_t pred;
-    static NSDateFormatter *singleton = nil;
-    
-    dispatch_once(&pred, ^{
-        singleton = [NSDateFormatter new];
-    });
-    
-    return singleton;
-}
+@interface CADisplayLink (CHXAddition)
 
+- (void)chx_pause;
+- (void)chx_resume;
+- (void)chx_resumeAfterDuration:(NSTimeInterval)interval;
 
 @end
