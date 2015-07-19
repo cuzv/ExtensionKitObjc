@@ -97,4 +97,13 @@
  */
 + (UIImage *)chx_captureImageFromView:(UIView *)view;
 
+/**
+ *  缩放UIImage到指定大小
+ *
+ *  @param newSize 新的大小
+ *
+ *  @return 缩放后的图片
+ */
+- (instancetype)chx_scaledImageForNewSize:(CGSize)newSize;
+
 @end
