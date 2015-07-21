@@ -116,6 +116,6 @@
  *
  *  @return 原始图片
  */
-- (instancetype)chx_OriginalImage;
+- (instancetype)chx_originalImage;
 
 @end

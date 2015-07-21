@@ -102,7 +102,7 @@
     return newImage;
 }
 
-- (instancetype)chx_OriginalImage {
+- (instancetype)chx_originalImage {
     return [self imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
