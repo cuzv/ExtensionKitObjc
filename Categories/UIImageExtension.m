@@ -87,6 +87,12 @@
     return image;
 }
 
+
+
+@end
+
+@implementation UIImage (CHXAddition)
+
 - (instancetype)chx_scaledImageForNewSize:(CGSize)newSize {
     UIGraphicsBeginImageContext(newSize);
     [self drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
@@ -96,6 +102,8 @@
     return newImage;
 }
 
+- (instancetype)chx_OriginalImage {
+    return [self imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+}
 
 @end
-

@@ -97,6 +97,11 @@
  */
 + (UIImage *)chx_captureImageFromView:(UIView *)view;
 
+@end
+
+
+@interface UIImage (CHXAddition)
+
 /**
  *  缩放UIImage到指定大小
  *
@@ -105,5 +110,12 @@
  *  @return 缩放后的图片
  */
 - (instancetype)chx_scaledImageForNewSize:(CGSize)newSize;
+
+/**
+ *  原始图片
+ *
+ *  @return 原始图片
+ */
+- (instancetype)chx_OriginalImage;
 
 @end
