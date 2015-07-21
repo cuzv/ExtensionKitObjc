@@ -98,7 +98,7 @@
  *  @param object 被关联的对象
  *  @param key    关联键
  */
-- (void)chx_associateObject:(id)object forKey:(void *)key;
+- (void)chx_associateObject:(id)object forKey:(const void *)key;
 
 /**
  *  关联对象
@@ -106,7 +106,7 @@
  *  @param object 被关联的弱引用对象
  *  @param key    关联键
  */
-- (void)chx_associateWeaklyObject:(id)object forKey:(void *)key;
+- (void)chx_associateWeaklyObject:(id)object forKey:(const void *)key;
 
 /**
  *  获取关联对象
@@ -115,7 +115,7 @@
  *
  *  @return 被关联的对象
  */
-- (id)chx_associatedObjectForKey:(void *)key;
+- (id)chx_associatedObjectForKey:(const void *)key;
 
 @end
 

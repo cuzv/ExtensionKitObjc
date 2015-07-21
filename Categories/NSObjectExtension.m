@@ -156,17 +156,17 @@
 
 @implementation NSObject (CHXAssociatedObject)
 
-- (void)chx_associateObject:(id)object forKey:(void *)key {
+- (void)chx_associateObject:(id)object forKey:(const void *)key {
     [self willChangeValueForKey:(__bridge NSString *)key];
     objc_setAssociatedObject(self, key, object, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self didChangeValueForKey:(__bridge NSString *)key];
 }
 
-- (void)chx_associateWeaklyObject:(id)object forKey:(void *)key {
+- (void)chx_associateWeaklyObject:(id)object forKey:(const void *)key {
     objc_setAssociatedObject(self, key, object, OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (id)chx_associatedObjectForKey:(void *)key {
+- (id)chx_associatedObjectForKey:(const void *)key {
     return objc_getAssociatedObject(self, key);
 }
 
