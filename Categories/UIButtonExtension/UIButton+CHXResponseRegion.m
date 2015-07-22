@@ -32,7 +32,7 @@ static const void * ResponseRegion = @"chx_responseRegion";
 @implementation UIButton (CHXResponseRegion)
 
 - (void)setChx_responseRegion:(UIEdgeInsets)chx_responseRegion {
-    [self chx_associateWeaklyObject:[NSValue valueWithUIEdgeInsets:chx_responseRegion] forKey:ResponseRegion];
+    [self chx_associateObject:[NSValue valueWithUIEdgeInsets:chx_responseRegion] forKey:ResponseRegion];
 }
 
 - (UIEdgeInsets)chx_responseRegion {

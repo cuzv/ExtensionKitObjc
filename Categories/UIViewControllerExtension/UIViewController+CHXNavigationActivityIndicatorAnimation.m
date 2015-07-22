@@ -44,7 +44,7 @@ static const void *RightBarInAnimationKey = @"rightBarInAnimation";
 }
 
 - (void)pr_setTitleInAnimation:(BOOL)titleInAnimation {
-    [self chx_associateWeaklyObject:@(titleInAnimation) forKey:TitleInAnimationKey];
+    [self chx_associateObject:@(titleInAnimation) forKey:TitleInAnimationKey];
 }
 
 - (BOOL)pr_titleInAnimation {
@@ -52,7 +52,7 @@ static const void *RightBarInAnimationKey = @"rightBarInAnimation";
 }
 
 - (void)pr_setRightBarInAnimation:(BOOL)rightBarInAnimation {
-    [self chx_associateWeaklyObject:@(rightBarInAnimation) forKey:RightBarInAnimationKey];
+    [self chx_associateObject:@(rightBarInAnimation) forKey:RightBarInAnimationKey];
 }
 
 - (BOOL)chx_rightBarInAnimation {

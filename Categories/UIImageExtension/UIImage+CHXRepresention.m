@@ -55,7 +55,7 @@
     CGFloat compressionQuality = 0.5f;
     CGFloat minBytes = targetKibibytes * 1024;
     NSData *compressedImageData = UIImageJPEGRepresentation(scaledImage, compressionQuality);
-    while (compressedImageData.length > minBytes && compressionQuality > 0.1f) {
+    while (compressedImageData.length > minBytes && compressionQuality >= 0.1f) {
         compressionQuality -= 0.1f;
         compressedImageData = UIImageJPEGRepresentation(scaledImage, compressionQuality);
     }

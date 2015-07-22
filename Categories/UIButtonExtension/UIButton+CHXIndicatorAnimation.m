@@ -37,7 +37,7 @@ static const void *IndicatorAnimationKey = @"animating";
 static const void *IndicatorAnimationContextKey = @"context";
 
 - (void)pr_setAnimating:(BOOL)animating {
-    [self chx_associateWeaklyObject:@(animating) forKey:IndicatorAnimationKey];
+    [self chx_associateObject:@(animating) forKey:IndicatorAnimationKey];
 }
 
 - (BOOL)pr_animating {
