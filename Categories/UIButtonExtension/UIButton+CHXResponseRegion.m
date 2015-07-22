@@ -31,18 +31,16 @@ static const void * ResponseRegion = @"chx_responseRegion";
 
 @implementation UIButton (CHXResponseRegion)
 
-@dynamic chx_responseRegion;
-
 - (void)setChx_responseRegion:(UIEdgeInsets)chx_responseRegion {
-    [self chx_associateWeaklyObject:[NSValue valueWithUIEdgeInsets:chx_responseRegion] forKey:ResponseRegion];
+    [self chx_associateObject:[NSValue valueWithUIEdgeInsets:chx_responseRegion] forKey:ResponseRegion];
 }
 
-- (UIEdgeInsets)chx_ResponseRegion {
+- (UIEdgeInsets)chx_responseRegion {
     return [[self chx_associatedObjectForKey:ResponseRegion] UIEdgeInsetsValue];
 }
 
 - (CGRect)clickRegional {
-    UIEdgeInsets inset = self.chx_responseRegion;
+    UIEdgeInsets inset = [self chx_responseRegion];
     CGFloat top = inset.top;
     CGFloat bottom = inset.bottom;
     CGFloat left = inset.left;
@@ -65,6 +63,10 @@ static const void * ResponseRegion = @"chx_responseRegion";
         return [super pointInside:point withEvent:event];
     }
     return CGRectContainsPoint(rect, point) ? YES : NO;
+}
+
+- (void)chx_setResponseRegion:(UIEdgeInsets)chx_responseRegion {
+    [self setChx_responseRegion:chx_responseRegion];
 }
 
 @end

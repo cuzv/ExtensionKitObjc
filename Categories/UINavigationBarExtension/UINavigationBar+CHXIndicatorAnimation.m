@@ -46,7 +46,7 @@ static const void *TimerKey = @"timer";
 }
 
 - (void)pr_setAnimating:(BOOL)animating {
-    [self chx_associateWeaklyObject:@(animating) forKey:AnimatingKey];
+    [self chx_associateObject:@(animating) forKey:AnimatingKey];
 }
 
 - (BOOL)pr_animating {

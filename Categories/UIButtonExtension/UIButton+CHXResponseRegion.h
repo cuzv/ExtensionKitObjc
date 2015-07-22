@@ -28,6 +28,6 @@
 
 @interface UIButton (CHXResponseRegion)
 
-@property (nonatomic, assign) UIEdgeInsets chx_responseRegion;
+- (void)chx_setResponseRegion:(UIEdgeInsets)chx_responseRegion;
 
 @end
