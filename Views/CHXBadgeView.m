@@ -25,8 +25,8 @@
 //
 
 #import "CHXBadgeView.h"
-#import "UIColorExtension.h"
-#import "UIViewExtension.h"
+#import "UIColor+CHXRandomColor.h"
+#import "UIView+CHXAccessor.h"
 
 #define kBadgeTextFont [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]
 static CGFloat kBadgeViewHeight = 18.0f;

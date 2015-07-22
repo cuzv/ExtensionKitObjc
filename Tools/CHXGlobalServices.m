@@ -26,10 +26,10 @@
 
 #import "CHXGlobalServices.h"
 #import <UIKit/UIKit.h>
-#import "UIAlertViewExtension.h"
 #import <objc/runtime.h>
 #include <sys/dirent.h>
 #include <sys/stat.h>
+#import "UIAlertView+CHXMaker.h"
 
 @implementation CHXGlobalServices
 
