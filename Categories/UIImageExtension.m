@@ -106,4 +106,35 @@
     return [self imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
+
+- (NSData *)chx_UIImageJPEGRepresentationTargetKibibytes:(CGFloat)targetKibibytes targetRepresentionSize:(CGSize)representionSize {
+    // 先压缩图片 size
+    CGFloat currentRepresention = self.size.width * self.size.height;
+    CGFloat targetRepresentionSize = representionSize.width * representionSize.height;
+    UIImage *scaledImage = self;
+    if (currentRepresention > targetRepresentionSize) {
+        scaledImage = [self chx_scaledImageForNewSize:representionSize];
+    }
+    
+    // 压缩图片质量
+    CGFloat compressionQuality = 0.5f;
+    CGFloat minBytes = targetKibibytes * 1024;
+    NSData *compressedImageData = UIImageJPEGRepresentation(scaledImage, compressionQuality);
+    while (compressedImageData.length > minBytes && compressionQuality > 0.1f) {
+        compressionQuality -= 0.1f;
+        compressedImageData = UIImageJPEGRepresentation(scaledImage, compressionQuality);
+    }
+    
+    return compressedImageData;
+}
+
+- (NSData *)chx_UIImageJPEGRepresentationTargetKibibytes:(CGFloat)targetKibibytes {
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGFloat width = size.width * scale;
+    CGSize newSize = CGSizeMake(width, width);
+    
+    return [self chx_UIImageJPEGRepresentationTargetKibibytes:targetKibibytes targetRepresentionSize:newSize];
+}
+
 @end

@@ -118,4 +118,24 @@
  */
 - (instancetype)chx_originalImage;
 
+/**
+ *  压缩上传图片
+ *
+ *  @param targetKibibytes 目标质量大小,单位 KB
+ *
+ *  @return 压缩后的图片二进制数据
+ */
+- (NSData *)chx_UIImageJPEGRepresentationTargetKibibytes:(CGFloat)targetKibibytes;
+
+/**
+ *  压缩上传图片
+ *
+ *  @param targetKibibytes 目标质量大小,单位 KB
+ *  @param representionSiz 显示尺寸大小
+ *
+ *  @return 压缩后的图片二进制数据
+ */
+- (NSData *)chx_UIImageJPEGRepresentationTargetKibibytes:(CGFloat)targetKibibytes targetRepresentionSize:(CGSize)representionSiz;
+
+
 @end
