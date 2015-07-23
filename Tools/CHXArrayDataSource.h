@@ -83,6 +83,10 @@
  */
 - (instancetype)initWithContent:(NSArray *)content titleForHeader:(NSString *)titleForHeader titleForFooter:(NSString *)titleForFooter indexTitle:(NSString *)indexTitle;
 
+/// 新建 section 数据源的时候带上 header 和 footer 的数据
+/// 结合 `UITableViewDelegate` 使用
+- (instancetype)initWithContent:(NSArray *)content sectionHeaderData:(id)sectionHeaderData sectionFooterData:(id)sectionFooterData;
+
 @end
 
 #pragma mark -
@@ -104,26 +108,26 @@
 
 #pragma mark -
 
-// 配置 Cell 数据
+/// 配置 Cell 数据
 typedef void (^CellConfigureBlock)(id cell, id item);
-// 获取 Cell 重用标识
+/// 获取 Cell 重用标识
 typedef NSString *(^CellReuseIdentifierForRowAtIndexPath)(NSIndexPath *indexPath);
-// 数据源回调
+/// 数据源回调
 typedef NSArray *(^DataArrayBlock)(void);
 
-// 是否允许编辑(删除或者添加)某一行 Cell
+/// 是否允许编辑(删除或者添加)某一行 Cell
 typedef BOOL (^CanEditRowAtIndexPath)(NSIndexPath *indexPath);
-// 提交编辑的某一行 Cell，在这里面进行远程数据操作
+/// 提交编辑的某一行 Cell，在这里面进行远程数据操作
 typedef void (^CommitEditingForRowAtIndexPath)(UITableViewCellEditingStyle editingStyle, id item);
-// 当前添加的 Cell 的位置
+/// 当前添加的 Cell 的位置
 typedef void (^CurrentInsertRowAtIndexPath)(NSIndexPath *indexPath);
 
-// 是否允许对 Cell 进行交换位置
+/// 是否允许对 Cell 进行交换位置
 typedef BOOL (^CanMoveRowAtIndexPath)(NSIndexPath *indexPath);
 
-// 配置 Collection view 头部或者尾部视图的数据
+/// 配置 Collection view 头部或者尾部视图的数据
 typedef void (^ConfigureSupplementaryElementBlock)(UICollectionReusableView *view, id item);
-// 获取 Collection view 头部或者尾部视图的重新标识
+/// 获取 Collection view 头部或者尾部视图的重新标识
 typedef NSString *(^CollectionSupplementaryElementReuseIdentifierForIndexPath)(NSIndexPath *indexPath, NSString *kind);
 
 @interface CHXArrayDataSource : NSObject <UITableViewDataSource, UICollectionViewDataSource>
@@ -155,11 +159,12 @@ typedef NSString *(^CollectionSupplementaryElementReuseIdentifierForIndexPath)(N
        cellReuseIdentifierForIndexPath:(CellReuseIdentifierForRowAtIndexPath)cellReuseIdentifierForIndexPath
                     cellConfigureBlock:(CellConfigureBlock)configureBlock;
 
-// 根据界面坐标获取数据
+/// 根据界面坐标获取数据
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
-
-// 根据界面坐标获取 section 数据个数
-- (NSInteger)numberOfRowsInSection:(NSInteger)section;
+/// 根据界面坐标获取头部数据
+- (id)itemAtSectionHeader:(NSInteger)section;
+/// 根据界面坐标获取尾部数据
+- (id)itemAtSectionFooter:(NSInteger)section;
 
 #pragma mark - 以下 Block 为可选配置
 

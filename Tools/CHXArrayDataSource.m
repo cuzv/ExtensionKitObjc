@@ -26,7 +26,7 @@
 
 #import "CHXArrayDataSource.h"
 
-#pragma mark -
+#pragma mark - CHXArrayDataSourceSectionItem
 
 @interface CHXArrayDataSourceSectionItem ()
 @property (nonatomic, strong) NSArray *content;
@@ -54,12 +54,14 @@
 
 @end
 
-#pragma mark -
+#pragma mark - CHXArrayDataSourceTableViewSectionItem
 
 @interface CHXArrayDataSourceTableViewSectionItem ()
 @property (nonatomic, copy) NSString *titleForHeader;
 @property (nonatomic, copy) NSString *titleForFooter;
 @property (nonatomic, copy) NSString *indexTitle;
+@property (nonatomic, strong) id sectionHeaderData;
+@property (nonatomic, strong) id sectionFooterData;
 @end
 
 @implementation CHXArrayDataSourceTableViewSectionItem
@@ -83,9 +85,21 @@
     return self;
 }
 
+- (instancetype)initWithContent:(NSArray *)content sectionHeaderData:(id)sectionHeaderData sectionFooterData:(id)sectionFooterData {
+    self = [super initWithContent:content];
+    if (!self) {
+        return nil;
+    }
+    
+    _sectionHeaderData = sectionHeaderData;
+    _sectionFooterData = sectionFooterData;
+    
+    return self;
+}
+
 @end
 
-#pragma mark -
+#pragma mark - CHXArrayDataSourceCollecionViewSectionItem
 
 @interface CHXArrayDataSourceCollecionViewSectionItem ()
 @property (nonatomic, strong) id supplementaryElementForHeader;
@@ -107,7 +121,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - CHXArrayDataSource
 
 @interface CHXArrayDataSource ()
 @property (nonatomic, strong) NSMutableArray *items;
@@ -166,16 +180,15 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self pr_numberOfRowsInSection:section];
+    return [self numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = self.cellReuseIdentifierForIndexPath(indexPath);
     NSParameterAssert(identifier);
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];;
-    
-    id item = [self pr_itemAtIndexPath:indexPath];
-    
+    id item = [self itemAtIndexPath:indexPath];
     self.configureCellBlock(cell, item);
     
     [cell setNeedsUpdateConstraints];
@@ -208,8 +221,23 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
     if ([self.items.firstObject class] != NSClassFromString(@"CHXArrayDataSourceTableViewSectionItem")) {
         return nil;
     }
+
+    NSArray *titles = [self.items valueForKey:@"indexTitle"];
     
-    return [self.items valueForKey:@"indexTitle"];
+    /// If titles contains [NSNull null] will crash
+    __block BOOL valid = YES;
+    id nilObject = [NSNull null];
+    [titles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isEqual:nilObject]) {
+            valid = NO;
+            *stop = YES;
+        }
+    }];
+    if (!valid) {
+        return nil;
+    }
+    
+    return titles;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
@@ -227,7 +255,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.commitEditingForRowAtIndexPath) {
         // UI Editing
-        id editingItem = [self pr_itemAtIndexPath:indexPath];
+        id editingItem = [self itemAtIndexPath:indexPath];
         id item = self.items[indexPath.section];
         NSMutableArray *content = [[item content] mutableCopy];
         
@@ -288,18 +316,16 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self pr_numberOfRowsInSection:section];
+    return [self numberOfRowsInSection:section];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = self.cellReuseIdentifierForIndexPath(indexPath);
     NSParameterAssert(identifier);
+    
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    
-    id item = [self pr_itemAtIndexPath:indexPath];
-    
+    id item = [self itemAtIndexPath:indexPath];
     self.configureCellBlock(cell, item);
-    
     return cell;
 }
 
@@ -338,23 +364,8 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
     return self.items.count;
 }
 
-- (NSInteger)pr_numberOfRowsInSection:(NSInteger)section {
-    CHXArrayDataSourceSectionItem *item = self.items[section];
-//    NSParameterAssert([item isKindOfClass:NSClassFromString(@"CHXArrayDataSourceSectionItem")]);
-
-    return [[item content] count];
-}
-
-- (id)pr_itemAtIndexPath:(NSIndexPath *)indexPath {
-    CHXArrayDataSourceSectionItem *item = self.items[indexPath.section];
-//    NSParameterAssert([item isKindOfClass:NSClassFromString(@"CHXArrayDataSourceSectionItem")]);
-    
-    return [item content][indexPath.row];
-}
-
 - (id)pr_supplementaryElementItemAtIndexPath:(NSIndexPath *)indexPath ofKind:(NSString *)kind {
     id item = self.items[indexPath.section];
-//    NSParameterAssert([item class] == NSClassFromString(@"CHXArrayDataSourceCollecionViewSectionItem"));
     
     id returnValue = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
@@ -369,11 +380,29 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 #pragma mark - Public
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath {
-    return [self pr_itemAtIndexPath:indexPath];
+    CHXArrayDataSourceSectionItem *item = self.items[indexPath.section];
+    return [item content][indexPath.row];
+}
+
+- (id)itemAtSectionHeader:(NSInteger)section {
+    CHXArrayDataSourceSectionItem *sectionItem = self.items[section];
+    NSParameterAssert([sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]);
+    
+    CHXArrayDataSourceTableViewSectionItem *itme = (CHXArrayDataSourceTableViewSectionItem *)sectionItem;
+    return itme.sectionHeaderData;
+}
+
+- (id)itemAtSectionFooter:(NSInteger)section {
+    CHXArrayDataSourceSectionItem *sectionItem = self.items[section];
+    NSParameterAssert([sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]);
+    
+    CHXArrayDataSourceTableViewSectionItem *itme = (CHXArrayDataSourceTableViewSectionItem *)sectionItem;
+    return itme.sectionFooterData;
 }
 
 - (NSInteger)numberOfRowsInSection:(NSInteger)section {
-    return [self pr_numberOfRowsInSection:section];
+    CHXArrayDataSourceSectionItem *item = self.items[section];
+    return [[item content] count];
 }
 
 @end
