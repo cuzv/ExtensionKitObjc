@@ -33,6 +33,7 @@
 #import "NSDate+CHXAddition.h"
 #import "NSDateFormatter+CHXAddition.h"
 #import "NSArray+CHXFunctionalProgramming.h"
+#import "NSArray+CHXAddition.h"
 #import "NSDictionary+CHXURLPath.h"
 #import "NSDictionary+CHXJSON.h"
 #import "NSDictionary+CHXDescription.h"
@@ -70,9 +71,10 @@
 #import "UIView+CHXActivityIndicatorAnimation.h"
 #import "UIView+CHXBorderLine.h"
 #import "UIView+CHXCorner.h"
-#import "UIView+CHXFindViewController.h"
+#import "UIView+CHXResponderViewController.h"
 #import "UIView+CHXBlur.h"
 #import "UIView+CHXDebugging.h"
+#import "UIResponder+CHXAddition.h"
 
 // Helper
 #import "CHXGlobalServices.h"

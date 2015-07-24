@@ -159,12 +159,14 @@ typedef NSString *(^CollectionSupplementaryElementReuseIdentifierForIndexPath)(N
        cellReuseIdentifierForIndexPath:(CellReuseIdentifierForRowAtIndexPath)cellReuseIdentifierForIndexPath
                     cellConfigureBlock:(CellConfigureBlock)configureBlock;
 
-/// 根据界面坐标获取数据
-- (id)itemAtIndexPath:(NSIndexPath *)indexPath;
+/// 根据界面坐标获取 cell 数据
+- (id)itemForRowAtIndexPath:(NSIndexPath *)indexPath;
+/// 根据界面坐标获取 section 数据
+- (NSArray *)itemsInSection:(NSInteger)section;
 /// 根据界面坐标获取头部数据
-- (id)itemAtSectionHeader:(NSInteger)section;
+- (id)itemForHeaderInSection:(NSInteger)section;
 /// 根据界面坐标获取尾部数据
-- (id)itemAtSectionFooter:(NSInteger)section;
+- (id)itemForFooterInSection:(NSInteger)section;
 
 #pragma mark - 以下 Block 为可选配置
 

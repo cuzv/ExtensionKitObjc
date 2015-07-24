@@ -1,9 +1,9 @@
 //
-//  UIView+CHXFindViewController.m
-//  WildAppExtensionRunner
+//  NSArray+CHXAddition.m
+//  Haioo
 //
-//  Created by Moch Xiao on 2014-11-18.
-//  Copyright (c) 2014 Moch Xiao (https://github.com/atcuan).
+//  Created by Moch Xiao on 7/23/15.
+//  Copyright (c) 2015 Haioo. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,21 +24,22 @@
 //  THE SOFTWARE.
 //
 
-#import "UIView+CHXFindViewController.h"
 
-@implementation UIView (CHXFindViewController)
+#import "NSArray+CHXAddition.h"
 
-- (UIViewController *)chx_viewController {
-    // Finds the view's view controller.
+@implementation NSArray (CHXAddition)
+
+- (NSString *)chx_joinByString:(NSString *)joinString {
+    if (!self.count) {
+        return nil;
+    }
     
-    // Traverse responder chain. Return first found view controller, which will be the view's view controller.
-    UIResponder *responder = self;
-    while ((responder = [responder nextResponder]))
-        if ([responder isKindOfClass: [UIViewController class]])
-            return (UIViewController *)responder;
-    
-    // If the view controller isn't found, return nil.
-    return nil;
+    NSMutableString *result = [NSMutableString new];
+    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [result appendFormat:@"%@%@", obj, joinString];
+    }];
+
+    return [result substringToIndex:result.length - joinString.length];
 }
 
 @end
