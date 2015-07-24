@@ -66,25 +66,6 @@
     headerFooterView.bounds = CGRectMake(0.0f, 0.0f, preferredMaxLayoutWidth, CGRectGetHeight(self.bounds));
     
     return [headerFooterView chx_fittingCompressedHeight];
-
-//    /// https://github.com/forkingdog/UITableView-FDTemplateLayoutCell/blob/master/Classes/UITableView%2BFDTemplateLayoutCell.m#L478
-//    // Add a hard width constraint to make dynamic content views (like labels) expand vertically instead
-//    // of growing horizontally, in a flow-layout manner.
-//    NSLayoutConstraint *tempWidthConstraint =
-//    [NSLayoutConstraint constraintWithItem:headerFooterView.contentView
-//                                 attribute:NSLayoutAttributeWidth
-//                                 relatedBy:NSLayoutRelationEqual
-//                                    toItem:nil
-//                                 attribute:NSLayoutAttributeNotAnAttribute
-//                                multiplier:1.0
-//                                  constant:preferredMaxLayoutWidth];
-//    [headerFooterView.contentView addConstraint:tempWidthConstraint];
-//    // Auto layout engine does its math
-//    CGFloat fittingSizeHeight = [headerFooterView chx_fittingCompressedHeight];
-//
-////    [headerFooterView.contentView removeConstraint:tempWidthConstraint];
-//    
-//    return fittingSizeHeight;
 }
 
 
