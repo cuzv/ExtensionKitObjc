@@ -1,5 +1,5 @@
 //
-//  UIView+CHXFindViewController.h
+//  UIView+CHXResponderViewController.h
 //  WildAppExtensionRunner
 //
 //  Created by Moch Xiao on 2014-11-18.
@@ -26,13 +26,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (CHXFindViewController)
+@interface UIView (CHXResponderViewController)
 
-/**
- *  通过视图查找它所属视图控制器
- *
- *  @return 该所属视图控制器
- */
-- (UIViewController *)chx_viewController;
+/// 通过视图查找它所属视图控制器
+- (UIViewController *)chx_responderViewController;
 
 @end
