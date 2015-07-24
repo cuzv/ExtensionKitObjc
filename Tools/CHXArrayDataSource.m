@@ -390,7 +390,9 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 
 - (id)itemForHeaderInSection:(NSInteger)section {
     CHXArrayDataSourceSectionItem *sectionItem = self.items[section];
-    NSParameterAssert([sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]);
+    if (![sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]) {
+        return nil;
+    }
     
     CHXArrayDataSourceTableViewSectionItem *itme = (CHXArrayDataSourceTableViewSectionItem *)sectionItem;
     return itme.sectionHeaderData;
@@ -398,7 +400,9 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 
 - (id)itemForFooterInSection:(NSInteger)section {
     CHXArrayDataSourceSectionItem *sectionItem = self.items[section];
-    NSParameterAssert([sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]);
+    if (![sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]) {
+        return nil;
+    }
     
     CHXArrayDataSourceTableViewSectionItem *itme = (CHXArrayDataSourceTableViewSectionItem *)sectionItem;
     return itme.sectionFooterData;

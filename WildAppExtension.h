@@ -59,6 +59,7 @@
 #import "UITableView+CHXCompressSize.h"
 #import "UITableViewCell+CHXCompressSize.h"
 #import "UITableViewCell+CHXConfigureData.h"
+#import "UITableViewHeaderFooterView+CHXCompressSize.h"
 #import "UINavigationBar+CHXIndicatorAnimation.h"
 #import "UIViewController+CHXNavigationActivityIndicatorAnimation.h"
 #import "UIViewController+CHXDebugging.h"
