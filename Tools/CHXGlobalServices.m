@@ -420,6 +420,12 @@ void chx_timeInterval(NSUInteger timeInterval, void(^reduceBlock)(NSUInteger day
     }
 }
 
+#pragma mark - 
+
+NSString *chx_stringValueForInteger(NSInteger integerValue) {
+    return [@(integerValue) stringValue];
+}
+
 
 @end
 

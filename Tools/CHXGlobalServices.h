@@ -280,6 +280,10 @@ BOOL chx_isKeyBoardInDisplay();
 
 void chx_timeInterval(NSUInteger timeInterval, void(^reduceBlock)(NSUInteger days, NSUInteger hours, NSUInteger minutes, NSUInteger seconds));
 
+#pragma mark - 
+
+NSString *chx_stringValueForInteger(NSInteger integerValue);
+
 @end
 
 
