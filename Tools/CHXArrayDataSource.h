@@ -31,28 +31,20 @@
 
 @interface CHXArrayDataSourceSectionItem : NSObject
 
-/**
- *  新建 CHXArrayDataSourceSectionItem 实例对象
- *
- *  @param content Cell 数据集合
- *
- *  @return CHXArrayDataSourceSectionItem 实例对象
- */
+/// 新建 CHXArrayDataSourceSectionItem 实例对象
 - (instancetype)initWithContent:(NSArray *)content;
 
-/**
- *  添加新的数据
- *
- *  @param content 添加的数据数组
- */
-- (void)addContentFromArray:(NSArray *)content;
+/// 追加一组数据
+- (void)addItemsFromArray:(NSArray *)content;
 
-/**
- *  获取当前的数据内容
- *
- *  @return 当前的数据内容
- */
+/// 获取当前的数据内容
 - (NSArray *)currentContent;
+
+/// 插入一条数据
+- (void)insertRowWithItem:(id)item atIndex:(NSInteger)index;
+
+/// 移除一条数据
+- (id)removeItemForRowAtIndex:(NSInteger)index;
 
 @end
 
@@ -60,27 +52,17 @@
 
 @interface CHXArrayDataSourceTableViewSectionItem : CHXArrayDataSourceSectionItem
 
-/**
- *  新建 CHXArrayDataSourceTableViewSectionItem 实例对象
- *
- *  @param content        Cell 数据集合
- *  @param titleForHeader Section header
- *  @param titleForFooter Section footer
- *
- *  @return CHXArrayDataSourceTableViewSectionItem 实例对象
- */
+/// 新建 CHXArrayDataSourceTableViewSectionItem 实例对象
+/// - contentCell 数据集合
+/// - titleForHeader Section header
+/// - titleForFooter Section footer
 - (instancetype)initWithContent:(NSArray *)content titleForHeader:(NSString *)titleForHeader titleForFooter:(NSString *)titleForFooter;
 
-/**
- *  新建 CHXArrayDataSourceTableViewSectionItem 实例对象
- *
- *  @param content        Cell 数据集合
- *  @param titleForHeader Section header
- *  @param titleForFooter Section footer
- *  @param indexTitle     Section index
- *
- *  @return CHXArrayDataSourceTableViewSectionItem 实例对象
- */
+/// 新建 CHXArrayDataSourceTableViewSectionItem 实例对象
+/// - content        Cell 数据集合
+/// - titleForHeader Section header
+/// - titleForFooter Section footer
+/// - indexTitle     Section index
 - (instancetype)initWithContent:(NSArray *)content titleForHeader:(NSString *)titleForHeader titleForFooter:(NSString *)titleForFooter indexTitle:(NSString *)indexTitle;
 
 /// 新建 section 数据源的时候带上 header 和 footer 的数据
@@ -93,15 +75,10 @@
 
 @interface CHXArrayDataSourceCollecionViewSectionItem : CHXArrayDataSourceSectionItem
 
-/**
- *  新建 CHXArrayDataSourceCollecionViewSectionItem 实例对象
- *
- *  @param content                       Cell 数据集合
- *  @param supplementaryElementForHeader 头部数据
- *  @param supplementaryElementForFooter 尾部数据
- *
- *  @return CHXArrayDataSourceCollecionViewSectionItem 实例对象
- */
+/// CHXArrayDataSourceCollecionViewSectionItem 实例对象
+/// - content                       Cell 数据集合
+/// - supplementaryElementForHeader 头部数据
+/// - supplementaryElementForFooter 尾部数据
 - (instancetype)initWithContent:(NSArray *)content supplementaryElementForHeader:(id)supplementaryElementForHeader supplementaryElementForFooter:(id)supplementaryElementForFooter;
 
 @end
@@ -132,29 +109,18 @@ typedef NSString *(^CollectionSupplementaryElementReuseIdentifierForIndexPath)(N
 
 @interface CHXArrayDataSource : NSObject <UITableViewDataSource, UICollectionViewDataSource>
 
-/**
- *  新建 CHXArrayDataSource 实例对象
- *
- *  @param dataArray                       数据数组，元素必须为 CHXArrayDataSourceSectionItem 或者其子类对象
- *  @param cellReuseIdentifierForIndexPath Cell 重用标识
- *  @param configureBlock                  Cell 界面配置
- *
- *  @return CHXArrayDataSource 实例对象
- */
+/// 新建 CHXArrayDataSource 实例对象
+/// - dataArray 数据数组，元素必须为 CHXArrayDataSourceSectionItem 或者其子类对象
+/// - cellReuseIdentifierForIndexPath Cell 重用标识
+/// - configureBlock                  Cell 界面配置
 - (instancetype)initWithDataArray:(NSMutableArray *)dataArray
        cellReuseIdentifierForIndexPath:(CellReuseIdentifierForRowAtIndexPath)cellReuseIdentifierForIndexPath
                     cellConfigureBlock:(CellConfigureBlock)configureBlock;
 
-/**
- *  新建 CHXArrayDataSource 实例对象
- *
- *  @param dataArrayBlock                  数据数组，元素必须为 CHXArrayDataSourceSectionItem 或者其子类对象
- *                                         回调的形式，配合 RAC 使用，因为 KVO 不能检测到 mutable array add/remove notificaion
- *  @param cellReuseIdentifierForIndexPath Cell 重用标识
- *  @param configureBlock                  Cell 界面配置
- *
- *  @return CHXArrayDataSource 实例对象
- */
+///  新建 CHXArrayDataSource 实例对象
+/// - dataArrayBlock                  数据数组，元素必须为 CHXArrayDataSourceSectionItem 或者其子类对象
+/// - cellReuseIdentifierForIndexPath Cell 重用标识
+/// - configureBlock                  Cell 界面配置
 - (instancetype)initWithDataArrayBlock:(DataArrayBlock)dataArrayBlock
        cellReuseIdentifierForIndexPath:(CellReuseIdentifierForRowAtIndexPath)cellReuseIdentifierForIndexPath
                     cellConfigureBlock:(CellConfigureBlock)configureBlock;
@@ -167,6 +133,12 @@ typedef NSString *(^CollectionSupplementaryElementReuseIdentifierForIndexPath)(N
 - (id)itemForHeaderInSection:(NSInteger)section;
 /// 根据界面坐标获取尾部数据
 - (id)itemForFooterInSection:(NSInteger)section;
+/// 给指定 section 添加数据
+- (void)addRowsWithItems:(NSArray *)items inSection:(NSInteger)section;
+/// 指定位置插入数据
+- (void)insertRowWithItem:(id)item atIndexPath:(NSIndexPath *)indexPath;
+/// 移除指定坐标的数据
+- (id)removeItemForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 #pragma mark - 以下 Block 为可选配置
 
