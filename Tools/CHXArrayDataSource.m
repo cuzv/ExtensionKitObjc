@@ -277,32 +277,30 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.commitEditingForRowAtIndexPath) {
-        // UI Editing
-        id editingItem = [self itemForRowAtIndexPath:indexPath];
-        id sectionItem = self.sections[indexPath.section];
-        NSMutableArray *content = [[sectionItem content] mutableCopy];
-        
-        if (UITableViewCellEditingStyleDelete == editingStyle) {
-            [content removeObjectAtIndex:indexPath.row];
-            [sectionItem setContent:[NSArray arrayWithArray:content]];
-            
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        } else if (UITableViewCellEditingStyleInsert == editingStyle) {
-            // Duplicate last content item, in case reload data error, should not use it.
-            [content insertObject:content.lastObject atIndex:indexPath.row];
-            [sectionItem setContent:[NSArray arrayWithArray:content]];
-            
-            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-            if (self.currentInsertRowAtIndexPath) {
-                self.currentInsertRowAtIndexPath(newIndexPath);
-            }
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        
-        // Remote Editing
-        self.commitEditingForRowAtIndexPath(editingStyle, editingItem);
+    if (!self.commitEditingForRowAtIndexPath) {
+        return;
     }
+
+    id item = [self itemForRowAtIndexPath:indexPath];
+    if (UITableViewCellEditingStyleDelete == editingStyle) {
+        [self removeItemForRowAtIndexPath:indexPath];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else if (UITableViewCellEditingStyleInsert == editingStyle) {
+        // Duplicate last content item, in case reload data error, should not use it.
+        if (!item) {
+            NSLog(@"数组角标越界");
+            return;
+        }
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+        [self insertRowWithItem:item atIndexPath:newIndexPath];
+        if (self.currentInsertRowAtIndexPath) {
+            self.currentInsertRowAtIndexPath(newIndexPath);
+        }
+        [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+
+    // Remote Editing
+    self.commitEditingForRowAtIndexPath(editingStyle, item);
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
