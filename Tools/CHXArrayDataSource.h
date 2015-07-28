@@ -139,6 +139,12 @@ typedef NSString *(^CollectionSupplementaryElementReuseIdentifierForIndexPath)(N
 - (void)insertRowWithItem:(id)item atIndexPath:(NSIndexPath *)indexPath;
 /// 移除指定坐标的数据
 - (id)removeItemForRowAtIndexPath:(NSIndexPath *)indexPath;
+/// 获取头部数据位置
+- (NSInteger)indexOfHeaderItem:(id)item;
+/// 获取尾部数据位置
+- (NSInteger)indexOfFooterItem:(id)item;
+/// 获取数据的位置
+- (NSIndexPath *)indexPathOfItem:(id)item;
 
 #pragma mark - 以下 Block 为可选配置
 

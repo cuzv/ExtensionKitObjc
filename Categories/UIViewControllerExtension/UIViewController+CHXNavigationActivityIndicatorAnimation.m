@@ -56,7 +56,7 @@ static const void *RightBarInAnimationKey = @"rightBarInAnimation";
 }
 
 - (BOOL)chx_rightBarInAnimation {
-    return [self chx_associatedObjectForKey:RightBarInAnimationKey];
+    return [[self chx_associatedObjectForKey:RightBarInAnimationKey] boolValue];
 }
 
 - (void)chx_addNavigationBarActivityIndicatorAnimation {

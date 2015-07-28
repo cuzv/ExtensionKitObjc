@@ -191,7 +191,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 
 - (NSMutableArray *)sections {
     if (!_sections) {
-        _sections = [self.dataArrayBlock() mutableCopy];
+        return [self.dataArrayBlock() mutableCopy];
     }
     
     return _sections;
@@ -468,6 +468,39 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
     return [sectionItem removeItemForRowAtIndex:indexPath.row];
 }
 
+- (NSInteger)indexOfHeaderItem:(id)item {
+    NSArray *headers = [self.sections valueForKey:@"sectionHeaderData"];
+    if ([headers containsObject:item]) {
+        return [headers indexOfObjectIdenticalTo:item];
+    };
+
+    return -1;
+}
+
+- (NSInteger)indexOfFooterItem:(id)item {
+    NSArray *footers = [self.sections valueForKey:@"sectionFooterData"];
+    if ([footers containsObject:item]) {
+        return [footers indexOfObjectIdenticalTo:item];
+    };
+    
+    return -1;
+}
+
+- (NSIndexPath *)indexPathOfItem:(id)item {
+    NSArray *sections = self.sections;
+    
+    __block NSIndexPath *indexPath = nil;
+    [sections enumerateObjectsUsingBlock:^(CHXArrayDataSourceSectionItem *sectionItem, NSUInteger idx, BOOL *stop) {
+        NSArray *content = sectionItem.currentContent;
+        if ([content containsObject:item]) {
+            NSInteger row = [content indexOfObjectIdenticalTo:item];
+            indexPath = [NSIndexPath indexPathForRow:row inSection:idx];
+            *stop = YES;
+        }
+    }];
+    
+    return indexPath;
+}
 
 @end
 
