@@ -278,11 +278,14 @@ BOOL chx_isKeyBoardInDisplay();
 
 #pragma mark - 倒计时
 
-void chx_timeInterval(NSUInteger timeInterval, void(^reduceBlock)(NSUInteger days, NSUInteger hours, NSUInteger minutes, NSUInteger seconds));
+void chx_timeInterval(NSInteger timeInterval, void(^reduceBlock)(NSInteger days, NSInteger hours, NSInteger minutes, NSInteger seconds));
+/// 计算剩余时间，返回数组中，分别为天、小时、分钟、秒钟；注意使用完后调用 free
+NSInteger *chx_timeInterval_c(NSInteger timeInterval);
 
 #pragma mark - 
 
 NSString *chx_stringValueForInteger(NSInteger integerValue);
+
 
 @end
 

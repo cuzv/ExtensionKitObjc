@@ -394,7 +394,7 @@ UIView *chx_findFirstResponder() {
 
 #pragma mark - 倒计时
 
-void chx_timeInterval(NSUInteger timeInterval, void(^reduceBlock)(NSUInteger days, NSUInteger hours, NSUInteger minutes, NSUInteger seconds)) {
+void chx_timeInterval(NSInteger timeInterval, void(^reduceBlock)(NSInteger days, NSInteger hours, NSInteger minutes, NSInteger seconds)) {
     if (!reduceBlock) {
         return;
     }
@@ -412,12 +412,46 @@ void chx_timeInterval(NSUInteger timeInterval, void(^reduceBlock)(NSUInteger day
     remain %= 60;
     
     // seconds
-    NSUInteger s = remain;
+    NSInteger s = remain;
     
     if (reduceBlock) {
         reduceBlock(d, h, m, s);
         reduceBlock = nil;
     }
+}
+
+NSInteger *chx_timeInterval_c(NSInteger timeInterval) {
+    NSInteger *result = _malloc(sizeof(NSInteger) * 4);
+    
+    // days
+    NSInteger d = timeInterval / (60*60*24);
+    NSInteger remain = timeInterval % (60*60*24);
+    result[0] = d;
+    
+    // hours
+    NSInteger h = remain / (60*60);
+    remain %= (60*60);
+    result[1] = h;
+    
+    // minutes
+    NSInteger m = remain / 60;
+    remain %= 60;
+    result[2] = m;
+    
+    // seconds
+    NSInteger s = remain;
+    result[3] = s;
+    
+    return result;
+}
+
+void *_malloc(size_t size) {
+    void *new_memo = malloc(size);
+    if (NULL == new_memo) {
+        printf("Out of memory!");
+        exit(-1);
+    }
+    return new_memo;
 }
 
 #pragma mark - 

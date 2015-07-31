@@ -28,7 +28,9 @@
 
 @interface NSString (CHXTimeStamp)
 
+/// 2014-050-21 18:32:22
 - (NSString *)chx_timeStampToRecognizableString;
-
+/// 2014.09.15
+- (NSString *)chx_timeStampToRecognizableStringShort;
 
 @end
