@@ -28,21 +28,16 @@
 
 @interface UIButton (CHXImageAlignment)
 
-/**
- *  Button 图片右侧对齐
- */
+/// Button 图片右侧对齐
 - (void)chx_updateImageAlignmentToRight;
 
-/**
- *  Button 图片上侧对齐
- */
+/// Button 图片右侧对齐
+- (void)chx_updateImageAlignmentToRightWithSpace:(CGFloat)space;
+
+/// Button 图片上侧对齐
 - (void)chx_updateImageAlignmentToUp;
 
-/**
- *  Button 图片上侧对齐
- *
- *  @param space 图片与文字的间距
- */
+/// Button 图片上侧对齐
 - (void)chx_updateImageAlignmentToUpWithSpace:(CGFloat)space;
 
 @end
