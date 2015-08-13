@@ -318,5 +318,9 @@ NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
     return date;
 }
 
++ (NSString *)chx_currentTimeStamp {
+    NSString *timeStamp = [NSString stringWithFormat:@"%lf", [[NSDate date] timeIntervalSince1970]];
+    return [timeStamp stringByReplacingOccurrencesOfString:@"." withString:@""];
+}
 
 @end
