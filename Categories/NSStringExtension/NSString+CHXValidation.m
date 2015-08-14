@@ -77,5 +77,35 @@
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
+- (NSString *)chx_filterHTML {
+    NSScanner *theScanner;
+    NSString *text = nil;
+    NSString *html = self;
+    
+    theScanner = [NSScanner scannerWithString:html];
+    while ([theScanner isAtEnd] == NO) {
+        // find start of tag
+        [theScanner scanUpToString:@"<" intoString:NULL] ;
+
+        // find end of tag
+        [theScanner scanUpToString:@">" intoString:&text] ;
+        
+        // replace the found tag with a space
+        // (you can filter multi-spaces out later if you wish)
+        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>", text] withString:@""];
+    }
+    
+    return html;
+    
+//    NSArray *components = [self componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+//    NSMutableArray *componentsToKeep = [NSMutableArray array];
+//    
+//    for (int i = 0; i < [components count]; i = i + 2) {
+//        [componentsToKeep addObject:[components objectAtIndex:i]];
+//    }
+//    NSString *plainText = [componentsToKeep componentsJoinedByString:@""];
+//    
+//    return plainText;
+}
 
 @end

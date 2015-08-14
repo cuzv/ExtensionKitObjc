@@ -81,5 +81,7 @@
  */
 - (NSString *)chx_trim;
 
+/// 移除 HTML 标签
+- (NSString *)chx_filterHTML;
 
 @end
