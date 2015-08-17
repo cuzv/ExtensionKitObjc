@@ -214,6 +214,9 @@ void chx_clearApplicationIconBadge();
  */
 UIView *chx_hairLineForTabBar(UITabBar *tabBar);
 
+/// 隐藏 TabBar 顶部那一条灰线
+void chx_hiddenHairLineForTabBar(UITabBar *tabBar);
+
 /**
  *  获取导航栏底部的那一条灰线
  *
@@ -222,6 +225,9 @@ UIView *chx_hairLineForTabBar(UITabBar *tabBar);
  *  @return 灰线
  */
 UIView *chx_hairLineForNavigationBar(UINavigationBar *navigationBar);
+
+/// 隐藏导航栏底部的那一条灰线
+void chx_removeHairLineForNavigationBar(UINavigationBar *navigationBar);
 
 #pragma mark - Asynchronization get image
 

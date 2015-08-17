@@ -239,6 +239,10 @@ UIView *chx_hairLineForTabBar(UITabBar *tabBar) {
     return nil;
 }
 
+void chx_hiddenHairLineForTabBar(UITabBar *tabBar) {
+    tabBar.clipsToBounds = YES;
+}
+
 UIView *chx_hairLineForNavigationBar(UINavigationBar *navigationBar) {
     Class navigationBarBackgroundClass = NSClassFromString(@"_UINavigationBarBackground");
     for (UIView *view in navigationBar.subviews) {
@@ -254,6 +258,10 @@ UIView *chx_hairLineForNavigationBar(UINavigationBar *navigationBar) {
     }
     
     return nil;
+}
+
+void chx_removeHairLineForNavigationBar(UINavigationBar *navigationBar) {
+    [chx_hairLineForNavigationBar(navigationBar) removeFromSuperview];
 }
 
 #pragma mark - Asynchronization get image
