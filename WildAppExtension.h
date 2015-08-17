@@ -64,6 +64,7 @@
 #import "UIViewController+CHXNavigationActivityIndicatorAnimation.h"
 #import "UIViewController+CHXDebugging.h"
 #import "UIViewController+CHXStack.h"
+#import "UIViewController+CHXNavigation.h"
 #import "UIScrollView+CHXAccessor.h"
 #import "UIView+CHXAccessor.h"
 #import "UIView+CHXArcRotationAnimation.h"
