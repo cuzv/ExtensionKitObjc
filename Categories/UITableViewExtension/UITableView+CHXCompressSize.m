@@ -47,6 +47,8 @@
     
     // Important
     cell.bounds = CGRectMake(0.0f, 0.0f, preferredMaxLayoutWidth, CGRectGetHeight(cell.bounds));
+    // break iOS7 issue
+    cell.contentView.frame = cell.bounds;
     
     return [cell chx_fittingCompressedHeight];
 }

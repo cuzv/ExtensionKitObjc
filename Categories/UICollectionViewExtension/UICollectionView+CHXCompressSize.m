@@ -40,7 +40,9 @@
     dataConfiguration(cell);
     
     // Important
-//    cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    // break iOS7 issue
+    cell.contentView.frame = cell.bounds;
     
     [cell setNeedsLayout];
     [cell layoutIfNeeded];
