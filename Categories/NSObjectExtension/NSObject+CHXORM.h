@@ -28,55 +28,28 @@
 
 @interface NSObject (CHXORM)
 
-/**
- *  快速创建模型
- *
- *  @param properties 属性字典
- *
- *  @return 对象实例
- */
+/// 通过属性列表键值对创建模型
 - (instancetype)chx_initWithProperties:(NSDictionary *)properties NS_REPLACES_RECEIVER;
 
-/**
- *  获取属性列表
- *
- *  @return 属性列表
- */
+/// 通过已知模型创建属性子集模型
+- (instancetype)chx_initWithOtherObject:(id)otherObject NS_REPLACES_RECEIVER;
+
+/// 获取属性列表
 - (NSArray *)chx_properties;
 
-/**
- *  获取属性列表
- *
- *  @return 属性列表
- */
+/// 获取属性列表
 + (NSArray *)chx_properties;
 
-/**
- *  获取方法列表
- *
- *  @return 方法列表
- */
+/// 获取方法列表
 - (NSArray *)chx_methods;
 
-/**
- *  获取方法列表
- *
- *  @return 方法列表
- */
+/// 获取方法列表
 + (NSArray *)chx_methods;
 
-/**
- *  自身对象转为字典
- *
- *  @return 自身属性打包的字典
- */
+/// 自身对象转为字典
 - (NSDictionary *)chx_convertToDictionary;
 
-/**
- *  打印对象
- *
- *  @return 对象描述字符串
- */
+/// 打印对象
 - (NSString *)chx_toString;
 
 @end
