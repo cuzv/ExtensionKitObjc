@@ -37,4 +37,13 @@
     return dateString;
 }
 
+- (NSString *)chx_timeStampToRecognizableStringShort {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self doubleValue]];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy.MM.dd"];
+    NSString *dateString = [formatter stringFromDate:date];
+    
+    return dateString;
+}
+
 @end

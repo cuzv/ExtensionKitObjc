@@ -28,6 +28,7 @@
 
 @interface UITableViewCell (CHXCompressSize)
 
+/// 计算自动布局高度
 - (CGFloat)chx_fittingCompressedHeight;
 
 @end

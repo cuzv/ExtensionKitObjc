@@ -29,11 +29,17 @@
 @implementation UIButton (CHXImageAlignment)
 
 - (void)chx_updateImageAlignmentToRight {
+    [self chx_updateImageAlignmentToRightWithSpace:0];
+}
+
+- (void)chx_updateImageAlignmentToRightWithSpace:(CGFloat)space {
+    CGFloat halfSpace = space / 2.0f;
+
     CGFloat imageWidth = self.currentImage.size.width;
-    [self setTitleEdgeInsets:UIEdgeInsetsMake(0, -imageWidth, 0, imageWidth)];
+    [self setTitleEdgeInsets:UIEdgeInsetsMake(0, -imageWidth-halfSpace, 0, imageWidth+halfSpace)];
     
     CGFloat edgeWidth = [self.currentTitle sizeWithAttributes:@{NSFontAttributeName:self.titleLabel.font}].width;
-    [self setImageEdgeInsets:UIEdgeInsetsMake(0, edgeWidth, 0, -edgeWidth)];
+    [self setImageEdgeInsets:UIEdgeInsetsMake(0, edgeWidth+halfSpace, 0, -edgeWidth-halfSpace)];
 }
 
 - (void)chx_updateImageAlignmentToUp {
@@ -44,11 +50,11 @@
     CGFloat halfSpace = space / 2.0f;
     CGFloat imageWidth = self.currentImage.size.width;
     CGFloat imageHeight = self.currentImage.size.height;
-    [self setTitleEdgeInsets:UIEdgeInsetsMake(imageHeight / 2 + halfSpace, -imageWidth/2, -imageHeight / 2 - halfSpace, imageWidth/2)];
+    [self setTitleEdgeInsets:UIEdgeInsetsMake(imageHeight/2 + halfSpace, -imageWidth/2, -imageHeight/2 - halfSpace, imageWidth/2)];
     
     CGFloat edgeWidth = [self.currentTitle sizeWithAttributes:@{NSFontAttributeName:self.titleLabel.font}].width;
     CGFloat edgeHeight = [self.currentTitle sizeWithAttributes:@{NSFontAttributeName:self.titleLabel.font}].height;
-    [self setImageEdgeInsets:UIEdgeInsetsMake(-edgeHeight / 2 - halfSpace, edgeWidth / 2, edgeHeight / 2 + halfSpace, -edgeWidth / 2)];
+    [self setImageEdgeInsets:UIEdgeInsetsMake(-edgeHeight/2 - halfSpace, edgeWidth / 2, edgeHeight/2 + halfSpace, -edgeWidth/2)];
 }
 
 @end

@@ -28,9 +28,14 @@
 
 @interface UITableView (CHXCompressSize)
 
+/// 计算 UITableViewCell 自动布局的高度，默认计算宽度是等于 UITableView 的宽度
 - (CGFloat)chx_heightForReusableCellWithIdentifier:(NSString *)identifier dataConfiguration:(void (^)(id cell))dataConfiguration;
+/// 计算 UITableViewCell 自动布局的高度，指定计算尺寸时候的宽度
 - (CGFloat)chx_heightForReusableCellWithIdentifier:(NSString *)identifier preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth dataConfiguration:(void (^)(id cell))dataConfiguration;
+
+/// 计算 UITableViewHeaderFooterView 自动布局的高度，默认计算宽度是等于 UITableView 的宽度
 - (CGFloat)chx_heightForHeaderFooterWithIdentifier:(NSString *)identifier dataConfiguration:(void (^)(id headerFooterView))dataConfiguration;
+/// 计算 UITableViewHeaderFooterView 自动布局的高度，指定计算尺寸时候的宽度
 - (CGFloat)chx_heightForHeaderFooterWithIdentifier:(NSString *)identifier preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth dataConfiguration:(void (^)(id headerFooterView))dataConfiguration;
 
 @end

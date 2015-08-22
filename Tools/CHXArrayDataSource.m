@@ -42,7 +42,7 @@
     return self;
 }
 
-- (void)addContentFromArray:(NSArray *)content {
+- (void)addItemsFromArray:(NSArray *)content {
     NSMutableArray *currentContent = [self.content mutableCopy];
     [currentContent addObjectsFromArray:content];
     self.content = [[NSArray alloc] initWithArray:currentContent];
@@ -50,6 +50,30 @@
 
 - (NSArray *)currentContent {
     return self.content;
+}
+
+- (void)insertRowWithItem:(id)item atIndex:(NSInteger)index {
+    NSMutableArray *currentContent = [self.content mutableCopy];
+    if (currentContent.count < index) {
+        NSLog(@"添加数据失败，数组角标越界");
+        return;
+    }
+    [currentContent insertObject:item atIndex:index];
+    self.content = [[NSArray alloc] initWithArray:currentContent];
+}
+
+- (id)removeItemForRowAtIndex:(NSInteger)index {
+    NSMutableArray *currentContent = [self.content mutableCopy];
+    if (currentContent.count < index) {
+        NSLog(@"移除数据失败，数组角标越界");
+        return nil;
+    }
+    
+    id result = [currentContent objectAtIndex:index];
+    [currentContent removeObject:result];
+    self.content = [[NSArray alloc] initWithArray:currentContent];
+
+    return result;
 }
 
 @end
@@ -124,7 +148,7 @@
 #pragma mark - CHXArrayDataSource
 
 @interface CHXArrayDataSource ()
-@property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic, strong) NSMutableArray *sections;
 @property (nonatomic, copy) CellConfigureBlock configureCellBlock;
 @property (nonatomic, copy) CellReuseIdentifierForRowAtIndexPath cellReuseIdentifierForIndexPath;
 // KVO didn't support mutable array add/remove notificaion
@@ -145,7 +169,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
        cellReuseIdentifierForIndexPath:(CellReuseIdentifierForRowAtIndexPath)cellReuseIdentifierForIndexPath
                     cellConfigureBlock:(CellConfigureBlock)configureBlock {
     if (self = [super init]) {
-        self.items = dataArray;
+        self.sections = dataArray;
         self.cellReuseIdentifierForIndexPath = cellReuseIdentifierForIndexPath;
         self.configureCellBlock = configureBlock;
     }
@@ -165,12 +189,12 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
     return self;
 }
 
-- (NSMutableArray *)items {
-    if (!_items) {
+- (NSMutableArray *)sections {
+    if (!_sections) {
         return [self.dataArrayBlock() mutableCopy];
     }
     
-    return _items;
+    return _sections;
 }
 
 #pragma mark - UITableViewDataSource
@@ -180,7 +204,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self numberOfRowsInSection:section];
+    return [self pr_numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -198,31 +222,31 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    id item = self.items[section];
+    id sectionItem = self.sections[section];
     
-    if ([item class] != NSClassFromString(@"CHXArrayDataSourceTableViewSectionItem")) {
+    if ([sectionItem class] != NSClassFromString(@"CHXArrayDataSourceTableViewSectionItem")) {
         return nil;
     }
     
-    return [item titleForHeader];
+    return [sectionItem titleForHeader];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    id item = self.items[section];
+    id sectionItem = self.sections[section];
     
-    if ([item class] != NSClassFromString(@"CHXArrayDataSourceTableViewSectionItem")) {
+    if ([sectionItem class] != NSClassFromString(@"CHXArrayDataSourceTableViewSectionItem")) {
         return nil;
     }
     
-    return [item titleForFooter];
+    return [sectionItem titleForFooter];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    if ([self.items.firstObject class] != NSClassFromString(@"CHXArrayDataSourceTableViewSectionItem")) {
+    if ([self.sections.firstObject class] != NSClassFromString(@"CHXArrayDataSourceTableViewSectionItem")) {
         return nil;
     }
 
-    NSArray *titles = [self.items valueForKey:@"indexTitle"];
+    NSArray *titles = [self.sections valueForKey:@"indexTitle"];
     
     /// If titles contains [NSNull null] will crash
     __block BOOL valid = YES;
@@ -241,7 +265,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    return [[self.items valueForKey:@"indexTitle"] indexOfObject:title];
+    return [[self.sections valueForKey:@"indexTitle"] indexOfObject:title];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -253,32 +277,30 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.commitEditingForRowAtIndexPath) {
-        // UI Editing
-        id editingItem = [self itemForRowAtIndexPath:indexPath];
-        id item = self.items[indexPath.section];
-        NSMutableArray *content = [[item content] mutableCopy];
-        
-        if (UITableViewCellEditingStyleDelete == editingStyle) {
-            [content removeObjectAtIndex:indexPath.row];
-            [item setContent:[NSArray arrayWithArray:content]];
-            
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        } else if (UITableViewCellEditingStyleInsert == editingStyle) {
-            // Duplicate last content item, in case reload data error, should not use it.
-            [content insertObject:content.lastObject atIndex:indexPath.row];
-            [item setContent:[NSArray arrayWithArray:content]];
-            
-            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-            if (self.currentInsertRowAtIndexPath) {
-                self.currentInsertRowAtIndexPath(newIndexPath);
-            }
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        
-        // Remote Editing
-        self.commitEditingForRowAtIndexPath(editingStyle, editingItem);
+    if (!self.commitEditingForRowAtIndexPath) {
+        return;
     }
+
+    id item = [self itemForRowAtIndexPath:indexPath];
+    if (UITableViewCellEditingStyleDelete == editingStyle) {
+        [self removeItemForRowAtIndexPath:indexPath];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else if (UITableViewCellEditingStyleInsert == editingStyle) {
+        // Duplicate last content item, in case reload data error, should not use it.
+        if (!item) {
+            NSLog(@"数组角标越界");
+            return;
+        }
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+        [self insertRowWithItem:item atIndexPath:newIndexPath];
+        if (self.currentInsertRowAtIndexPath) {
+            self.currentInsertRowAtIndexPath(newIndexPath);
+        }
+        [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+
+    // Remote Editing
+    self.commitEditingForRowAtIndexPath(editingStyle, item);
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -290,7 +312,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    CHXArrayDataSourceSectionItem *sourceItem = self.items[sourceIndexPath.section];
+    CHXArrayDataSourceSectionItem *sourceItem = self.sections[sourceIndexPath.section];
     NSMutableArray *sourceContent = [sourceItem.content mutableCopy];
     
     if (sourceIndexPath.section == destinationIndexPath.section) {
@@ -299,7 +321,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
         id temp = [sourceContent objectAtIndex:sourceIndexPath.row];
         [sourceContent removeObject:temp];
         
-        CHXArrayDataSourceSectionItem *destinationItem = self.items[destinationIndexPath.section];
+        CHXArrayDataSourceSectionItem *destinationItem = self.sections[destinationIndexPath.section];
         NSMutableArray *destinationContent = [destinationItem.content mutableCopy];
         [destinationContent insertObject:temp atIndex:destinationIndexPath.row];
         
@@ -316,7 +338,7 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self numberOfRowsInSection:section];
+    return [self pr_numberOfRowsInSection:section];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -361,52 +383,123 @@ NSString *const kNoneCollectionSectionFooterIdentifier = @"NoneUICollectionEleme
 #pragma mark - Private
 
 - (NSInteger)pr_numberOfSections {
-    return self.items.count;
+    return self.sections.count;
 }
 
 - (id)pr_supplementaryElementItemAtIndexPath:(NSIndexPath *)indexPath ofKind:(NSString *)kind {
-    id item = self.items[indexPath.section];
+    id sectionItem = self.sections[indexPath.section];
     
     id returnValue = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        returnValue = [item supplementaryElementForHeader];
+        returnValue = [sectionItem supplementaryElementForHeader];
     } else {
-        returnValue = [item supplementaryElementForFooter];
+        returnValue = [sectionItem supplementaryElementForFooter];
     }
     
     return returnValue;
 }
 
+- (NSInteger)pr_numberOfRowsInSection:(NSInteger)section {
+    CHXArrayDataSourceSectionItem *sectionItem = self.sections[section];
+    return [[sectionItem content] count];
+}
+
 #pragma mark - Public
 
 - (id)itemForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CHXArrayDataSourceSectionItem *item = self.items[indexPath.section];
-    return [item content][indexPath.row];
+    CHXArrayDataSourceSectionItem *sectionItem = self.sections[indexPath.section];
+    return [sectionItem content][indexPath.row];
 }
 
 - (NSArray *)itemsInSection:(NSInteger)section {
-    return [self.items[section] content];
+    return [self.sections[section] content];
 }
 
 - (id)itemForHeaderInSection:(NSInteger)section {
-    CHXArrayDataSourceSectionItem *sectionItem = self.items[section];
-    NSParameterAssert([sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]);
+    CHXArrayDataSourceSectionItem *sectionItem = self.sections[section];
+    if (![sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]) {
+        return nil;
+    }
     
     CHXArrayDataSourceTableViewSectionItem *itme = (CHXArrayDataSourceTableViewSectionItem *)sectionItem;
     return itme.sectionHeaderData;
 }
 
 - (id)itemForFooterInSection:(NSInteger)section {
-    CHXArrayDataSourceSectionItem *sectionItem = self.items[section];
-    NSParameterAssert([sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]);
+    CHXArrayDataSourceSectionItem *sectionItem = self.sections[section];
+    if (![sectionItem isKindOfClass:[CHXArrayDataSourceTableViewSectionItem class]]) {
+        return nil;
+    }
     
     CHXArrayDataSourceTableViewSectionItem *itme = (CHXArrayDataSourceTableViewSectionItem *)sectionItem;
     return itme.sectionFooterData;
 }
 
-- (NSInteger)numberOfRowsInSection:(NSInteger)section {
-    CHXArrayDataSourceSectionItem *item = self.items[section];
-    return [[item content] count];
+- (void)addRowsWithItems:(NSArray *)items inSection:(NSInteger)section {
+    NSMutableArray *sections = self.sections;
+    if (sections.count < section) {
+        return;
+    }
+    
+    CHXArrayDataSourceSectionItem *sectionItem = sections[section];
+    [sectionItem addItemsFromArray:items];
+}
+
+- (void)insertRowWithItem:(id)item atIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *sections = self.sections;
+    if (sections.count < indexPath.section) {
+        NSLog(@"添加数据失败，数组角标越界");        
+        return;
+    }
+    
+    CHXArrayDataSourceSectionItem *sectionItem = sections[indexPath.section];
+    [sectionItem insertRowWithItem:item atIndex:indexPath.row];
+}
+
+- (id)removeItemForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *sections = self.sections;
+    if (sections.count < indexPath.section) {
+        NSLog(@"移除数据失败，数组角标越界");
+        return nil;
+    }
+    
+    CHXArrayDataSourceSectionItem *sectionItem = sections[indexPath.section];
+    
+    return [sectionItem removeItemForRowAtIndex:indexPath.row];
+}
+
+- (NSInteger)indexOfHeaderItem:(id)item {
+    NSArray *headers = [self.sections valueForKey:@"sectionHeaderData"];
+    if ([headers containsObject:item]) {
+        return [headers indexOfObjectIdenticalTo:item];
+    };
+
+    return -1;
+}
+
+- (NSInteger)indexOfFooterItem:(id)item {
+    NSArray *footers = [self.sections valueForKey:@"sectionFooterData"];
+    if ([footers containsObject:item]) {
+        return [footers indexOfObjectIdenticalTo:item];
+    };
+    
+    return -1;
+}
+
+- (NSIndexPath *)indexPathOfItem:(id)item {
+    NSArray *sections = self.sections;
+    
+    __block NSIndexPath *indexPath = nil;
+    [sections enumerateObjectsUsingBlock:^(CHXArrayDataSourceSectionItem *sectionItem, NSUInteger idx, BOOL *stop) {
+        NSArray *content = sectionItem.currentContent;
+        if ([content containsObject:item]) {
+            NSInteger row = [content indexOfObjectIdenticalTo:item];
+            indexPath = [NSIndexPath indexPathForRow:row inSection:idx];
+            *stop = YES;
+        }
+    }];
+    
+    return indexPath;
 }
 
 @end

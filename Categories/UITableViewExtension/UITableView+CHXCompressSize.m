@@ -25,6 +25,8 @@
 //
 
 #import "UITableView+CHXCompressSize.h"
+#import "UITableViewCell+CHXCompressSize.h"
+#import "UITableViewHeaderFooterView+CHXCompressSize.h"
 
 @implementation UITableView (CHXCompressSize)
 
@@ -45,11 +47,10 @@
     
     // Important
     cell.bounds = CGRectMake(0.0f, 0.0f, preferredMaxLayoutWidth, CGRectGetHeight(cell.bounds));
+    // break iOS7 issue
+    cell.contentView.frame = cell.bounds;
     
-    [cell setNeedsLayout];
-    [cell layoutIfNeeded];
-    
-    return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+    return [cell chx_fittingCompressedHeight];
 }
 
 - (CGFloat)chx_heightForHeaderFooterWithIdentifier:(NSString *)identifier dataConfiguration:(void (^)(id headerFooterView))dataConfiguration {
@@ -66,10 +67,7 @@
     // Important
     headerFooterView.bounds = CGRectMake(0.0f, 0.0f, preferredMaxLayoutWidth, CGRectGetHeight(self.bounds));
     
-    [headerFooterView setNeedsLayout];
-    [headerFooterView layoutIfNeeded];
-    
-    return [headerFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+    return [headerFooterView chx_fittingCompressedHeight];
 }
 
 

@@ -92,4 +92,6 @@
 // Format
 - (NSString *)chx_stringWithFormat:(NSString *)format;
 
++ (NSString *)chx_currentTimeStamp;
+
 @end

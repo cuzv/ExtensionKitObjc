@@ -31,9 +31,27 @@
 
 - (instancetype)chx_initWithProperties:(NSDictionary *)properties {
     if (self = [self init]) {
-        [self setValuesForKeysWithDictionary:properties];
+        @try {
+            [self setValuesForKeysWithDictionary:properties];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"\nexception reason: %@\nexception.userInfo: %@", exception.reason, exception.userInfo);
+        }
     };
     
+    return self;
+}
+
+- (instancetype)chx_initWithOtherObject:(id)otherObject {
+    NSArray *properties = [self chx_properties];
+    [properties enumerateObjectsUsingBlock:^(id property, NSUInteger idx, BOOL *stop) {
+        @try {
+            [self setValue:[otherObject valueForKey:property] ?: [NSNull null] forKey:property];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"\nexception reason: %@\nexception.userInfo: %@", exception.reason, exception.userInfo);
+        }
+    }];
     return self;
 }
 
@@ -42,7 +60,7 @@
     if([key isEqualToString:@"id"]) {
         [self setValue:value forKey:@"ID"];
     } else {
-        NSLog(@"UndefinedKey: %@", key);
+        NSLog(@"setValueForUndefinedKey: %@", key);
     }
 }
 

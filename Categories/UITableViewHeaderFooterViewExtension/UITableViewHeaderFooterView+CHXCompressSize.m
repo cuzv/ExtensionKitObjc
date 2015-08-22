@@ -1,9 +1,9 @@
 //
-//  NSObject+CHXORM.h
-//  WildAppExtensionRunner
+//  UITableViewHeaderFooterView+CHXCompressSize.m
+//  Haioo
 //
-//  Created by Moch Xiao on 2014-11-18.
-//  Copyright (c) 2014 Moch Xiao (https://github.com/atcuan).
+//  Created by Moch Xiao on 7/24/15.
+//  Copyright (c) 2015 Haioo. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,32 +24,15 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 
-@interface NSObject (CHXORM)
+#import "UITableViewHeaderFooterView+CHXCompressSize.h"
 
-/// 通过属性列表键值对创建模型
-- (instancetype)chx_initWithProperties:(NSDictionary *)properties NS_REPLACES_RECEIVER;
+@implementation UITableViewHeaderFooterView (CHXCompressSize)
 
-/// 通过已知模型创建属性子集模型
-- (instancetype)chx_initWithOtherObject:(id)otherObject NS_REPLACES_RECEIVER;
-
-/// 获取属性列表
-- (NSArray *)chx_properties;
-
-/// 获取属性列表
-+ (NSArray *)chx_properties;
-
-/// 获取方法列表
-- (NSArray *)chx_methods;
-
-/// 获取方法列表
-+ (NSArray *)chx_methods;
-
-/// 自身对象转为字典
-- (NSDictionary *)chx_convertToDictionary;
-
-/// 打印对象
-- (NSString *)chx_toString;
+- (CGFloat)chx_fittingCompressedHeight {
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    return [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+}
 
 @end
