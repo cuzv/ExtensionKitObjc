@@ -3,7 +3,7 @@
 //  GettingStarted
 //
 //  Created by Moch Xiao on 2014-12-05.
-//  Copyright (c) 2014 Moch Xiao (https://github.com/atcuan).
+//  Copyright (c) 2014 Moch Xiao (https://github.com/cuzv).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -44,21 +44,21 @@ NSUInteger chx_deviceSystemMajorVersion() {
     return _deviceSystemMajorVersion;
 }
 
-float chx_appBuildNumber() {
-    static float _appBuild;
+NSString *chx_appBuild() {
+    static NSString *_appBuild;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _appBuild = [[[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"] floatValue];
+        _appBuild = [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
     });
     
     return _appBuild;
 }
 
-float chx_appVersionNumber() {
-    static float _appVersion;
+NSString *chx_appVersion() {
+    static NSString *_appVersion;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _appVersion = [[[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"] floatValue];
+        _appVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
     });
     
     return _appVersion;
@@ -85,11 +85,11 @@ CGFloat chx_screenHeight() {
 
 #pragma mark - Angle & Radian
 
-CGFloat chx_radianFromAngle(CGFloat angle) {
+CGFloat chx_angleToRadian(CGFloat angle) {
     return M_PI * angle / 180.0f;
 }
 
-CGFloat chx_angleFromRadian(CGFloat radian) {
+CGFloat chx_radianToAngle(CGFloat radian) {
     return M_PI * 180.0f / radian;
 }
 
@@ -464,7 +464,7 @@ void *_malloc(size_t size) {
 
 #pragma mark - 
 
-NSString *chx_stringValueForInteger(NSInteger integerValue) {
+NSString *chx_integerToString(NSInteger integerValue) {
     return [@(integerValue) stringValue];
 }
 

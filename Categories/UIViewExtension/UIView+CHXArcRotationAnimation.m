@@ -3,7 +3,7 @@
 //  WildAppExtensionRunner
 //
 //  Created by Moch Xiao on 2014-11-18.
-//  Copyright (c) 2014 Moch Xiao (https://github.com/atcuan).
+//  Copyright (c) 2014 Moch Xiao (https://github.com/cuzv).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -50,8 +50,8 @@ static const void *ArcLayerKey = @"arcLayer";
     CGFloat half = MIN(CGRectGetMidX(rect), CGRectGetMidY(rect));
     [path addArcWithCenter:CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect))
                     radius:half
-                startAngle:chx_radianFromAngle(-90)
-                  endAngle:chx_radianFromAngle(270)
+                startAngle:chx_angleToRadian(-90)
+                  endAngle:chx_angleToRadian(270)
                  clockwise:YES];
     CAShapeLayer *arcLayer = [CAShapeLayer layer];
     arcLayer.path = path.CGPath;

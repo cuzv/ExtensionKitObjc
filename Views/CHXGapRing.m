@@ -3,7 +3,7 @@
 //  GettingStarted
 //
 //  Created by Moch Xiao on 2014-11-18.
-//  Copyright (c) 2014 Moch Xiao (https://github.com/atcuan).
+//  Copyright (c) 2014 Moch Xiao (https://github.com/cuzv).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -116,8 +116,8 @@
                     CGRectGetMidX(self.bounds),
                     CGRectGetMidY(self.bounds),
                     CGRectGetWidth(self.bounds) / 2 - lineWidth,
-                    chx_radianFromAngle(260),
-                    chx_radianFromAngle(-80),
+                    chx_angleToRadian(260),
+                    chx_angleToRadian(-80),
                     YES);
     CGContextStrokePath(context);
     CGContextRelease(context);
