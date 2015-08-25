@@ -43,7 +43,6 @@ static inline BOOL CHXCollectionViewSupportsConstraintsProperly() {
 
 // This is kind of a hack because cells don't have an intrinsic content size or any other way to constrain them to a size. As a result, labels that _should_ wrap at the bounds of a cell, don't. So by adding width and height constraints to the cell temporarily, we can make the labels wrap and the layout compute correctly.
 - (CGSize)chx_preferredLayoutSizeFittingSize:(CGSize)fittingSize {
-    
     CGRect frame = self.frame;
     frame.size = fittingSize;
     self.frame = frame;
@@ -75,7 +74,7 @@ static inline BOOL CHXCollectionViewSupportsConstraintsProperly() {
 
 @implementation UICollectionViewCell (CHXLayoutSizeFittingSize)
 
-- (CGSize)aapl_preferredLayoutSizeFittingSize:(CGSize)fittingSize
+- (CGSize)chx_preferredLayoutSizeFittingSize:(CGSize)fittingSize
 {
     CGRect frame = self.frame;
     frame.size = fittingSize;
