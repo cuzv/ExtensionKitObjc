@@ -53,6 +53,9 @@ CGFloat chx_screenWidth();
 /// 屏幕高度(pt)
 CGFloat chx_screenHeight();
 
+/// 屏幕缩放比
+CGFloat chx_screenScale();
+
 #pragma mark - Angle & Radian
 
 /// 角度转弧度

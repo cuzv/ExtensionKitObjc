@@ -37,6 +37,14 @@
     return newImage;
 }
 
+- (instancetype)chx_decompressedImage {
+    UIGraphicsBeginImageContextWithOptions(self.size, true, 0);
+    [self drawAtPoint:CGPointZero];
+    UIImage * decompressedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return decompressedImage;
+}
+
 - (instancetype)chx_originalImage {
     return [self imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
