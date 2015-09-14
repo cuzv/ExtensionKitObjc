@@ -44,6 +44,15 @@ NSUInteger chx_deviceSystemMajorVersion() {
     return _deviceSystemMajorVersion;
 }
 
+NSString *chx_deviceSystemVersion() {
+    static NSString *_deviceSystemVersion = @"";
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _deviceSystemVersion = [[UIDevice currentDevice] systemVersion];
+    });
+    return _deviceSystemVersion;
+}
+
 NSString *chx_appBuild() {
     static NSString *_appBuild;
     static dispatch_once_t onceToken;

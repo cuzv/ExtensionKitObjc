@@ -33,8 +33,11 @@
 
 #pragma mark - System infos
 
-/// 设备系统版本号
+/// 设备系统主版本号
 NSUInteger chx_deviceSystemMajorVersion();
+
+/// 系统设备版本号
+NSString *chx_deviceSystemVersion();
 
 /// App build string
 NSString *chx_appBuild();
