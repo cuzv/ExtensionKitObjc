@@ -57,7 +57,7 @@
 #import "UICollectionView+CHXCompressSize.h"
 #import "UICollectionViewCell+CHXConfigureData.h"
 #import "UITableView+CHXCompressSize.h"
-#import "UITableView+CHXResizeTableHeaderView.h"
+#import "UITableView+CHXResizeTableHeaderFooterView.h"
 #import "UITableViewCell+CHXCompressSize.h"
 #import "UITableViewCell+CHXConfigureData.h"
 #import "UITableViewHeaderFooterView+CHXCompressSize.h"

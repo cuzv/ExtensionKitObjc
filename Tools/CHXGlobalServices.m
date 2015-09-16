@@ -44,6 +44,15 @@ NSUInteger chx_deviceSystemMajorVersion() {
     return _deviceSystemMajorVersion;
 }
 
+NSString *chx_deviceSystemVersion() {
+    static NSString *_deviceSystemVersion = @"";
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _deviceSystemVersion = [[UIDevice currentDevice] systemVersion];
+    });
+    return _deviceSystemVersion;
+}
+
 NSString *chx_appBuild() {
     static NSString *_appBuild;
     static dispatch_once_t onceToken;
@@ -76,11 +85,30 @@ CGRect chx_screenBounds() {
 }
 
 CGFloat chx_screenWidth() {
-    return chx_screenBounds().size.width;
+    static dispatch_once_t onceToken;
+    static CGFloat _width;
+    dispatch_once(&onceToken, ^{
+        _width = [UIScreen mainScreen].bounds.size.width;
+    });
+    return _width;
 }
 
 CGFloat chx_screenHeight() {
-    return chx_screenBounds().size.height;
+    static dispatch_once_t onceToken;
+    static CGFloat _height;
+    dispatch_once(&onceToken, ^{
+        _height = [UIScreen mainScreen].bounds.size.height;
+    });
+    return _height;
+}
+
+CGFloat chx_screenScale() {
+    static dispatch_once_t onceToken;
+    static CGFloat _scale;
+    dispatch_once(&onceToken, ^{
+        _scale = [UIScreen mainScreen].scale;
+    });
+    return _scale;
 }
 
 #pragma mark - Angle & Radian

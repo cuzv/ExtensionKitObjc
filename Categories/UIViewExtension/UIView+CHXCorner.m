@@ -30,7 +30,7 @@
 
 - (void)chx_setRoundingCorners:(UIRectCorner)corner radius:(CGFloat)radius {
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corner cornerRadii:CGSizeMake(radius, 0)];
-    CAShapeLayer *cornRadiusLayer = [CAShapeLayer new];
+    CAShapeLayer *cornRadiusLayer = [CAShapeLayer layer];
     cornRadiusLayer.path = [path CGPath];
     self.layer.mask = cornRadiusLayer;
 }
