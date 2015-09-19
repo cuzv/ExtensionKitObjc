@@ -12,6 +12,7 @@
 #define iOS6Supportable (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_5_1)
 #define iOS7Supportable (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1)
 #define iOS8Supportable (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
+#define iOS9Supportable (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_8_3)
 
 #define inch3_5 (CGRectEqualToRect([UIScreen mainScreen].bounds, CGRectMake(0, 0, 320, 480)))
 #define inch4_0 (CGRectEqualToRect([UIScreen mainScreen].bounds, CGRectMake(0, 0, 320, 568)))
