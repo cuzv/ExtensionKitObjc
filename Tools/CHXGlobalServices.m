@@ -496,6 +496,11 @@ NSString *chx_integerToString(NSInteger integerValue) {
     return [@(integerValue) stringValue];
 }
 
+NSString *chx_doubleToString(double doubleValue) {
+    return [NSString stringWithFormat:@"%.2f", doubleValue];
+}
+
+
 
 @end
 

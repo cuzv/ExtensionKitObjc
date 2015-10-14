@@ -174,7 +174,8 @@ NSInteger *chx_timeInterval_c(NSInteger timeInterval);
 
 /// 整型转字符串
 NSString *chx_integerToString(NSInteger integerValue);
-
+/// 浮点型字符串
+NSString *chx_doubleToString(double doubleValue);
 
 @end
 
