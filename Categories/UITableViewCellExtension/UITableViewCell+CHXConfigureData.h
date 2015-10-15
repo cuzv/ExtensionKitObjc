@@ -29,5 +29,6 @@
 @interface UITableViewCell (CHXConfigureData)
 
 - (void)configureData:(id)data;
+- (void)lazyLoadImagesData:(id)data;
 
 @end

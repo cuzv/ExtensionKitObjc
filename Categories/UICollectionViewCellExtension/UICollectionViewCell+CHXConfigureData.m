@@ -32,4 +32,7 @@
     
 }
 
+- (void)lazyLoadImagesData:(id)data {
+}
+
 @end
