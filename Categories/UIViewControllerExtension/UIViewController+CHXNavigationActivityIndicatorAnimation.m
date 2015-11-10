@@ -176,13 +176,15 @@ static const void *RightBarInAnimationKey = @"rightBarInAnimation";
 
 - (UIView *)pr_indicatorAnimationView {
     UIView *view = [UIView new];
-    CGFloat height = [self.navigationController.navigationBar height] / 2;
+    CGFloat height = [self.navigationController.navigationBar height];
     view.bounds = CGRectMake(0, 0, height, height);
+    view.center = CGPointMake(CGRectGetMidX(self.navigationController.navigationBar.bounds),
+                              CGRectGetMidY(self.navigationController.navigationBar.bounds));
+
     [view chx_addActivityIndicatorAnimation];
-    
     UIActivityIndicatorView *indicator = [view chx_activityIndicatorView];
     indicator.color = self.navigationController.navigationBar.tintColor;
-    
+
     return view;
 }
 
