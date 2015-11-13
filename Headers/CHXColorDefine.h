@@ -27,5 +27,6 @@
 #define kClearColor [UIColor clearColor]
 
 #define kGroupedTableViewBackgroundColor [UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1]
+#define kSeparatorColor kGroupedTableViewBackgroundColor
 
 #endif
