@@ -22,7 +22,7 @@
         [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]); \
     } while(0)
 #else
-    #define NSLog(FORMAT, ...) NSLog(@"")
+    #define NSLog(FORMAT, ...)
 #endif
 
 #endif
