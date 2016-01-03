@@ -118,7 +118,7 @@ CGFloat chx_angleToRadian(CGFloat angle) {
 }
 
 CGFloat chx_radianToAngle(CGFloat radian) {
-    return M_PI * 180.0f / radian;
+    return 180.0f * radian / M_PI;
 }
 
 #pragma mark - Sandbox
