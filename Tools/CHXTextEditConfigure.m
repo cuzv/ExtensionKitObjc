@@ -129,6 +129,10 @@
         } else {
             [self.placeHolderLabel setHidden:NO];
         }
+        
+        NSUInteger cursorLocation = self.observedTextView.selectedRange.location;
+        NSRange range = NSMakeRange(0, cursorLocation);
+        [self.observedTextView scrollRangeToVisible:range];
     }
     
     NSInteger remainCharactersCount = self.maximumLength - length;
