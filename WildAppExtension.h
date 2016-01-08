@@ -68,7 +68,7 @@
 #import "UIViewController+CHXStack.h"
 #import "UIViewController+CHXNavigation.h"
 //#import "UIScrollView+CHXAccessor.h"
-#import "UIView+CHXAccessor.h"
+//#import "UIView+CHXAccessor.h"
 #import "UIView+CHXArcRotationAnimation.h"
 #import "UIView+CHXShakeAnimation.h"
 #import "UIView+CHXPingPangAnimation.h"
