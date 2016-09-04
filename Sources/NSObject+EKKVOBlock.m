@@ -1,0 +1,167 @@
+//
+//  NSObject+EKKVOBlock.m
+//  Copyright (c) 2014-2016 Moch Xiao (http://mochxiao.com).
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+//
+
+#import "NSObject+EKKVOBlock.h"
+#import <dispatch/dispatch.h>
+#import <objc/runtime.h>
+#import <libkern/OSAtomic.h>
+
+static void * const AAPLObserverMapKey = @"com.mochxiao.blockObserverMap";
+static dispatch_queue_t AAPLObserverMutationQueue = NULL;
+
+static dispatch_queue_t AAPLObserverMutationQueueCreatingIfNecessary() {
+    static dispatch_once_t queueCreationPredicate = 0;
+    dispatch_once(&queueCreationPredicate, ^{
+        AAPLObserverMutationQueue = dispatch_queue_create("com.mochxiao.observerMutationQueue", 0);
+    });
+    return AAPLObserverMutationQueue;
+}
+
+#pragma mark -
+
+@interface AAPLObserverTrampoline : NSObject {
+    __weak id _observee; // the trampoline is stored via associated object on
+    NSString *_keyPath;
+    AAPLBlockObserver _block;
+    volatile int32_t _cancellationPredicate;
+    NSKeyValueObservingOptions _options;
+}
+
+@property (readonly) id token;
+
+- (AAPLObserverTrampoline *)initObservingObject:(id)obj keyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(AAPLBlockObserver)block;
+
+- (void)startObserving;
+
+- (void)cancelObservation;
+@end
+
+@implementation AAPLObserverTrampoline
+
+static void * const AAPLObserverTrampolineContext = @"AAPLObserverTrampolineContext";
+
+- (void)dealloc {
+    [self cancelObservation];
+}
+
+- (AAPLObserverTrampoline *)initObservingObject:(id)obj keyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(AAPLBlockObserver)block {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _block = [block copy];
+    _keyPath = [keyPath copy];
+    _options = options;
+    _observee = obj;
+    return self;
+}
+
+- (void)startObserving {
+    [_observee addObserver:self forKeyPath:_keyPath options:_options context:AAPLObserverTrampolineContext];
+}
+
+- (id)token {
+    return [NSValue valueWithPointer:&_block];
+}
+
+- (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (context == AAPLObserverTrampolineContext && !_cancellationPredicate) {
+        _block(object, change, self.token);
+    }
+}
+
+- (void)cancelObservation {
+    if (OSAtomicCompareAndSwap32(0, 1, &_cancellationPredicate)) {
+
+        // Make sure we don't remove ourself before addObserver: completes
+        if (_options & NSKeyValueObservingOptionInitial) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_observee removeObserver:self forKeyPath:_keyPath];
+                _observee = nil;
+            });
+        } else {
+            [_observee removeObserver:self forKeyPath:_keyPath];
+            _observee = nil;
+        }
+    }
+}
+
+@end
+
+#pragma mark -
+
+@implementation NSObject (KVOBlock)
+
+- (id)aapl_addObserverForKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options withBlock:(AAPLBlockObserver)block {
+    __block id token = nil;
+
+    __block AAPLObserverTrampoline *trampoline = nil;
+
+    dispatch_sync(AAPLObserverMutationQueueCreatingIfNecessary(), ^{
+        NSMutableDictionary *dict = objc_getAssociatedObject(self, AAPLObserverMapKey);
+        if (!dict) {
+            dict = [[NSMutableDictionary alloc] init];
+            objc_setAssociatedObject(self, AAPLObserverMapKey, dict, OBJC_ASSOCIATION_RETAIN);
+        }
+        trampoline = [[AAPLObserverTrampoline alloc] initObservingObject:self keyPath:keyPath options:(NSKeyValueObservingOptions)options block:block];
+        token = trampoline.token;
+        dict[token] = trampoline;
+    });
+
+    // To avoid deadlocks when using appl_removeObserverWithBlockToken from within the dispatch_sync (for a one-shot with NSKeyValueObservingOptionInitial), start observing outside of the sync.
+    [trampoline startObserving];
+    return token;
+}
+
+- (void)aapl_removeObserver:(id)token {
+    dispatch_sync(AAPLObserverMutationQueueCreatingIfNecessary(), ^{
+        NSMutableDictionary *observationDictionary = objc_getAssociatedObject(self, AAPLObserverMapKey);
+        AAPLObserverTrampoline *trampoline = observationDictionary[token];
+        if (!trampoline) {
+            NSLog(@"Ignoring attempt to remove non-existent observer on %@ for token %@.", self, token);
+            return;
+        }
+        [trampoline cancelObservation];
+        [observationDictionary removeObjectForKey:token];
+
+        // Due to a bug in the obj-c runtime, this dictionary does not get cleaned up on release when running without GC. (FWIW, I believe this was fixed in Snow Leopard.)
+        if ([observationDictionary count] == 0)
+            objc_setAssociatedObject(self, AAPLObserverMapKey, nil, OBJC_ASSOCIATION_RETAIN);
+    });
+}
+
+@end
+
+
+@implementation NSObject (EKKVOBlock)
+
+- (id)ek_addObserverForKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options withBlock:(AAPLBlockObserver)block {
+    return [self aapl_addObserverForKeyPath:keyPath options:options withBlock:block];
+}
+
+- (void)ek_removeObserver:(id)observer {
+    [self aapl_removeObserver:observer];
+}
+
+@end
