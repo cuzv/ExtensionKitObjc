@@ -1,5 +1,5 @@
 //
-//  NSArray+EKExtension.h
+//  EKPresentAnimatedTransitioningController.h
 //  Copyright (c) 2014-2016 Moch Xiao (http://mochxiao.com).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,24 +22,24 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface NSArray<ObjectType> (EKExtension)
+typedef void(^PBContextBlock)(UIView * __nonnull fromView, UIView * __nonnull toView);
 
-@property (nullable, nonatomic, readonly) ObjectType ek_first;
-@property (nullable, nonatomic, readonly) ObjectType ek_second;
-@property (nullable, nonatomic, readonly) ObjectType ek_third;
-@property (nullable, nonatomic, readonly) ObjectType ek_fourth;
-@property (nullable, nonatomic, readonly) ObjectType ek_fifthly;
-@property (nullable, nonatomic, readonly) ObjectType ek_sixth;
-@property (nullable, nonatomic, readonly) ObjectType ek_seventh;
-@property (nullable, nonatomic, readonly) ObjectType ek_eighth;
-@property (nullable, nonatomic, readonly) ObjectType ek_ninth;
+@interface EKPresentAnimatedTransitioningController : NSObject <UIViewControllerAnimatedTransitioning>
 
-- (nonnull NSArray *)ek_map:(id _Nonnull (^_Nonnull)(id _Nonnull object))block;
-- (nonnull NSArray *)ek_filter:(BOOL (^_Nonnull)(id _Nonnull object))block;
-- (nonnull NSArray *)ek_reverse;
-- (nonnull NSArray *)ek_unique;
-- (nonnull id)ek_reduce:(id _Nonnull (^_Nonnull)(id _Nonnull lhv, id _Nonnull rhv))block;
-- (void)ek_each:(void (^_Nonnull)(id _Nonnull object))block;
+@property (nonatomic, copy, nullable) PBContextBlock prepareForPresentActionHandler;
+@property (nonatomic, copy, nullable) PBContextBlock duringPresentingActionHandler;
+@property (nonatomic, copy, nullable) PBContextBlock didPresentedActionHandler;
+@property (nonatomic, copy, nullable) PBContextBlock prepareForDismissActionHandler;
+@property (nonatomic, copy, nullable) PBContextBlock duringDismissingActionHandler;
+@property (nonatomic, copy, nullable) PBContextBlock didDismissedActionHandler;
+
+
+/// Default cover is a dim view, you could override this property to your preferred style view.
+@property (nonatomic, strong, nonnull) UIView *coverView;
+
+- (nonnull EKPresentAnimatedTransitioningController *)prepareForPresent;
+- (nonnull EKPresentAnimatedTransitioningController *)prepareForDismiss;
 
 @end

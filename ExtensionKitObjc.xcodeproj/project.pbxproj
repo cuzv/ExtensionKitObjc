@@ -29,6 +29,7 @@
 		4680290F1D799BD000CD2942 /* NextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4680290E1D799BD000CD2942 /* NextViewController.m */; };
 		468029131D79C01800CD2942 /* EKTextObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 468029121D79C01800CD2942 /* EKTextObserver.m */; };
 		4680291B1D7B1FA700CD2942 /* UIViewController+EKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4680291A1D7B1FA700CD2942 /* UIViewController+EKExtension.m */; };
+		469ACEE61D857C6000063181 /* EKPresentAnimatedTransitioningController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469ACEE51D857C6000063181 /* EKPresentAnimatedTransitioningController.m */; };
 		46DA0F901D77BFD9007248E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46DA0F8F1D77BFD9007248E5 /* main.m */; };
 		46DA0F931D77BFD9007248E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46DA0F921D77BFD9007248E5 /* AppDelegate.m */; };
 		46DA0F961D77BFD9007248E5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46DA0F951D77BFD9007248E5 /* ViewController.m */; };
@@ -84,6 +85,8 @@
 		468029121D79C01800CD2942 /* EKTextObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EKTextObserver.m; sourceTree = "<group>"; };
 		468029191D7B1FA700CD2942 /* UIViewController+EKExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EKExtension.h"; sourceTree = "<group>"; };
 		4680291A1D7B1FA700CD2942 /* UIViewController+EKExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EKExtension.m"; sourceTree = "<group>"; };
+		469ACEE41D857C6000063181 /* EKPresentAnimatedTransitioningController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EKPresentAnimatedTransitioningController.h; sourceTree = "<group>"; };
+		469ACEE51D857C6000063181 /* EKPresentAnimatedTransitioningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EKPresentAnimatedTransitioningController.m; sourceTree = "<group>"; };
 		46DA0F8B1D77BFD9007248E5 /* ExtensionKitObjc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExtensionKitObjc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46DA0F8F1D77BFD9007248E5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		46DA0F911D77BFD9007248E5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -161,6 +164,8 @@
 			children = (
 				46DA0FB01D77CDD8007248E5 /* ExtensionKitObjc.h */,
 				46DA0FB11D77D890007248E5 /* EKMacro.h */,
+				469ACEE41D857C6000063181 /* EKPresentAnimatedTransitioningController.h */,
+				469ACEE51D857C6000063181 /* EKPresentAnimatedTransitioningController.m */,
 				468028FE1D79782700CD2942 /* EKExtensionObjcInternal.h */,
 				468028FF1D79782700CD2942 /* EKExtensionObjcInternal.m */,
 				46DA0FB81D77EBB0007248E5 /* EKCoreLibsExtension.h */,
@@ -283,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				469ACEE61D857C6000063181 /* EKPresentAnimatedTransitioningController.m in Sources */,
 				468028E91D792B9200CD2942 /* UIButton+EKExtension.m in Sources */,
 				468028E01D79253E00CD2942 /* NSDictionary+EKExtension.m in Sources */,
 				468028FD1D7971F400CD2942 /* UIScrollView+EKExtension.m in Sources */,

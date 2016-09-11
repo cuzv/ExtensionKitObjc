@@ -25,60 +25,60 @@
 
 @implementation NSArray (EKExtension)
 
-- (id)first {
+- (id)ek_first {
     return self.firstObject;
 }
 
-- (id)second {
+- (id)ek_second {
     if (self.count > 1) {
         return self[1];
     }
     return nil;
 }
 
-- (id)third {
+- (id)ek_third {
     if (self.count > 2) {
         return self[2];
     }
     return nil;
 }
 
-- (id)fourth {
+- (id)ek_fourth {
     if (self.count > 3) {
         return self[3];
     }
     return nil;
 }
 
-- (id)fifthly {
+- (id)ek_fifthly {
     if (self.count > 4) {
         return self[4];
     }
     return nil;
 }
 
-- (id)sixth {
+- (id)ek_sixth {
     if (self.count > 5) {
         return self[5];
     }
     return nil;
 }
 
-- (id)seventh {
+- (id)ek_seventh {
     if (self.count > 6) {
         return self[6];
     }
     return nil;
 }
 
-- (id)eighth {
+- (id)ek_eighth {
     if (self.count > 7) {
         return self[7];
     }
     return nil;
 }
 
-- (id)ninth {
+- (id)ek_ninth {
     if (self.count > 8) {
         return self[8];
     }

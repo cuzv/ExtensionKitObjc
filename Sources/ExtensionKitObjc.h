@@ -51,4 +51,6 @@
 #import "UITextView+EKExtension.h"
 #import "UIViewController+EKExtension.h"
 
+#import "EKPresentAnimatedTransitioningController.h"
+
 #endif /* ExtensionKitObjc_h */
