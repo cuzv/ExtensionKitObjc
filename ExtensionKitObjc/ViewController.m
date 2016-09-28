@@ -75,7 +75,7 @@
     }
     
     {
-        self.colorView.ek_touchExtendInset = UIEdgeInsetsMake(-20, -20, -20, -20);
+        self.colorView.ek_touchExtendInsets = UIEdgeInsetsMake(-20, -20, -20, -20);
         
         self.actionButton.frame = CGRectMake(self.imageView.ek_minX, self.imageView.ek_maxY + 20, 220, 44);
         self.actionButton.ek_backgroundImage = EKImageMake(UIColor.ek_random, self.actionButton.frame.size, UIRectCornerAllCorners, 5, nil, 0);
@@ -189,7 +189,7 @@
         _label = [UILabel new];
         _label.translatesAutoresizingMaskIntoConstraints = NO;
         _label.backgroundColor = [UIColor ek_random];
-        _label.ek_contentEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
+        _label.ek_contentInsets = UIEdgeInsetsMake(8, 8, 8, 8);
     }
     return _label;
 }
@@ -199,7 +199,7 @@
         _field = [UITextField new];
         _field.translatesAutoresizingMaskIntoConstraints = NO;
         _field.backgroundColor = [UIColor ek_random];
-        _field.ek_contentEdgeInsets = UIEdgeInsetsMake(4, 8, 4, 0);
+        _field.ek_contentInsets = UIEdgeInsetsMake(4, 8, 4, 0);
     }
     return _field;
 }

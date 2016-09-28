@@ -25,6 +25,6 @@
 
 @interface UILabel (EKExtension)
 
-@property (nonatomic, assign) UIEdgeInsets ek_contentEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets ek_contentInsets;
 
 @end

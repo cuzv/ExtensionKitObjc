@@ -26,7 +26,7 @@
 @interface UITextField (EKExtension)
 
 /// 注意不要写固定高度的约束
-@property (nonatomic, assign) UIEdgeInsets ek_contentEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets ek_contentInsets;
 
 #pragma mark - 
 

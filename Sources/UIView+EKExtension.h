@@ -110,6 +110,6 @@
 #pragma mark - ExtendTouchRect
 
 /// Override @selector(pointInside:withEvent:)
-@property (nonatomic, assign) UIEdgeInsets ek_touchExtendInset;
+@property (nonatomic, assign) UIEdgeInsets ek_touchExtendInsets;
 
 @end

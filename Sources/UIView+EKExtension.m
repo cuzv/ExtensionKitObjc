@@ -246,7 +246,12 @@ void _EKAddBorderline(UIView *receiver,
         return;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *backImage = [UIImage ek_imageWithColor:fillColor ?: [UIColor whiteColor] size:self.bounds.size roundingCorners:roundingCorners radius:radius strokeColor:strokeColor ?: [UIColor clearColor] strokeLineWidth:strokeLineWidth];
+        UIImage *backImage = [UIImage ek_imageWithColor:fillColor ?: self.backgroundColor ?: [UIColor whiteColor]
+                                                   size:self.bounds.size
+                                        roundingCorners:roundingCorners
+                                                 radius:radius
+                                            strokeColor:strokeColor ?: self.backgroundColor ?: [UIColor clearColor]
+                                        strokeLineWidth:strokeLineWidth];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.backgroundColor = [UIColor clearColor];
             self.layer.contents = (__bridge id _Nullable)(backImage.CGImage);
@@ -265,7 +270,7 @@ void _EKAddBorderline(UIView *receiver,
 }
 
 - (void)setEk_isRoundingCornersExists:(BOOL)ek_isRoundingCornersExists {
-    EKSetAssociatedObject(self, @selector(ek_isRoundingCornersExists), @(ek_isRoundingCornersExists), OBJC_ASSOCIATION_ASSIGN);
+    EKSetAssociatedObject(self, @selector(ek_isRoundingCornersExists), @(ek_isRoundingCornersExists), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark - Layer Properties
@@ -439,12 +444,12 @@ void _EKAddBorderline(UIView *receiver,
 
 #pragma mark - ExtendTouchRect
 
-- (UIEdgeInsets)ek_touchExtendInset {
+- (UIEdgeInsets)ek_touchExtendInsets {
     return [EKGetAssociatedObject(self, _cmd) UIEdgeInsetsValue];
 }
 
-- (void)setEk_touchExtendInset:(UIEdgeInsets)ek_touchExtendInset {
-    EKSetAssociatedObject(self, @selector(ek_touchExtendInset), [NSValue valueWithUIEdgeInsets:ek_touchExtendInset], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setEk_touchExtendInsets:(UIEdgeInsets)ek_touchExtendInsets {
+    EKSetAssociatedObject(self, @selector(ek_touchExtendInsets), [NSValue valueWithUIEdgeInsets:ek_touchExtendInsets], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 + (void)load {
@@ -452,11 +457,12 @@ void _EKAddBorderline(UIView *receiver,
 }
 
 - (BOOL)_ek_pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-    if (UIEdgeInsetsEqualToEdgeInsets(self.ek_touchExtendInset, UIEdgeInsetsZero) || self.hidden ||
+    if (UIEdgeInsetsEqualToEdgeInsets(self.ek_touchExtendInsets, UIEdgeInsetsZero) ||
+        self.hidden ||
         ([self isKindOfClass:UIControl.class] && !((UIControl *)self).enabled)) {
         return [self _ek_pointInside:point withEvent:event];
     }
-    CGRect hitFrame = UIEdgeInsetsInsetRect(self.bounds, self.ek_touchExtendInset);
+    CGRect hitFrame = UIEdgeInsetsInsetRect(self.bounds, self.ek_touchExtendInsets);
     hitFrame.size.width = MAX(hitFrame.size.width, 0);
     hitFrame.size.height = MAX(hitFrame.size.height, 0);
     return CGRectContainsPoint(hitFrame, point);

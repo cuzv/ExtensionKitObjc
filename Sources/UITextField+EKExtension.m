@@ -35,25 +35,25 @@
 
 - (CGSize)_ek_intrinsicContentSize {
     CGSize size = [self sizeThatFits:CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];
-    CGFloat width = size.width + self.ek_contentEdgeInsets.left + self.ek_contentEdgeInsets.right;
-    CGFloat height = size.height + self.ek_contentEdgeInsets.top + self.ek_contentEdgeInsets.bottom;
+    CGFloat width = size.width + self.ek_contentInsets.left + self.ek_contentInsets.right;
+    CGFloat height = size.height + self.ek_contentInsets.top + self.ek_contentInsets.bottom;
     return CGSizeMake(width, height);
 }
 
 - (CGRect)_ek_textRectForBounds:(CGRect)bounds {
-    return UIEdgeInsetsInsetRect(bounds, self.ek_contentEdgeInsets);
+    return UIEdgeInsetsInsetRect(bounds, self.ek_contentInsets);
 }
 
 - (CGRect)_ek_editingRectForBounds:(CGRect)bounds {
-    return UIEdgeInsetsInsetRect(bounds, self.ek_contentEdgeInsets);
+    return UIEdgeInsetsInsetRect(bounds, self.ek_contentInsets);
 }
 
-- (UIEdgeInsets)ek_contentEdgeInsets {
+- (UIEdgeInsets)ek_contentInsets {
     return [EKGetAssociatedObject(self, _cmd) UIEdgeInsetsValue];
 }
 
-- (void)setEk_contentEdgeInsets:(UIEdgeInsets)ek_contentEdgeInsets {
-    EKSetAssociatedObject(self, @selector(ek_contentEdgeInsets), [NSValue valueWithUIEdgeInsets:ek_contentEdgeInsets], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setEk_contentInsets:(UIEdgeInsets)ek_contentInsets {
+    EKSetAssociatedObject(self, @selector(ek_contentInsets), [NSValue valueWithUIEdgeInsets:ek_contentInsets], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -

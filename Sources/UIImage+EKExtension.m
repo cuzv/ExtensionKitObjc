@@ -220,18 +220,15 @@ UIImage *_Nullable EKImageFrom(NSString *_Nonnull filename, NSString *_Nullable 
 
 - (nullable UIColor *)colorAtPixel:(CGPoint)point {
     // Cancel if point is outside image coordinates
-    if (!CGRectContainsPoint(CGRectMake(0.0f, 0.0f, self.size.width, self.size.height), point)) {
+    NSUInteger width = self.size.width;
+    NSUInteger height = self.size.height;
+    if (!CGRectContainsPoint(CGRectMake(0.0f, 0.0f, width, height), point)) {
         return nil;
     }
     
-    NSInteger pointX = trunc(point.x);
-    NSInteger pointY = trunc(point.y);
-    CGImageRef cgImage = self.CGImage;
-    NSUInteger width = self.size.width;
-    NSUInteger height = self.size.height;
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     int bytesPerPixel = 4;
     int bytesPerRow = bytesPerPixel * 1;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     NSUInteger bitsPerComponent = 8;
     unsigned char pixelData[4] = { 0, 0, 0, 0 };
     CGContextRef context = CGBitmapContextCreate(pixelData,
@@ -245,6 +242,9 @@ UIImage *_Nullable EKImageFrom(NSString *_Nonnull filename, NSString *_Nullable 
     CGContextSetBlendMode(context, kCGBlendModeCopy);
     
     // Draw the pixel we are interested in onto the bitmap context
+    NSInteger pointX = trunc(point.x);
+    NSInteger pointY = trunc(point.y);
+    CGImageRef cgImage = self.CGImage;
     CGContextTranslateCTM(context, -pointX, pointY-(CGFloat)height);
     CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, (CGFloat)width, (CGFloat)height), cgImage);
     CGContextRelease(context);
