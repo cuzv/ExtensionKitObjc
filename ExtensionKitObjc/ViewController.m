@@ -124,6 +124,11 @@
             NSLog(@"left: %@", @(left));
         }];
     }
+    
+    {
+        NSObject *obj = [NSObject new];
+        EKRelease(obj);
+    }
 }
 
 - (void)handleNext:(UIBarButtonItem *)sender {

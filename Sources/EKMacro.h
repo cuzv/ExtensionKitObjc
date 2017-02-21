@@ -74,4 +74,6 @@
     #endif
 #endif
 
+#define EKRelease(object) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{ [object class]; })
+
 #endif /* EKMacro_h */
