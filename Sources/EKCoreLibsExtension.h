@@ -51,8 +51,15 @@ NSInteger EKRandomIn(EKRange range);
 
 NSString *_Nonnull EKFormatPrice(CGFloat price);
 
-CGFloat EKRadian(CGFloat native);
-CGFloat EKAngle(CGFloat native);
+CGFloat EKDegreesToRadians(CGFloat degrees);
+CGFloat EKRadiansToDegrees(CGFloat radians);
+
+CGFloat EKPointsToPixels(CGFloat points);
+CGFloat EKPixelsToPoints(CGFloat pixels);
+
+CGFloat EKScreenScale();
+CGSize EKScreenSize();
+
 
 #pragma mark - AssociatedObject
 

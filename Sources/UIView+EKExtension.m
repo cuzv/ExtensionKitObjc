@@ -116,6 +116,66 @@
     self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(self.bounds), ek_height);
 }
 
+- (CGFloat)ek_left {
+    return self.ek_minX;
+}
+
+- (void)setEk_left:(CGFloat)ek_left {
+    self.ek_minX = ek_left;
+}
+
+- (CGFloat)ek_right {
+    return self.ek_maxX;
+}
+
+- (void)setEk_right:(CGFloat)ek_right {
+    self.ek_maxX = ek_right;
+}
+
+- (CGFloat)ek_top {
+    return self.ek_maxY;
+}
+
+- (void)setEk_top:(CGFloat)ek_top {
+    self.ek_minY = ek_top;
+}
+
+- (CGFloat)ek_bottom {
+    return self.ek_maxY;
+}
+
+- (void)setEk_bottom:(CGFloat)ek_bottom {
+    self.ek_maxY = ek_bottom;
+}
+
+- (CGFloat)ek_centerX {
+    return self.ek_minX;
+}
+
+- (void)setEk_centerX:(CGFloat)ek_centerX {
+    self.ek_midX = ek_centerX;
+}
+
+- (CGFloat)ek_centerY {
+    return self.ek_midY;
+}
+
+- (void)setEk_centerY:(CGFloat)ek_centerY {
+    self.ek_midY = ek_centerY;
+}
+
+- (CGPoint)ek_center {
+    return CGPointMake(self.frame.origin.x + self.frame.size.width * 0.5,
+                       self.frame.origin.y + self.frame.size.height * 0.5);
+}
+
+- (void)setEk_center:(CGPoint)ek_center {
+    CGRect frame = self.frame;
+    frame.origin.x = ek_center.x - frame.size.width * 0.5;
+    frame.origin.y = ek_center.y - frame.size.height * 0.5;
+    self.frame = frame;
+}
+
 
 #pragma mark - Borderline
 
@@ -466,6 +526,26 @@ void _EKAddBorderline(UIView *receiver,
     hitFrame.size.width = MAX(hitFrame.size.width, 0);
     hitFrame.size.height = MAX(hitFrame.size.height, 0);
     return CGRectContainsPoint(hitFrame, point);
+}
+
+#pragma mark - LayerImage
+
+- (UIImage *)ek_layerImage {
+    return self.layer.contents;
+}
+
+- (void)setEk_layerImage:(UIImage *)ek_layerImage {
+    int width = ek_layerImage.size.width;
+    int height = ek_layerImage.size.height;
+    CGFloat scale = (height / width) / (CGRectGetHeight(self.bounds) / CGRectGetWidth(self.bounds));
+    if (scale < 0.99 || isnan(scale)) { // 宽图把左右两边裁掉
+        self.contentMode = UIViewContentModeScaleAspectFill;
+        self.layer.contentsRect = CGRectMake(0, 0, 1, 1);
+    } else { // 高图只保留顶部
+        self.contentMode = UIViewContentModeScaleToFill;
+        self.layer.contentsRect = CGRectMake(0, 0, 1, (float)width / height);
+    }
+    self.layer.contents = (__bridge id _Nullable)(ek_layerImage.CGImage);
 }
 
 

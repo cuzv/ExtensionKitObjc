@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4652B2C31E5E707E00ADEA6A /* CALayer+EKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4652B2C21E5E707E00ADEA6A /* CALayer+EKExtension.m */; };
 		468028D11D782A0400CD2942 /* NSObject+EKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 468028D01D782A0400CD2942 /* NSObject+EKExtension.m */; };
 		468028D41D78367C00CD2942 /* UIColor+EKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 468028D31D78367C00CD2942 /* UIColor+EKExtension.m */; };
 		468028D91D78776F00CD2942 /* NSString+EKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 468028D81D78776F00CD2942 /* NSString+EKExtension.m */; };
@@ -41,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4652B2C11E5E707E00ADEA6A /* CALayer+EKExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+EKExtension.h"; sourceTree = "<group>"; };
+		4652B2C21E5E707E00ADEA6A /* CALayer+EKExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+EKExtension.m"; sourceTree = "<group>"; };
 		468028CF1D782A0400CD2942 /* NSObject+EKExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EKExtension.h"; sourceTree = "<group>"; };
 		468028D01D782A0400CD2942 /* NSObject+EKExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EKExtension.m"; sourceTree = "<group>"; };
 		468028D21D78367C00CD2942 /* UIColor+EKExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+EKExtension.h"; sourceTree = "<group>"; };
@@ -172,6 +175,8 @@
 				46DA0FB91D77EBB0007248E5 /* EKCoreLibsExtension.m */,
 				46DA0FA61D77C024007248E5 /* UIView+EKExtension.h */,
 				46DA0FA71D77C024007248E5 /* UIView+EKExtension.m */,
+				4652B2C11E5E707E00ADEA6A /* CALayer+EKExtension.h */,
+				4652B2C21E5E707E00ADEA6A /* CALayer+EKExtension.m */,
 				46DA0FB21D77EA47007248E5 /* UIImage+EKExtension.h */,
 				46DA0FB31D77EA47007248E5 /* UIImage+EKExtension.m */,
 				46DA0FBB1D781F6C007248E5 /* UIResponder+EKExtension.h */,
@@ -246,7 +251,7 @@
 		46DA0F831D77BFD9007248E5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Moch Xiao";
 				TargetAttributes = {
 					46DA0F8A1D77BFD9007248E5 = {
@@ -315,6 +320,7 @@
 				46DA0FB41D77EA47007248E5 /* UIImage+EKExtension.m in Sources */,
 				468028F71D796E2700CD2942 /* UILabel+EKExtension.m in Sources */,
 				468028E61D79295E00CD2942 /* NSObject+EKKVOBlock.m in Sources */,
+				4652B2C31E5E707E00ADEA6A /* CALayer+EKExtension.m in Sources */,
 				468029001D79782700CD2942 /* EKExtensionObjcInternal.m in Sources */,
 				468029061D797B0100CD2942 /* UIBarButtonItem+EKExtension.m in Sources */,
 				468028DC1D787BCE00CD2942 /* NSArray+EKExtension.m in Sources */,
@@ -338,8 +344,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -383,8 +391,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

@@ -105,13 +105,45 @@ NSString *_Nonnull EKFormatPrice(CGFloat price) {
     return str;
 }
 
-CGFloat EKRadian(CGFloat native) {
-    return native / 180.0f * M_PI;
+CGFloat EKDegreesToRadians(CGFloat degrees) {
+    return degrees / 180.0f * M_PI;
 }
 
-CGFloat EKAngle(CGFloat native) {
-    return native / M_PI * 180.0f;
+CGFloat EKRadiansToDegrees(CGFloat radians) {
+    return radians / M_PI * 180.0f;
 }
+
+CGFloat EKPointsToPixels(CGFloat points) {
+    return points * EKScreenScale();
+}
+
+CGFloat EKPixelsToPoints(CGFloat pixels) {
+    return pixels / EKScreenScale();
+}
+
+CGFloat EKScreenScale() {
+    static CGFloat scale;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        scale = [UIScreen mainScreen].scale;
+    });
+    return scale;
+}
+
+CGSize EKScreenSize() {
+    static CGSize size;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        size = [UIScreen mainScreen].bounds.size;
+        if (size.height < size.width) {
+            CGFloat tmp = size.height;
+            size.height = size.width;
+            size.width = tmp;
+        }
+    });
+    return size;
+}
+
 
 #pragma mark - AssociatedObject
 

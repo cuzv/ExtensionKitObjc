@@ -38,6 +38,15 @@
 @property (nonatomic, assign) CGFloat ek_width;
 @property (nonatomic, assign) CGFloat ek_height;
 
+@property (nonatomic, assign) CGFloat ek_left;
+@property (nonatomic, assign) CGFloat ek_right;
+@property (nonatomic, assign) CGFloat ek_top;
+@property (nonatomic, assign) CGFloat ek_bottom;
+
+@property (nonatomic, assign) CGFloat ek_centerX;
+@property (nonatomic, assign) CGFloat ek_centerY;
+@property (nonatomic, assign) CGPoint ek_center;
+
 #pragma mark - Borderline
 
 - (void)ek_addBorderline;
@@ -111,5 +120,10 @@
 
 /// Override @selector(pointInside:withEvent:)
 @property (nonatomic, assign) UIEdgeInsets ek_touchExtendInsets;
+
+
+#pragma mark - LayerImage
+
+@property (nonatomic, strong, nullable) UIImage *ek_layerImage;
 
 @end
