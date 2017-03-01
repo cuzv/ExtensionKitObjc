@@ -535,15 +535,20 @@ void _EKAddBorderline(UIView *receiver,
 }
 
 - (void)setEk_layerImage:(UIImage *)ek_layerImage {
-    int width = ek_layerImage.size.width;
-    int height = ek_layerImage.size.height;
-    CGFloat scale = (height / width) / (CGRectGetHeight(self.bounds) / CGRectGetWidth(self.bounds));
-    if (scale < 0.99 || isnan(scale)) { // 宽图把左右两边裁掉
+    CGFloat pw = ek_layerImage.size.width;
+    CGFloat ph = ek_layerImage.size.height;
+    CGFloat scale = ph / pw;
+    if (!isnan(scale) && scale > 1) {
+        // 高图只保留顶部
+        self.contentMode = UIViewContentModeScaleToFill;
+        CGFloat vw = CGRectGetWidth(self.bounds);
+        CGFloat vh = CGRectGetHeight(self.bounds);
+        CGFloat scaleh = vh != vw ? (vh / vw) * (pw / ph) : pw / ph;
+        self.layer.contentsRect = CGRectMake(0, 0, 1, scaleh);
+    } else {
+        // 宽图把左右两边裁掉
         self.contentMode = UIViewContentModeScaleAspectFill;
         self.layer.contentsRect = CGRectMake(0, 0, 1, 1);
-    } else { // 高图只保留顶部
-        self.contentMode = UIViewContentModeScaleToFill;
-        self.layer.contentsRect = CGRectMake(0, 0, 1, (float)width / height);
     }
     self.layer.contents = (__bridge id _Nullable)(ek_layerImage.CGImage);
 }
