@@ -75,29 +75,56 @@
     return self;
 }
 
-- (nullable NSData *)ek_compressAsPossible {
-    return [self ek_compressAsPossible:50];
+// See: http://www.cnblogs.com/silence-cnblogs/p/6346729.html
+/// 压缩图片质量和尺寸相结合的方式
+- (NSData *)ek_compressToByte:(NSUInteger)maxLength {
+    UIImage *image = self;
+    // Compress by quality
+    CGFloat compression = 1;
+    NSData *data = UIImageJPEGRepresentation(image, compression);
+    if (data.length < maxLength) {
+        return data;
+    }
+    
+    CGFloat max = 1;
+    CGFloat min = 0;
+    for (int i = 0; i < 6; ++i) {
+        compression = (max + min) / 2;
+        data = UIImageJPEGRepresentation(image, compression);
+        if (data.length < maxLength * 0.9) {
+            min = compression;
+        } else if (data.length > maxLength) {
+            max = compression;
+        } else {
+            break;
+        }
+    }
+    if (data.length < maxLength) {
+        return data;
+    }
+
+    // Compress by size
+    UIImage *resultImage = [UIImage imageWithData:data];
+    NSUInteger lastDataLength = 0;
+    while (data.length > maxLength && data.length != lastDataLength) {
+        lastDataLength = data.length;
+        // Use NSUInteger to prevent white blank
+        CGFloat ratio = (CGFloat)maxLength / data.length;
+        CGSize size = CGSizeMake((NSUInteger)(resultImage.size.width * sqrtf(ratio)),
+                                 (NSUInteger)(resultImage.size.height * sqrtf(ratio)));
+        UIGraphicsBeginImageContext(size);
+        // Use image to draw (drawInRect:), image is larger but more compression time
+        // Use result image to draw, image is smaller but less compression time
+        [resultImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
+        resultImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        data = UIImageJPEGRepresentation(resultImage, compression);
+    }
+    
+    return data;
 }
 
-- (nullable NSData *)ek_compressAsPossible:(NSInteger)maxSize {
-    CGSize targetSize = UIScreen.mainScreen.bounds.size;
-    CGFloat currentRepresention = self.size.width * self.size.height;
-    CGFloat targetRepresention = targetSize.width * targetSize.height;
-    UIImage *scaledImage = self;
-    if (currentRepresention > targetRepresention) {
-        scaledImage = [self ek_buildThumbnailTo:targetSize useFitting:YES];
-    }
-    
-    CGFloat compressionQuality = 0.5;
-    CGFloat minBytes = maxSize * 1024;
-    NSData *compressedImageData = UIImageJPEGRepresentation(scaledImage, compressionQuality);
-    while (compressedImageData.length > minBytes && compressionQuality >= 0.1) {
-        compressedImageData = UIImageJPEGRepresentation(scaledImage, compressionQuality);
-        compressionQuality -= 0.1;
-    }
-    
-    return compressedImageData;
-}
+
 
 #pragma mark - Maker
 

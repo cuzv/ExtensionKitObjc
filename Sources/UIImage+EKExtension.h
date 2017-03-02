@@ -38,10 +38,7 @@ UIImage *_Nullable EKImageFrom(NSString *_Nonnull filename, NSString *_Nullable 
 - (null_unspecified UIImage *)ek_buildThumbnailTo:(CGSize)targetSize useFitting:(BOOL)fitting;
 - (nullable UIImage *)ek_extractingIn:(CGRect)subRect;
 - (nonnull UIImage *)ek_orientationTo:(UIImageOrientation)orientation;
-
-- (nullable NSData *)ek_compressAsPossible;
-// 单位：KB
-- (nullable NSData *)ek_compressAsPossible:(NSInteger)maxSize;
+- (nullable NSData *)ek_compressImageToByte:(NSUInteger)maxLength;
 
 #pragma mark - Maker
 
