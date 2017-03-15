@@ -24,22 +24,22 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef void(^PBContextBlock)(UIView * __nonnull fromView, UIView * __nonnull toView);
+typedef void(^EKContextBlock)(UIView * __nonnull fromView, UIView * __nonnull toView);
 
-@interface EKPresentAnimatedTransitioningController : NSObject <UIViewControllerAnimatedTransitioning>
+@interface PBPresentAnimatedTransitioningController : NSObject <UIViewControllerAnimatedTransitioning>
 
-@property (nonatomic, copy, nullable) PBContextBlock prepareForPresentActionHandler;
-@property (nonatomic, copy, nullable) PBContextBlock duringPresentingActionHandler;
-@property (nonatomic, copy, nullable) PBContextBlock didPresentedActionHandler;
-@property (nonatomic, copy, nullable) PBContextBlock prepareForDismissActionHandler;
-@property (nonatomic, copy, nullable) PBContextBlock duringDismissingActionHandler;
-@property (nonatomic, copy, nullable) PBContextBlock didDismissedActionHandler;
+@property (nonatomic, copy, nullable) EKContextBlock willPresentActionHandler;
+@property (nonatomic, copy, nullable) EKContextBlock onPresentActionHandler;
+@property (nonatomic, copy, nullable) EKContextBlock didPresentActionHandler;
+@property (nonatomic, copy, nullable) EKContextBlock willDismissActionHandler;
+@property (nonatomic, copy, nullable) EKContextBlock onDismissActionHandler;
+@property (nonatomic, copy, nullable) EKContextBlock didDismissActionHandler;
 
 
 /// Default cover is a dim view, you could override this property to your preferred style view.
 @property (nonatomic, strong, nonnull) UIView *coverView;
 
-- (nonnull EKPresentAnimatedTransitioningController *)prepareForPresent;
-- (nonnull EKPresentAnimatedTransitioningController *)prepareForDismiss;
+- (nonnull PBPresentAnimatedTransitioningController *)prepareForPresent;
+- (nonnull PBPresentAnimatedTransitioningController *)prepareForDismiss;
 
 @end

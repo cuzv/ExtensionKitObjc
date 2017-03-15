@@ -24,18 +24,20 @@
 #ifndef EKMacro_h
 #define EKMacro_h
 
-#if DEBUG
-    #define NSLog(FORMAT, ...)    \
-        do {    \
-            fprintf(stderr,"<%s> %s %s [%d] %s\n",    \
-            (NSThread.isMainThread ? "UI" : "BG"),    \
-            (sel_getName(_cmd)),\
-            [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],    \
-            __LINE__,    \
-            [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);    \
-        } while(0)
-#else
-    #define NSLog(FORMAT, ...)
+#ifndef NSLog
+    #if DEBUG
+        #define NSLog(FORMAT, ...)    \
+            do {    \
+                fprintf(stderr,"<%s> %s %s [%d] %s\n",    \
+                (NSThread.isMainThread ? "UI" : "BG"),    \
+                (sel_getName(_cmd)),\
+                [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],    \
+                __LINE__,    \
+                [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);    \
+            } while(0)
+    #else
+        #define NSLog(FORMAT, ...)
+    #endif
 #endif
 
 

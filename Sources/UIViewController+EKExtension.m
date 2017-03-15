@@ -172,7 +172,7 @@
         UIImage *image = info[UIImagePickerControllerEditedImage];
         if (image) {
             UIImage *newImage = [image ek_orientationTo:UIImageOrientationUp];
-            newImage = [UIImage imageWithData:[newImage ek_compressAsPossible] scale:UIScreen.mainScreen.scale];
+            newImage = [UIImage imageWithData:[newImage ek_compressToByte:100 * 1024] scale:UIScreen.mainScreen.scale];
             EKUIThreadAsyncAction(^{
                 [picker ek_dismissViewControllerAnimated:YES completion:nil];
                 if (picker.ek_handler) {

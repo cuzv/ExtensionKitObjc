@@ -32,7 +32,7 @@
 @implementation NextViewController
 
 - (void)dealloc {
-    NSLog(@"~~~~~~~~~~~%s~~~~~~~~~~~", __FUNCTION__);
+    NSLog(@"~~~~~~~~~~~%s~~~~~~~~~~~", __FUNCTION__);    
 }
 
 - (void)viewDidLoad {

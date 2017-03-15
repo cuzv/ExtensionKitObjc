@@ -23,79 +23,103 @@
 
 #import "EKPresentAnimatedTransitioningController.h"
 
-@interface EKPresentAnimatedTransitioningController ()
+@interface PBPresentAnimatedTransitioningController ()
 @property (nonatomic, assign) BOOL isPresenting;
 @end
 
-@implementation EKPresentAnimatedTransitioningController
+@implementation PBPresentAnimatedTransitioningController
 
 #pragma mark - Public methods
 
-- (nonnull EKPresentAnimatedTransitioningController *)prepareForPresent {
+- (nonnull PBPresentAnimatedTransitioningController *)prepareForPresent {
     self.isPresenting = YES;
     return self;
 }
 
-- (nonnull EKPresentAnimatedTransitioningController *)prepareForDismiss {
+- (nonnull PBPresentAnimatedTransitioningController *)prepareForDismiss {
     self.isPresenting = NO;
     return self;
 }
 
 #pragma mark - Private methods
 
-- (UIViewAnimationOptions)_ek_animationOptions {
+- (UIViewAnimationOptions)_animationOptions {
     return 7 << 16;
 }
 
-- (void)_ek_runAnimations:(void (^)(void))animations completion:(void (^)(BOOL flag))completion {
-    [UIView animateWithDuration:0.25 delay:0 options:[self _ek_animationOptions] animations:animations completion:completion];
+- (void)_animateWithTransition:(nullable id <UIViewControllerContextTransitioning>)transitionContext
+                    animations:(void (^)(void))animations
+                    completion:(void (^)(BOOL flag))completion {
+    // Prevent other interactions disturb.
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    [UIView animateWithDuration:[self transitionDuration:transitionContext]
+                          delay:0
+                        options:[self _animationOptions]
+                     animations:animations
+                     completion:^(BOOL finished) {
+                         completion(finished);
+                         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+                     }];
 }
 
-- (void)_ek_runPresentAnimationsWithContainer:(UIView *)container from:(UIView *)fromView to:(UIView *)toView completion:(void (^)(BOOL flag))completion {
+- (void)_presentWithTransition:(id <UIViewControllerContextTransitioning>)transitionContext
+                     container:(UIView *)container
+                          from:(UIView *)fromView
+                            to:(UIView *)toView
+                    completion:(void (^)(BOOL flag))completion {
     self.coverView.frame = container.frame;
     self.coverView.alpha = 0;
     [container addSubview:self.coverView];
     toView.frame = container.bounds;
     [container addSubview:toView];
     
-    if (self.prepareForPresentActionHandler) {
-        self.prepareForPresentActionHandler(fromView, toView);
+    if (self.willPresentActionHandler) {
+        self.willPresentActionHandler(fromView, toView);
     }
     __weak typeof(self) weak_self = self;
-    [self _ek_runAnimations:^{
-        __strong typeof(weak_self) strong_self = weak_self;
-        strong_self.coverView.alpha = 1;
-        if (strong_self.duringPresentingActionHandler) {
-            strong_self.duringPresentingActionHandler(fromView, toView);
-        }
-    } completion:^(BOOL flag) {
-        __strong typeof(weak_self) strong_self = weak_self;
-        if (strong_self.didPresentedActionHandler) {
-            strong_self.didPresentedActionHandler(fromView, toView);
-        }
-        completion(flag);
-    }];
+    [self _animateWithTransition:transitionContext
+                      animations:^{
+                          __strong typeof(weak_self) strong_self = weak_self;
+                          strong_self.coverView.alpha = 1;
+                          if (strong_self.onPresentActionHandler) {
+                              strong_self.onPresentActionHandler(fromView, toView);
+                          }
+                      }
+                      completion:^(BOOL flag) {
+                          __strong typeof(weak_self) strong_self = weak_self;
+                          if (strong_self.didPresentActionHandler) {
+                              strong_self.didPresentActionHandler(fromView, toView);
+                          }
+                          completion(flag);
+                      }];
 }
 
-- (void)_ek_runDismissAnimationsWithContainer:(UIView *)container from:(UIView *)fromView to:(UIView *)toView completion:(void (^)(BOOL flag))completion {
+- (void)_dismissWithTransition:(id <UIViewControllerContextTransitioning>)transitionContext
+                     container:(UIView *)container
+                          from:(UIView *)fromView
+                            to:(UIView *)toView
+                    completion:(void (^)(BOOL flag))completion {
     [container addSubview:fromView];
-    if (self.prepareForDismissActionHandler) {
-        self.prepareForDismissActionHandler(fromView, toView);
+    if (self.willDismissActionHandler) {
+        self.willDismissActionHandler(fromView, toView);
     }
     __weak typeof(self) weak_self = self;
-    [self _ek_runAnimations:^{
-        __strong typeof(weak_self) strong_self = weak_self;
-        strong_self.coverView.alpha = 0;
-        if (strong_self.duringDismissingActionHandler) {
-            strong_self.duringDismissingActionHandler(fromView, toView);
-        }
-    } completion:^(BOOL flag) {
-        __strong typeof(weak_self) strong_self = weak_self;
-        if (strong_self.didDismissedActionHandler) {
-            strong_self.didDismissedActionHandler(fromView, toView);
-        }
-        completion(flag);
-    }];
+    [self _animateWithTransition:transitionContext
+                      animations:^{
+                          __strong typeof(weak_self) strong_self = weak_self;
+                          strong_self.coverView.alpha = 0;
+                          if (strong_self.onDismissActionHandler) {
+                              strong_self.onDismissActionHandler(fromView, toView);
+                          }
+                      }
+                      completion:^(BOOL flag) {
+                          __strong typeof(weak_self) strong_self = weak_self;
+                          if (strong_self.didDismissActionHandler) {
+                              strong_self.didDismissActionHandler(fromView, toView);
+                          }
+                          completion(flag);
+                      }];
+    
 }
 
 #pragma mark - UIViewControllerAnimatedTransitioning
@@ -119,13 +143,21 @@
     }
     
     if (self.isPresenting) {
-        [self _ek_runPresentAnimationsWithContainer:container from:fromController.view to:toController.view completion:^(BOOL flag) {
-            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-        }];
+        [self _presentWithTransition:transitionContext
+                           container:container
+                                from:fromController.view
+                                  to:toController.view
+                          completion:^(BOOL flag) {
+                              [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+                          }];
     } else {
-        [self _ek_runDismissAnimationsWithContainer:container from:fromController.view to:toController.view completion:^(BOOL flag) {
-            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-        }];
+        [self _dismissWithTransition:transitionContext
+                           container:container
+                                from:fromController.view
+                                  to:toController.view
+                          completion:^(BOOL flag) {
+                              [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+                          }];
     }
 }
 
@@ -136,6 +168,9 @@
         _coverView = [UIView new];
         _coverView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
         _coverView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _coverView.clipsToBounds = YES;
+        _coverView.multipleTouchEnabled = NO;
+        _coverView.userInteractionEnabled = NO;
     }
     return _coverView;
 }
