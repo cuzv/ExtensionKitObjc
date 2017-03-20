@@ -59,10 +59,9 @@
 
 - (nullable UIImage *)ek_extractingIn:(CGRect)subRect {
     CGImageRef ref = CGImageCreateWithImageInRect(self.CGImage, subRect);
-    if (ref) {
-        return [UIImage imageWithCGImage:ref];
-    }
-    return nil;
+    UIImage *image = [[UIImage alloc] initWithCGImage:ref];
+    CFRelease(ref);
+    return image;
 }
 
 - (nonnull UIImage *)ek_orientationTo:(UIImageOrientation)orientation {
@@ -158,33 +157,68 @@ UIImage *_Nullable EKImageMake(UIColor *_Nonnull color, CGSize size, UIRectCorne
     return [UIImage ek_imageWithColor:color size:size roundingCorners:roundingCorners radius:radius strokeColor:strokeColor strokeLineWidth:strokeLineWidth];
 }
 
-- (nullable instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth {
-    UIGraphicsBeginImageContextWithOptions(self.size, false, 0);
+- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius {
+    return [self ek_imageWithRoundingCorners:roundingCorners radius:radius strokeColor:nil strokeLineWidth:0];
+}
+
+- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth {
+    return [self ek_imageWithRoundingCorners:roundingCorners radius:radius strokeColor:strokeColor strokeLineWidth:strokeLineWidth strokeLineJoin:kCGLineJoinMiter];
+}
+
+- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth strokeLineJoin:(CGLineJoin)strokeLineJoin {
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    if (!context) {
-        return nil;
-    }
     CGContextRetain(context);
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -self.size.height);
+
+    CGRect roundedRect = CGRectMake(0, 0, self.size.width, self.size.height);
+    CGFloat sideLength = MIN(self.size.width, self.size.height);
+    if (strokeLineWidth < sideLength * 0.5) {
+        UIBezierPath *roundedPath = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(roundedRect, strokeLineWidth, strokeLineWidth) byRoundingCorners:roundingCorners cornerRadii:CGSizeMake(radius, strokeLineWidth)];
+        [roundedPath closePath];
+        
+        CGContextSaveGState(context);
+        CGContextAddPath(context, roundedPath.CGPath);
+        CGContextClip(context);
+        CGContextDrawImage(context, roundedRect, self.CGImage);
+        CGContextRestoreGState(context);
+    }
     
-    strokeColor = strokeColor ?: [UIColor clearColor];
+    if (strokeColor && strokeLineWidth > 0) {
+        CGFloat strokeInset = (floor(strokeLineWidth * self.scale) + 0.5) / self.scale;
+        CGRect strokeRect = CGRectInset(roundedRect, strokeInset, strokeInset);
+        CGFloat strokeRadius = radius > self.scale / 2 ? radius - self.scale / 2 : 0;
+        UIBezierPath *strokePath = [UIBezierPath bezierPathWithRoundedRect:strokeRect byRoundingCorners:roundingCorners cornerRadii:CGSizeMake(strokeRadius, strokeLineWidth)];
+        [strokePath closePath];
 
-    CGRect rect = EKRectMake(CGPointZero, self.size);
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:roundingCorners cornerRadii:CGSizeMake(radius, radius)];
-    CGContextAddPath(context, path.CGPath);
-    CGContextClip(context);
-    [self drawInRect:rect];
-    CGContextSetLineWidth(context, strokeLineWidth);
-    CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
-
-    CGRect roundedRect = CGRectMake(strokeLineWidth, strokeLineWidth, self.size.width - strokeLineWidth * 2.0f, self.size.height - strokeLineWidth * 2.0f);
-    UIBezierPath *roundedPath = [UIBezierPath bezierPathWithRoundedRect:roundedRect byRoundingCorners:roundingCorners cornerRadii:CGSizeMake(radius, radius)];
-    [roundedPath stroke];
+        CGContextSaveGState(context);
+        CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
+        CGContextSetLineWidth(context, strokeLineWidth);
+        CGContextSetLineJoin(context, strokeLineJoin);
+        CGContextAddPath(context, strokePath.CGPath);
+        CGContextStrokePath(context);
+        CGContextRestoreGState(context);
+    }
 
     UIImage *output = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     CGContextRelease(context);
-    
-    return output;
+    if (output) {
+        return output;
+    }
+    return self;
+}
+
+- (nullable instancetype)ek_cricle {
+    CGFloat sideLength = MIN(self.size.width, self.size.height);
+    UIImage *newImage = self;
+    if (self.size.width != self.size.height) {
+        CGPoint center = CGPointMake(self.size.width * 0.5, self.size.height * 0.5);
+        CGRect newRect = CGRectMake(center.x - sideLength * 0.5, center.y - sideLength * 0.5, sideLength, sideLength);
+        newImage = [self ek_extractingIn:newRect];
+    }
+    return [newImage ek_imageWithRoundingCorners:UIRectCornerAllCorners radius:sideLength * 0.5];
 }
 
 - (null_unspecified instancetype)ek_renderUsingColor:(nonnull UIColor *)color {

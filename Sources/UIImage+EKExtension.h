@@ -46,7 +46,10 @@ UIImage *_Nullable EKImageFrom(NSString *_Nonnull filename, NSString *_Nullable 
 + (nullable instancetype)ek_imageWithColor:(nonnull UIColor *)color size:(CGSize)size roundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth;
 
 /// 生成图片
-- (nullable instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth;
+- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius;
+- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth;
+- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth strokeLineJoin:(CGLineJoin)strokeLineJoin;
+- (nullable instancetype)ek_cricle;
 
 - (null_unspecified instancetype)ek_renderUsingColor:(nonnull UIColor *)color;
 - (null_unspecified instancetype)ek_renderUsingAlpha:(CGFloat)alpha;

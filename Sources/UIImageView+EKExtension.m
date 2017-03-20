@@ -43,7 +43,11 @@
         CGFloat scale = MAX(self.image.size.width / self.frame.size.width, self.frame.size.height / self.frame.size.height);
         CGFloat relatedRadius = scale * radius;
         CGFloat relatedStrokeLineWidth = scale * strokeLineWidth;
-        UIImage *newImage = [self.image ek_imageWithRoundingCorners:roundingCorners radius:relatedRadius strokeColor:strokeColor strokeLineWidth:relatedStrokeLineWidth];
+        UIImage *newImage = [self.image ek_imageWithRoundingCorners:roundingCorners
+                                                             radius:relatedRadius
+                                                        strokeColor:strokeColor
+                                                    strokeLineWidth:relatedStrokeLineWidth
+                                                     strokeLineJoin:kCGLineJoinMiter];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.backgroundColor = [UIColor clearColor];
             self.image = newImage;

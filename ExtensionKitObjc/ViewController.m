@@ -53,7 +53,18 @@
     self.imageView.frame = CGRectMake(80, 120, 200, 200);
     [self.view addSubview:self.imageView];
     self.imageView.backgroundColor = [UIColor yellowColor];
-    UIImage *image = [UIImage ek_imageWithColor:[UIColor redColor] size:self.imageView.bounds.size roundingCorners:UIRectCornerAllCorners radius:5 strokeColor:nil strokeLineWidth:0];
+//    UIImage *image = [UIImage ek_imageWithColor:[UIColor redColor] size:self.imageView.bounds.size roundingCorners:UIRectCornerAllCorners radius:5 strokeColor:nil strokeLineWidth:0];
+//    self.imageView.image = image;
+    
+    UIImage *image = [UIImage imageNamed:@"C0g0F9BUcAERgYi"];
+//    CGFloat sideLength = MIN(image.size.width, image.size.height);
+//    image = [image ek_imageWithRoundingCorners:UIRectCornerAllCorners
+//                                        radius:20
+//                                   strokeColor:[UIColor orangeColor]
+//                               strokeLineWidth:20
+//                                strokeLineJoin:kCGLineJoinMiter];
+//    image = [image imageByRoundCornerRadius:20 corners:UIRectCornerAllCorners borderWidth:20 borderColor:[UIColor orangeColor] borderLineJoin:kCGLineJoinMiter];
+    image = [image ek_cricle];
     self.imageView.image = image;
     
     
@@ -87,7 +98,7 @@
         self.actionButton.ek_image = EKImageMake(UIColor.ek_random, CGSizeMake(16, 16), UIRectCornerAllCorners, 8, nil, 0);
         [self.actionButton ek_setImageAlignToLeftWithMargin:16];
                 
-        [self.imageView ek_addRoundingCornersRadius:20];
+//        [self.imageView ek_addRoundingCornersRadius:20];
     }
     
 //    self.label.frame = CGRectMake(self.actionButton.ek_minX, self.actionButton.ek_maxY + 20, 80, 24);
