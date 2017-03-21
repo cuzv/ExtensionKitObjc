@@ -76,10 +76,10 @@
 
 // See: http://www.cnblogs.com/silence-cnblogs/p/6346729.html
 /// 压缩质量
-- (UIImage *)ek_compressQualityToByte:(NSInteger)maxLength {
+- (NSData *)ek_compressQualityToByte:(NSInteger)maxLength {
     CGFloat compression = 1;
     NSData *data = UIImageJPEGRepresentation(self, compression);
-    if (data.length < maxLength) return self;
+    if (data.length < maxLength) return data;
     CGFloat max = 1;
     CGFloat min = 0;
     for (int i = 0; i < 6; ++i) {
@@ -93,8 +93,7 @@
             break;
         }
     }
-    UIImage *resultImage = [UIImage imageWithData:data];
-    return resultImage;
+    return data;
 }
 
 /// 压缩图片质量和尺寸相结合的方式
