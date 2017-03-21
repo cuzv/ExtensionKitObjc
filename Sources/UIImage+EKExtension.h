@@ -33,9 +33,9 @@ UIImage *_Nullable EKImageFrom(NSString *_Nonnull filename, NSString *_Nullable 
 #pragma mark -
 
 @property (nonnull ,nonatomic, strong, readonly) UIImage *ek_original;
-@property (null_unspecified ,nonatomic, strong, readonly) UIImage *ek_decompressed;
+@property (nullable ,nonatomic, strong, readonly) UIImage *ek_decompressed;
 
-- (null_unspecified UIImage *)ek_buildThumbnailTo:(CGSize)targetSize useFitting:(BOOL)fitting;
+- (nullable UIImage *)ek_buildThumbnailTo:(CGSize)targetSize useFitting:(BOOL)fitting;
 - (nullable UIImage *)ek_extractingIn:(CGRect)subRect;
 - (nonnull UIImage *)ek_orientationTo:(UIImageOrientation)orientation;
 - (nullable NSData *)ek_compressToByte:(NSUInteger)maxLength;
@@ -45,15 +45,19 @@ UIImage *_Nullable EKImageFrom(NSString *_Nonnull filename, NSString *_Nullable 
 /// 生成图片
 + (nullable instancetype)ek_imageWithColor:(nonnull UIColor *)color size:(CGSize)size roundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth;
 
-/// 生成图片
-- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius;
-- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth;
-- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth strokeLineJoin:(CGLineJoin)strokeLineJoin;
-- (nullable instancetype)ek_cricle;
+/// 编辑图片
+- (nullable UIImage *)ek_remakeWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius;
+- (nullable UIImage *)ek_remakeWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth;
+- (nullable UIImage *)ek_remakeWithRoundingCorners:(UIRectCorner)roundingCorners
+                                            radius:(CGFloat)radius
+                                       strokeColor:(nullable UIColor *)strokeColor
+                                   strokeLineWidth:(CGFloat)strokeLineWidth
+                                    strokeLineJoin:(CGLineJoin)strokeLineJoin;
+- (nullable UIImage *)ek_cricle;
 
-- (null_unspecified instancetype)ek_renderUsingColor:(nonnull UIColor *)color;
-- (null_unspecified instancetype)ek_renderUsingAlpha:(CGFloat)alpha;
-- (null_unspecified instancetype)ek_renderUsingColor:(nullable UIColor *)color alpha:(CGFloat)alpha;
+- (nullable UIImage *)ek_renderUsingColor:(nonnull UIColor *)color;
+- (nullable UIImage *)ek_renderUsingAlpha:(CGFloat)alpha;
+- (nullable UIImage *)ek_renderUsingColor:(nullable UIColor *)color alpha:(CGFloat)alpha;
 
 #pragma mark - Load
 

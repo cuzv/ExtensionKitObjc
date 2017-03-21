@@ -31,7 +31,7 @@
     return [self imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
-- (null_unspecified UIImage *)ek_decompressed {
+- (nullable UIImage *)ek_decompressed {
     UIGraphicsBeginImageContextWithOptions(self.size, NO, 0);
     [self drawAtPoint:CGPointZero];
     UIImage *decompressedImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -39,7 +39,7 @@
     return decompressedImage;
 }
 
-- (null_unspecified UIImage *)ek_buildThumbnailTo:(CGSize)targetSize useFitting:(BOOL)fitting {
+- (nullable UIImage *)ek_buildThumbnailTo:(CGSize)targetSize useFitting:(BOOL)fitting {
     UIGraphicsBeginImageContextWithOptions(self.size, NO, 0);
     // Establish the output thumbnail rectangle
     CGRect targetRect = EKRectMake(CGPointZero, targetSize);
@@ -75,6 +75,28 @@
 }
 
 // See: http://www.cnblogs.com/silence-cnblogs/p/6346729.html
+/// 压缩质量
+- (UIImage *)ek_compressQualityToByte:(NSInteger)maxLength {
+    CGFloat compression = 1;
+    NSData *data = UIImageJPEGRepresentation(self, compression);
+    if (data.length < maxLength) return self;
+    CGFloat max = 1;
+    CGFloat min = 0;
+    for (int i = 0; i < 6; ++i) {
+        compression = (max + min) / 2;
+        data = UIImageJPEGRepresentation(self, compression);
+        if (data.length < maxLength * 0.9) {
+            min = compression;
+        } else if (data.length > maxLength) {
+            max = compression;
+        } else {
+            break;
+        }
+    }
+    UIImage *resultImage = [UIImage imageWithData:data];
+    return resultImage;
+}
+
 /// 压缩图片质量和尺寸相结合的方式
 - (NSData *)ek_compressToByte:(NSUInteger)maxLength {
     UIImage *image = self;
@@ -157,17 +179,26 @@ UIImage *_Nullable EKImageMake(UIColor *_Nonnull color, CGSize size, UIRectCorne
     return [UIImage ek_imageWithColor:color size:size roundingCorners:roundingCorners radius:radius strokeColor:strokeColor strokeLineWidth:strokeLineWidth];
 }
 
-- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius {
-    return [self ek_imageWithRoundingCorners:roundingCorners radius:radius strokeColor:nil strokeLineWidth:0];
+- (nullable UIImage *)ek_remakeWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius {
+    return [self ek_remakeWithRoundingCorners:roundingCorners radius:radius strokeColor:nil strokeLineWidth:0];
 }
 
-- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth {
-    return [self ek_imageWithRoundingCorners:roundingCorners radius:radius strokeColor:strokeColor strokeLineWidth:strokeLineWidth strokeLineJoin:kCGLineJoinMiter];
+- (nullable UIImage *)ek_remakeWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth {
+    return [self ek_remakeWithRoundingCorners:roundingCorners radius:radius strokeColor:strokeColor strokeLineWidth:strokeLineWidth strokeLineJoin:kCGLineJoinMiter];
 }
 
-- (nonnull instancetype)ek_imageWithRoundingCorners:(UIRectCorner)roundingCorners radius:(CGFloat)radius strokeColor:(nullable UIColor *)strokeColor strokeLineWidth:(CGFloat)strokeLineWidth strokeLineJoin:(CGLineJoin)strokeLineJoin {
+- (nullable UIImage *)ek_remakeWithRoundingCorners:(UIRectCorner)roundingCorners
+                                            radius:(CGFloat)radius
+                                       strokeColor:(nullable UIColor *)strokeColor
+                                   strokeLineWidth:(CGFloat)strokeLineWidth
+                                    strokeLineJoin:(CGLineJoin)strokeLineJoin
+{
     UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
+    if (!context) {
+        UIGraphicsEndImageContext();
+        return nil;
+    }
     CGContextRetain(context);
     CGContextScaleCTM(context, 1, -1);
     CGContextTranslateCTM(context, 0, -self.size.height);
@@ -204,13 +235,10 @@ UIImage *_Nullable EKImageMake(UIColor *_Nonnull color, CGSize size, UIRectCorne
     UIImage *output = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     CGContextRelease(context);
-    if (output) {
-        return output;
-    }
-    return self;
+    return output;
 }
 
-- (nullable instancetype)ek_cricle {
+- (nullable UIImage *)ek_cricle {
     CGFloat sideLength = MIN(self.size.width, self.size.height);
     UIImage *newImage = self;
     if (self.size.width != self.size.height) {
@@ -218,18 +246,18 @@ UIImage *_Nullable EKImageMake(UIColor *_Nonnull color, CGSize size, UIRectCorne
         CGRect newRect = CGRectMake(center.x - sideLength * 0.5, center.y - sideLength * 0.5, sideLength, sideLength);
         newImage = [self ek_extractingIn:newRect];
     }
-    return [newImage ek_imageWithRoundingCorners:UIRectCornerAllCorners radius:sideLength * 0.5];
+    return [newImage ek_remakeWithRoundingCorners:UIRectCornerAllCorners radius:sideLength * 0.5];
 }
 
-- (null_unspecified instancetype)ek_renderUsingColor:(nonnull UIColor *)color {
+- (nullable UIImage *)ek_renderUsingColor:(nonnull UIColor *)color {
     return [self ek_renderUsingColor:color alpha:1.0f];
 }
 
-- (null_unspecified instancetype)ek_renderUsingAlpha:(CGFloat)alpha; {
+- (nullable UIImage *)ek_renderUsingAlpha:(CGFloat)alpha; {
     return [self ek_renderUsingColor:nil alpha:alpha];
 }
 
-- (null_unspecified instancetype)ek_renderUsingColor:(nullable UIColor *)color alpha:(CGFloat)alpha {
+- (nullable UIImage *)ek_renderUsingColor:(nullable UIColor *)color alpha:(CGFloat)alpha {
     alpha = alpha > 1.0f ? 1.0f : alpha;
     
     UIGraphicsBeginImageContext(self.size);
