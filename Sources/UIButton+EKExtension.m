@@ -192,11 +192,11 @@
         backgroundColor = [self.ek_backgroundImage colorAtPixel:CGPointMake(self.ek_backgroundImage.size.width / 2.0, self.ek_backgroundImage.size.height / 2.0)];
     }
     UIView *containerView = [UIView new];
-    containerView.backgroundColor = backgroundColor;
     containerView.ek_cornerRadius = self.ek_cornerRadius;
     containerView.userInteractionEnabled = NO;
     [containerView ek_satrtActivityIndicatorAnimation];
     [self ek_addSubview:containerView];
+    containerView.backgroundColor = self.ek_bgColor;
     self.ek_activityIndicatorContainerView = containerView;
 }
 

@@ -98,6 +98,10 @@
 - (void)ek_stopActivityIndicatorAnimation;
 @property (nonatomic, assign, readonly) BOOL ek_isActivityIndicatorAnimating;
 
+#pragma mark - bgColor
+
+- (nullable UIColor *)ek_bgColor;
+
 #pragma mark - Snapshot
 
 @property (nonatomic, strong, nullable, readonly) UIImage *ek_snapshot;

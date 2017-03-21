@@ -56,7 +56,16 @@
 //    UIImage *image = [UIImage ek_imageWithColor:[UIColor redColor] size:self.imageView.bounds.size roundingCorners:UIRectCornerAllCorners radius:5 strokeColor:nil strokeLineWidth:0];
 //    self.imageView.image = image;
     
+//    UIImage *image = [UIImage imageNamed:@"avatar"];
     UIImage *image = [UIImage imageNamed:@"C0g0F9BUcAERgYi"];
+    CGFloat sideLength = MIN(image.size.width, image.size.height);
+    image = [image ek_imageWithRoundingCorners:UIRectCornerAllCorners
+                                        radius:sideLength * 0.5
+                                   forceSquare:YES
+                                   strokeColor:[UIColor cyanColor]
+                               strokeLineWidth:0
+                                strokeLineJoin:kCGLineJoinMiter];
+    
 //    CGFloat sideLength = MIN(image.size.width, image.size.height);
 //    image = [image ek_imageWithRoundingCorners:UIRectCornerAllCorners
 //                                        radius:20
@@ -64,7 +73,7 @@
 //                               strokeLineWidth:20
 //                                strokeLineJoin:kCGLineJoinMiter];
 //    image = [image imageByRoundCornerRadius:20 corners:UIRectCornerAllCorners borderWidth:20 borderColor:[UIColor orangeColor] borderLineJoin:kCGLineJoinMiter];
-    image = [image ek_cricle];
+//    image = [image ek_cricle];
     self.imageView.image = image;
     
     
@@ -188,6 +197,7 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [UIImageView new];
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _imageView;
 }

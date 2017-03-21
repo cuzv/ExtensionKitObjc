@@ -436,6 +436,18 @@ void _EKAddBorderline(UIView *receiver,
     EKSetAssociatedObject(self, @selector(ek_activityIndicatorView), ek_activityIndicatorView, OBJC_ASSOCIATION_ASSIGN);
 }
 
+#pragma mark - bgColor
+
+- (nullable UIColor *)ek_bgColor {
+    if (self.backgroundColor) {
+        return self.backgroundColor;
+    }
+    if (self.superview) {
+        return self.superview.ek_bgColor;
+    }
+    return nil;
+}
+
 #pragma mark - Snapshot 
 
 - (nullable UIImage *)ek_snapshot {
@@ -552,6 +564,6 @@ void _EKAddBorderline(UIView *receiver,
     self.layer.contents = (__bridge id _Nullable)(ek_layerImage.CGImage);
 }
 
-
 @end
+
 
