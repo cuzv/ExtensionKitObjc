@@ -68,6 +68,7 @@ UIImage *_Nullable EKImageFrom(NSString *_Nonnull filename, NSString *_Nullable 
 #pragma mark - GetColor
 
 - (nullable UIColor *)colorAtPixel:(CGPoint)point;
+- (nullable UIColor *)colorAtPoint:(CGPoint)point;
 
 
 @end
