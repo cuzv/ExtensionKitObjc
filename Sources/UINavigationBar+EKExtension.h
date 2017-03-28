@@ -25,7 +25,7 @@
 
 @interface UINavigationBar (EKExtension)
 
-@property (nullable, nonatomic, strong, readonly) UIView *ek_hairline;
+@property (nullable, nonatomic, strong, readonly) UIView *ek_shimShadowView;
 - (void)ek_setBackgroundVisible:(BOOL)visible;
 
 @end

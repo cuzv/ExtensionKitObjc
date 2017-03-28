@@ -26,24 +26,8 @@
 
 @implementation UINavigationBar (EKExtension)
 
-- (nullable UIView *)ek_hairline {
-    Class clazz = NSClassFromString(@"_UINavigationBarBackground");
-    if (!clazz) {
-        return nil;
-    }
-    
-    for (UIView *view in self.subviews) {
-        if ([view isKindOfClass:clazz]) {
-            for (UIView *subview in view.subviews) {
-                if ([subview isKindOfClass:UIImageView.class] &&
-                    CGRectGetHeight(subview.bounds) == 1.0f / UIScreen.mainScreen.scale) {
-                    return subview;
-                }
-            }
-        }
-    }
-    
-    return nil;
+- (nullable UIView *)ek_shimShadowView {
+   return [[self valueForKey:@"_backgroundView"] valueForKey:@"_shadowView"];
 }
 
 - (void)ek_setBackgroundVisible:(BOOL)visible {
