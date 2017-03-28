@@ -27,7 +27,13 @@
 @implementation UINavigationBar (EKExtension)
 
 - (nullable UIView *)ek_shimShadowView {
-   return [[self valueForKey:@"_backgroundView"] valueForKey:@"_shadowView"];
+    UIView *result = nil;
+    @try {
+        result = [[self valueForKey:@"_backgroundView"] valueForKey:@"_shadowView"];
+    } @catch (NSException *exception) {
+        NSLog(@"NSException happend: %@", exception);
+    }
+    return result;
 }
 
 - (void)ek_setBackgroundVisible:(BOOL)visible {

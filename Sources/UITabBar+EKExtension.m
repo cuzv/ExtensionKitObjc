@@ -25,14 +25,14 @@
 
 @implementation UITabBar (EKExtension)
 
-- (nullable UIView *)ek_hairline {
-    for (UIView *view in self.subviews) {
-        if ([view isKindOfClass:UIImageView.class] &&
-            CGRectGetHeight(view.bounds) == 1.0f / UIScreen.mainScreen.scale) {
-            return view;
-        }
+- (nullable UIView *)ek_shimShadowView {
+    UIView *result = nil;
+    @try {
+        result = [[self valueForKey:@"_backgroundView"] valueForKey:@"_shadowView"];
+    } @catch (NSException *exception) {
+        NSLog(@"NSException happend: %@", exception);
     }
-    return nil;
+    return result;
 }
 
 @end

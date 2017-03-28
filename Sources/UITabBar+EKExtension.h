@@ -25,6 +25,6 @@
 
 @interface UITabBar (EKExtension)
 
-@property (nullable, nonatomic, strong, readonly) UIView *ek_hairline;
+@property (nullable, nonatomic, strong, readonly) UIView *ek_shimShadowView;
 
 @end
