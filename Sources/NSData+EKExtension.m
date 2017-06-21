@@ -25,7 +25,7 @@
 
 @implementation NSData (EKExtension)
 
-- (nullable id)ek_JSONSObject {
+- (nullable id)ek_JSONObject {
     NSError *error = nil;
     id object = [NSJSONSerialization JSONObjectWithData:self
                                                 options:NSJSONReadingMutableLeaves

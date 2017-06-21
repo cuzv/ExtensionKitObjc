@@ -22,18 +22,19 @@
 //
 
 #import "NSString+EKExtension.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation NSString (EKExtension)
 
-- (BOOL)isEmpty {
+- (BOOL)ek_isEmpty {
     return self.length == 0;
 }
 
-- (BOOL)isPhoneNumber {
+- (BOOL)ek_isPhoneNumber {
     return _EKStringMatch(self, @"^(1[345789])\\d{9}");
 }
 
-- (BOOL)isEmail {
+- (BOOL)ek_isEmail {
     return _EKStringMatch(self, @"^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
 }
 
@@ -41,33 +42,46 @@ BOOL _EKStringMatch(NSString *_Nonnull str, NSString *_Nonnull pattern) {
     return [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern] evaluateWithObject:str];
 }
 
-- (NSString *)trimed {
+- (NSString *)ek_trimed {
     return [self stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
 }
 
-- (nullable NSString *)substringByRange:(EKRange)range {
+- (nullable NSString *)ek_substringByRange:(EKRange)range {
     if (range.end > self.length) {
         return nil;
     }
     return [self substringWithRange:(NSRange){range.start, range.end - range.start}];
 }
 
-- (CGSize)sizeFromFont:(nonnull UIFont *)font {
-    return [self sizeFromFont:font preferredMaxLayoutWidth:0];
+- (CGSize)ek_sizeFromFont:(nonnull UIFont *)font {
+    return [self ek_sizeFromFont:font preferredMaxLayoutWidth:0];
 }
 
-- (CGSize)sizeFromFont:(nonnull UIFont *)font preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth {
-    return [self sizeFromAttributes:@{NSFontAttributeName: font} preferredMaxLayoutWidth:preferredMaxLayoutWidth];
+- (CGSize)ek_sizeFromFont:(nonnull UIFont *)font preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth {
+    return [self ek_sizeFromAttributes:@{NSFontAttributeName: font} preferredMaxLayoutWidth:preferredMaxLayoutWidth];
 }
 
-- (CGSize)sizeFromAttributes:(nullable NSDictionary<NSString *, id> *)attributes preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth {
+- (CGSize)ek_sizeFromAttributes:(nullable NSDictionary<NSString *, id> *)attributes preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth {
     preferredMaxLayoutWidth = preferredMaxLayoutWidth > 0 ? preferredMaxLayoutWidth : CGRectGetWidth(UIScreen.mainScreen.bounds);
     NSStringDrawingOptions options = NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine;
     return [self boundingRectWithSize:CGSizeMake(preferredMaxLayoutWidth, CGFLOAT_MAX) options:options attributes:attributes context:nil].size;
 }
 
-+ (nonnull NSString *)unique {
++ (nonnull NSString *)ek_unique {
     return [[NSUUID UUID].UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+}
+
+- (NSString *)ek_md5 {
+    const char* input = [self UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(input, (CC_LONG)strlen(input), result);
+    
+    NSMutableString *digest = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (NSInteger i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [digest appendFormat:@"%02x", result[i]];
+    }
+    
+    return digest;
 }
 
 @end

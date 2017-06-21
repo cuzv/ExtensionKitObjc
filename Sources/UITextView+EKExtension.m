@@ -70,7 +70,7 @@
 }
 
 - (void)_ek_updatePlaceholderLabel {
-    CGSize size = [self.ek_placeholder sizeFromFont:self.ek_placeholderFont preferredMaxLayoutWidth:CGRectGetWidth(self.bounds) - 10];
+    CGSize size = [self.ek_placeholder ek_sizeFromFont:self.ek_placeholderFont preferredMaxLayoutWidth:CGRectGetWidth(self.bounds) - 10];
     self.ek_placeholderLabel.frame = CGRectMake(5, 4, size.width + 10, size.height + 8);
 }
 

@@ -26,16 +26,17 @@
 
 @interface NSString (EKExtension)
 
-@property (nonatomic, assign, readonly) BOOL isEmpty;
-@property (nonatomic, assign, readonly) BOOL isPhoneNumber;
-@property (nonatomic, assign, readonly) BOOL isEmail;
-@property (nonatomic, copy, nonnull, readonly) NSString *trimed;
+@property (nonatomic, assign, readonly) BOOL ek_isEmpty;
+@property (nonatomic, assign, readonly) BOOL ek_isPhoneNumber;
+@property (nonatomic, assign, readonly) BOOL ek_isEmail;
+@property (nonatomic, copy, nonnull, readonly) NSString *ek_trimed;
 
-- (CGSize)sizeFromFont:(nonnull UIFont *)font;
-- (CGSize)sizeFromFont:(nonnull UIFont *)font preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth;
-- (CGSize)sizeFromAttributes:(nullable NSDictionary<NSString *, id> *)attributes preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth;
-- (nullable NSString *)substringByRange:(EKRange)range;
-+ (nonnull NSString *)unique;
+- (CGSize)ek_sizeFromFont:(nonnull UIFont *)font;
+- (CGSize)ek_sizeFromFont:(nonnull UIFont *)font preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth;
+- (CGSize)ek_sizeFromAttributes:(nullable NSDictionary<NSString *, id> *)attributes preferredMaxLayoutWidth:(CGFloat)preferredMaxLayoutWidth;
+- (nullable NSString *)ek_substringByRange:(EKRange)range;
++ (nonnull NSString *)ek_unique;
 
+@property (nonatomic, copy, nonnull, readonly) NSString *ek_md5;
 
 @end

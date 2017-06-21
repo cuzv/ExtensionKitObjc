@@ -25,6 +25,6 @@
 
 @interface NSData (EKExtension)
 
-@property (nullable, nonatomic, readonly) id ek_JSONSObject;
+@property (nullable, nonatomic, readonly) id ek_JSONObject;
 
 @end

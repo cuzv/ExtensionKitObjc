@@ -25,8 +25,8 @@
 #define EKMacro_h
 
 #ifndef NSLog
-    #if DEBUG
-        #define NSLog(FORMAT, ...)    \
+#   if DEBUG
+#       define NSLog(FORMAT, ...)    \
             do {    \
                 fprintf(stderr,"<%s> %s %s [%d] %s\n",    \
                 (NSThread.isMainThread ? "UI" : "BG"),    \
@@ -35,47 +35,64 @@
                 __LINE__,    \
                 [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);    \
             } while(0)
-    #else
-        #define NSLog(FORMAT, ...)
-    #endif
+#   else
+#       define NSLog(FORMAT, ...)
+#   endif
 #endif
-
 
 #define EKString(FORMAT, ...) [NSString stringWithFormat:FORMAT, ##__VA_ARGS__]
 
-
 #ifndef weakify
-    #if DEBUG
-        #if __has_feature(objc_arc)
-            #define weakify(object) autoreleasepool{} __weak __typeof__(object) weak##_##object = object;
-        #else
-            #define weakify(object) autoreleasepool{} __block __typeof__(object) block##_##object = object;
-        #endif
-    #else
-        #if __has_feature(objc_arc)
-            #define weakify(object) try{} @finally{} {} __weak __typeof__(object) weak##_##object = object;
-        #else
-            #define weakify(object) try{} @finally{} {} __block __typeof__(object) block##_##object = object;
-        #endif
-    #endif
+#   if DEBUG
+#       if __has_feature(objc_arc)
+#           define weakify(object) autoreleasepool{} __weak __typeof__(object) weak##_##object = object;
+#       else
+#           define weakify(object) autoreleasepool{} __block __typeof__(object) block##_##object = object;
+#       endif
+#   else
+#       if __has_feature(objc_arc)
+#           define weakify(object) try{} @finally{} {} __weak __typeof__(object) weak##_##object = object;
+#       else
+#           define weakify(object) try{} @finally{} {} __block __typeof__(object) block##_##object = object;
+#       endif
+#   endif
 #endif
 
 #ifndef strongify
-    #if DEBUG
-        #if __has_feature(objc_arc)
-            #define strongify(object) autoreleasepool{} __typeof__(object) object = weak##_##object;
-        #else
-            #define strongify(object) autoreleasepool{} __typeof__(object) object = block##_##object;
-        #endif
-    #else
-        #if __has_feature(objc_arc)
-            #define strongify(object) try{} @finally{} __typeof__(object) object = weak##_##object;
-        #else
-            #define strongify(object) try{} @finally{} __typeof__(object) object = block##_##object;
-        #endif
-    #endif
+#   if DEBUG
+#       if __has_feature(objc_arc)
+#           define strongify(object) autoreleasepool{} __typeof__(object) object = weak##_##object;
+#       else
+#           define strongify(object) autoreleasepool{} __typeof__(object) object = block##_##object;
+#       endif
+#   else
+#       if __has_feature(objc_arc)
+#           define strongify(object) try{} @finally{} __typeof__(object) object = weak##_##object;
+#       else
+#           define strongify(object) try{} @finally{} __typeof__(object) object = block##_##object;
+#       endif
+#   endif
 #endif
 
 #define EKRelease(object) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{ [object class]; })
+
+#ifndef todo
+#   ifndef stringify
+#       define stringify(str) #str
+#   endif
+#   ifndef defer_stringify
+#       define defer_stringify(str) stringify(str)
+#   endif
+#   ifndef pragma_message
+#       define pragma_message(msg) _Pragma(stringify(message(msg)))
+#   endif
+#   ifndef formatted_message
+#       define formatted_message(msg) "[TODO-" defer_stringify(__COUNTER__) "] " msg " \n" defer_stringify(__FILE__) " line " defer_stringify(__LINE__)
+#   endif
+#   ifndef keyword
+#       define keyword try {} @catch (...) {}
+#   endif
+#   define todo(msg) keyword pragma_message(formatted_message(msg))
+#endif
 
 #endif /* EKMacro_h */
