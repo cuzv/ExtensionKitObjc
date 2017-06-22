@@ -27,9 +27,10 @@
 
 - (nonnull NSString *)ek_URLQueryString {
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:self.allKeys.count];
-    for (id key in self.allKeys) {
-        [arr addObject:[NSString stringWithFormat:@"%@=%@", key, [self objectForKey:key]]];
-    }
+    [self enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [arr addObject:[NSString stringWithFormat:@"%@=%@", key, obj]];
+    }];
+    [arr sortUsingSelector:@selector(compare:)];
     return [arr componentsJoinedByString:@"&"];
 }
 
