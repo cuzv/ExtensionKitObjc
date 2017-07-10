@@ -23,20 +23,20 @@
 
 #import "EKPresentAnimatedTransitioningController.h"
 
-@interface PBPresentAnimatedTransitioningController ()
+@interface EKPresentAnimatedTransitioningController ()
 @property (nonatomic, assign) BOOL isPresenting;
 @end
 
-@implementation PBPresentAnimatedTransitioningController
+@implementation EKPresentAnimatedTransitioningController
 
 #pragma mark - Public methods
 
-- (nonnull PBPresentAnimatedTransitioningController *)prepareForPresent {
+- (nonnull EKPresentAnimatedTransitioningController *)prepareForPresent {
     self.isPresenting = YES;
     return self;
 }
 
-- (nonnull PBPresentAnimatedTransitioningController *)prepareForDismiss {
+- (nonnull EKPresentAnimatedTransitioningController *)prepareForDismiss {
     self.isPresenting = NO;
     return self;
 }

@@ -26,7 +26,7 @@
 
 typedef void(^EKContextBlock)(UIView * __nonnull fromView, UIView * __nonnull toView);
 
-@interface PBPresentAnimatedTransitioningController : NSObject <UIViewControllerAnimatedTransitioning>
+@interface EKPresentAnimatedTransitioningController : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, copy, nullable) EKContextBlock willPresentActionHandler;
 @property (nonatomic, copy, nullable) EKContextBlock onPresentActionHandler;
@@ -39,7 +39,7 @@ typedef void(^EKContextBlock)(UIView * __nonnull fromView, UIView * __nonnull to
 /// Default cover is a dim view, you could override this property to your preferred style view.
 @property (nonatomic, strong, nonnull) UIView *coverView;
 
-- (nonnull PBPresentAnimatedTransitioningController *)prepareForPresent;
-- (nonnull PBPresentAnimatedTransitioningController *)prepareForDismiss;
+- (nonnull EKPresentAnimatedTransitioningController *)prepareForPresent;
+- (nonnull EKPresentAnimatedTransitioningController *)prepareForDismiss;
 
 @end
