@@ -25,8 +25,8 @@
 
 @interface NSBundle (EKExtension)
 
-+ (nullable NSString *)build;
-+ (nullable NSString *)ver;
-+ (nullable NSString *)displayName;
++ (nullable NSString *)ek_build;
++ (nullable NSString *)ek_version;
++ (nullable NSString *)ek_displayName;
 
 @end

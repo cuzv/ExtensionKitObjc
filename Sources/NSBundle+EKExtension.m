@@ -25,15 +25,15 @@
 
 @implementation NSBundle (EKExtension)
 
-+ (nullable NSString *)build {
++ (nullable NSString *)ek_build {
     return NSBundle.mainBundle.infoDictionary[@"CFBundleVersion"];
 }
 
-+ (nullable NSString *)ver {
++ (nullable NSString *)ek_version {
     return NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"];
 }
 
-+ (nullable NSString *)displayName {
++ (nullable NSString *)ek_displayName {
     return NSBundle.mainBundle.infoDictionary[@"CFBundleDisplayName"];
 }
 
