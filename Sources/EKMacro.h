@@ -41,6 +41,7 @@
 #endif
 
 #define EKString(FORMAT, ...) [NSString stringWithFormat:FORMAT, ##__VA_ARGS__]
+#define EKLocalizedString(key) NSLocalizedString(key, nil)
 
 #ifndef weakify
 #   if DEBUG
