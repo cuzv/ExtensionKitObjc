@@ -28,6 +28,4 @@
 - (nullable UIResponder *)ek_responderOf:(nonnull Class)clazz;
 - (BOOL)ek_sendAction:(nonnull SEL)action from:(nonnull UIResponder *)sender;
 
-- (null_unspecified id)ek_performAction:(nonnull SEL)action firstArgument:(nullable id)firstArgument secondArgument:(nullable id)secondArgument;
-
 @end

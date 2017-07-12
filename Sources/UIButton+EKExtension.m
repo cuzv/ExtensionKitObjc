@@ -187,10 +187,6 @@
         return;
     }
     
-    UIColor *backgroundColor = self.backgroundColor;
-    if (self.ek_backgroundImage) {
-        backgroundColor = [self.ek_backgroundImage colorAtPixel:CGPointMake(self.ek_backgroundImage.size.width / 2.0, self.ek_backgroundImage.size.height / 2.0)];
-    }
     UIView *containerView = [UIView new];
     containerView.ek_cornerRadius = self.ek_cornerRadius;
     containerView.userInteractionEnabled = NO;

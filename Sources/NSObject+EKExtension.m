@@ -34,5 +34,44 @@
     return EKGetAssociatedObject(self, key);
 }
 
+- (nullable id)ek_performSelector:(nonnull SEL)sel, ... NS_REQUIRES_NIL_TERMINATION {
+    NSObject *receiver = [self _receiverForSelector:sel];
+    NSMethodSignature *signature = [receiver methodSignatureForSelector:sel];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+    [invocation setTarget:receiver];
+    [invocation setSelector:sel];
+    NSUInteger index = 2;
+    
+    va_list ap;
+    va_start(ap, sel);
+    id current = nil;
+    do {
+        current = va_arg(ap, id);
+        if (current) {
+            [invocation setArgument:&current atIndex:index];
+            ++index;
+        }
+    } while (nil != current);
+    va_end(ap);
+    
+    [invocation invoke];
+    if ([signature methodReturnLength]) {
+        id data;
+        [invocation getReturnValue:&data];
+        return data;
+    }
+    
+    return nil;
+}
+
+- (nonnull NSObject *)_receiverForSelector:(nonnull SEL)sel {
+    NSObject *receiver = self;
+    while (![receiver respondsToSelector:sel]) {
+        if ([receiver isKindOfClass:UIResponder.class]) {
+            receiver = ((UIResponder *)receiver).nextResponder;
+        }
+    }
+    return receiver;
+}
 
 @end

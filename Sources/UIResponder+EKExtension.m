@@ -46,23 +46,4 @@
     return [[UIApplication sharedApplication] sendAction:action to:target from:sender forEvent:nil];
 }
 
-- (null_unspecified id)ek_performAction:(nonnull SEL)action firstArgument:(nullable id)firstArgument secondArgument:(nullable id)secondArgument {
-    UIResponder *responder = self;
-    while ([responder respondsToSelector:action]) {
-        responder = responder.nextResponder;
-    }
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    if (!firstArgument) {
-        return [responder performSelector:action];
-    }
-    if (!secondArgument) {
-        return [responder performSelector:action withObject:firstArgument];
-    }
-    return [responder performSelector:action withObject:firstArgument withObject:secondArgument];
-#pragma clang diagnostic pop
-}
-
-
 @end

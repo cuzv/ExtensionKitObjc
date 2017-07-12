@@ -29,4 +29,6 @@
 - (void)ek_associateObject:(nullable id)object forKey:(nonnull const void *)key usingPolicy:(objc_AssociationPolicy)policy;
 - (nullable id)ek_associatedObjectForKey:(nonnull const void *)key;
 
+- (nullable id)ek_performSelector:(nonnull SEL)sel, ... NS_REQUIRES_NIL_TERMINATION;
+
 @end
