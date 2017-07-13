@@ -280,13 +280,13 @@ UIImage *_Nullable EKImageMake(UIColor *_Nonnull color, CGSize size, UIRectCorne
 
 + (nullable instancetype)ek_imageWithFilename:(nonnull NSString *)filename ofType:(nonnull NSString *)extension {
     if (CGRectGetWidth(UIScreen.mainScreen.bounds) > 375) {
-        NSString *filepath = _EKPathForResource(EKString(@"%@@3x", filename), extension);
+        NSString *filepath = _EKPathForResource(EKString(@"%@3x", filename), extension);
         if (filepath) {
             return [UIImage imageWithContentsOfFile:filepath];
         }
     }
     
-    NSString *filepath = _EKPathForResource(EKString(@"%@@2x", filename), extension);
+    NSString *filepath = _EKPathForResource(EKString(@"%@2x", filename), extension);
     if (filepath) {
         return [UIImage imageWithContentsOfFile:filepath];
     }

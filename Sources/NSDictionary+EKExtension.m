@@ -37,7 +37,7 @@
 - (nullable NSString *)ek_JSONString {
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:self
-                                                   options:NSJSONWritingPrettyPrinted
+                                                   options:0
                                                      error:&error];
     if (error) {
         NSLog(@"Serialized JSON string failed with error message '%@'.", error.localizedDescription);
