@@ -187,7 +187,7 @@
 #pragma mark - 
 
 - (void)ek_presentError:(nonnull NSError *)error {
-    [self ek_presentAlertWithTitle:nil message:error.localizedDescription];
+    [self ek_presentAlertWithTitle:@"" message:error.localizedDescription];
 }
 
 - (void)ek_presentAlertWithTitle:(nullable NSString *)title
@@ -201,7 +201,7 @@
                    cancelHandler:(void(^_Nullable)(UIAlertAction *_Nonnull))cancelHandler
                      otherTitles:(nullable NSArray<NSString *> *)otherTitles
                    othersHandler:(void(^_Nullable)(UIAlertAction *_Nonnull))othersHandler {
-    UIAlertController *alertControler = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertControler = [UIAlertController alertControllerWithTitle:title ?: @"" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:cancelTitle ?: NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:cancelHandler];
     [alertControler addAction:cancelAction];
     
