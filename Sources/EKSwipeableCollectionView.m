@@ -205,4 +205,8 @@
     return [super gestureRecognizerShouldBegin:gestureRecognizer];
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return [otherGestureRecognizer isKindOfClass:UIScreenEdgePanGestureRecognizer.class];
+}
+
 @end
