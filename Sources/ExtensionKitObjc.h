@@ -52,7 +52,5 @@
 #import "UIViewController+EKExtension.h"
 
 #import "EKPresentAnimatedTransitioningController.h"
-#import "EKSwipeableCollectionViewCell.h"
-#import "EKSwipeableCollectionView.h"
 
 #endif /* ExtensionKitObjc_h */
