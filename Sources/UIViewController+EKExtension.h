@@ -39,6 +39,7 @@
 - (void)ek_showViewController:(nonnull UIViewController *)viewController;
 - (void)ek_backToPreviousViewControllerAnimated:(BOOL)animated;
 - (void)ek_backToRootViewControllerAnimated:(BOOL)animated;
+- (void)ek_presentViewController:(nonnull UIViewController *)viewController;
 - (void)ek_dismissViewControllerAnimated:(BOOL)animated completion:(void (^_Nullable)(void))completion;
 - (void)ek_dismissToTopViewControllerAnimated:(BOOL)animated completion:(void (^_Nullable)(void))completion;
 - (void)ek_addChildVewController:(nonnull UIViewController *)viewController;

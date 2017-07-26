@@ -96,6 +96,10 @@
     }
 }
 
+- (void)ek_presentViewController:(nonnull UIViewController *)viewController {
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
 - (void)ek_dismissViewControllerAnimated:(BOOL)animated completion:(void (^_Nullable)(void))completion {
     [self.presentingViewController dismissViewControllerAnimated:animated completion:completion];
 }
