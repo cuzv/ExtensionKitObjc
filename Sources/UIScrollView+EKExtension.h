@@ -50,4 +50,9 @@
 - (void)ek_endRefreshing;
 - (void)ek_removeRefreshControl;
 
+#pragma mark - NoDelaysContentTouches
+
+/// Default value is `YES`, the same as `delaysContentTouches`.
+@property (nonatomic, assign) BOOL ek_delaysContentTouches;
+
 @end

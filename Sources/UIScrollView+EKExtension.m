@@ -207,5 +207,45 @@
     EKSetAssociatedObject(self, @selector(ek_refreshControl), ek_refreshControl, OBJC_ASSOCIATION_ASSIGN);
 }
 
+#pragma mark - NoDelaysContentTouches
+
++ (void)load {
+    EKSwizzleInstanceMethod(self, @selector(touchesShouldCancelInContentView:), @selector(_ek_touchesShouldCancelInContentView:));
+}
+
+- (BOOL)_ek_touchesShouldCancelInContentView:(UIView *)view {
+    if (!self.ek_delaysContentTouches && [view isKindOfClass:UIControl.class]) {
+        return YES;
+    }
+    return [self _ek_touchesShouldCancelInContentView:view];
+}
+
+- (BOOL)ek_delaysContentTouches {
+    return ![EKGetAssociatedObject(self, _cmd) boolValue];
+}
+
+- (void)setEk_delaysContentTouches:(BOOL)ek_delaysContentTouches {
+    EKSetAssociatedObject(self, @selector(ek_delaysContentTouches), @(!ek_delaysContentTouches), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self _ek_commitTouchesImmediately:!ek_delaysContentTouches];
+}
+
+- (void)_ek_commitTouchesImmediately:(BOOL)flag {
+    self.delaysContentTouches = !flag;
+    self.canCancelContentTouches = flag;
+    
+    UIView *wrapView = self.subviews.firstObject;
+    if (!wrapView) {
+        return;
+    }
+    if ([NSStringFromClass(wrapView.class) hasPrefix:@"WrapperView"]) {
+        for (UIGestureRecognizer *gestureRecognizer in wrapView.gestureRecognizers) {
+            if ([NSStringFromClass(gestureRecognizer.class) containsString:@"WrapperView"]) {
+                gestureRecognizer.enabled = !flag;
+                break;
+            }
+        }
+    }
+}
+
 @end
 
