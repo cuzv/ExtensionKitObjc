@@ -53,4 +53,11 @@
 
 #import "EKPresentAnimatedTransitioningController.h"
 
+#import "EKStickyHeadersFlowLayout.h"
+#import "EKStretchyHeaderFlowLayout.h"
+#import "EKAlignLeftFlowLayout.h"
+#import "EKEquidistanceFlowLayout.h"
+#import "EKBorderedItemFlowLayout.h"
+#import "EKSectionBackgroundFlowLayout.h"
+
 #endif /* ExtensionKitObjc_h */
