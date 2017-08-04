@@ -251,7 +251,7 @@ void _EKAddBorderline(UIView *receiver,
     
     NSLayoutConstraint *edgeConstraint = [NSLayoutConstraint constraintWithItem:borderline attribute:edgeAttribute relatedBy:NSLayoutRelationEqual toItem:receiver attribute:edgeAttribute multiplier:1 constant:0];
     NSLayoutConstraint *centerConstraint = [NSLayoutConstraint constraintWithItem:borderline attribute:centerAttribute relatedBy:NSLayoutRelationEqual toItem:receiver attribute:centerAttribute multiplier:1 constant:0];
-    NSLayoutConstraint *sizeConstraint = [NSLayoutConstraint constraintWithItem:borderline attribute:sizeAttribute relatedBy:NSLayoutRelationEqual toItem:receiver attribute:sizeAttribute multiplier:1 constant:constant];
+    NSLayoutConstraint *sizeConstraint = [NSLayoutConstraint constraintWithItem:borderline attribute:sizeAttribute relatedBy:NSLayoutRelationEqual toItem:receiver attribute:sizeAttribute multiplier:multiplier constant:constant];
     [receiver addConstraints:@[edgeConstraint, centerConstraint, sizeConstraint]];
     
     NSArray<__kindof NSLayoutConstraint *> *formatConstraint = [NSLayoutConstraint constraintsWithVisualFormat:visualFormat options:0 metrics:nil views:NSDictionaryOfVariableBindings(borderline)];
